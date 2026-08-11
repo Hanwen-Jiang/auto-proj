@@ -1,0 +1,11 @@
+/var/log/postgresql/*.log {
+    daily
+    rotate 7
+    maxsize 100M
+    copytruncate
+    delaycompress
+    compress
+    notifempty
+    missingok
+    su root root
+}

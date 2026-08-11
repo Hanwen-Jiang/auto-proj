@@ -1,0 +1,12 @@
+[Unit]
+Description=Fallback processing for durable A6 Provider failure repairs
+
+[Timer]
+OnBootSec=20s
+OnUnitInactiveSec=15s
+AccuracySec=1s
+RandomizedDelaySec=4s
+Unit=a6-trader-provider-failure-repair.service
+
+[Install]
+WantedBy=timers.target

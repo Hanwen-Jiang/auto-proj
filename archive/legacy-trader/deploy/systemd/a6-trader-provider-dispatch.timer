@@ -1,0 +1,13 @@
+[Unit]
+Description=Periodically repair the A6 Provider Redis dispatch projection
+
+[Timer]
+OnBootSec=30s
+OnUnitActiveSec=30s
+RandomizedDelaySec=2s
+AccuracySec=1s
+Persistent=true
+Unit=a6-trader-provider-dispatch.service
+
+[Install]
+WantedBy=timers.target

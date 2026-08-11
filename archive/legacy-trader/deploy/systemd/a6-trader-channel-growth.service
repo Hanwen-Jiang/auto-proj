@@ -1,0 +1,21 @@
+[Unit]
+Description=A6 Trader managed Listing health recovery and callback growth
+After=network-online.target postgresql.service sub2api-singbox-proxy-pool.service
+Wants=network-online.target
+Requires=sub2api-singbox-proxy-pool.service
+
+[Service]
+Type=oneshot
+User=a6trader
+Group=a6trader
+EnvironmentFile=/etc/a6-trader.env
+ExecCondition=/opt/a6-trader/current/venv/bin/python /opt/a6-trader/current/scripts/manage_a6_seller_control_gates.py check channel-growth --expected-owner root --expected-group a6trader
+ExecStart=/usr/bin/flock --exclusive --nonblock --conflict-exit-code 75 /var/lib/a6-trader/seller-control.lock /opt/a6-trader/current/venv/bin/a6api-auto trade-reconcile-channel-growth-once --sessions-dir /var/lib/a6-trader/secrets/sessions --proxy-map-file /var/lib/a6-trader/secrets/proxy-map.json --seller-key-dir /var/lib/a6-trader/secrets/enodot-seller-keys --enodot-admin-key-file /var/lib/a6-trader/secrets/enodot-admin-key.secret --model gpt-5.6-sol --signal-max-age-seconds 45 --recycle-min-delay-seconds 0.8 --recycle-max-delay-seconds 2.0 --callback-gateway-url https://a6.a6api.com --callback-timeout-seconds 30 --config-version phase4-channel-health-growth-v3-listing-isolation --systemd-accept-partial-result --compact-output --apply
+SuccessExitStatus=75
+TimeoutStartSec=3min
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/a6-trader
+UMask=0077

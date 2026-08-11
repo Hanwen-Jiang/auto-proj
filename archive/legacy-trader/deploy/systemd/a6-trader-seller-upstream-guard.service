@@ -1,0 +1,19 @@
+[Unit]
+Description=Verify every bound A6 Seller channel upstream and independent Enodot Key
+After=network-online.target postgresql.service sub2api-singbox-proxy-pool.service
+Wants=network-online.target
+Requires=sub2api-singbox-proxy-pool.service
+
+[Service]
+Type=oneshot
+User=a6trader
+Group=a6trader
+EnvironmentFile=/etc/a6-trader.env
+ExecStart=/usr/bin/flock --exclusive /var/lib/a6-trader/seller-control.lock /opt/a6-trader/current/venv/bin/a6api-auto trade-reconcile-seller-upstreams --all-bound-sellers --model gpt-5.6-sol --seller-base-url https://ai.enodot.shop/v1 --proxy-map-file /var/lib/a6-trader/secrets/proxy-map.json --seller-key-dir /var/lib/a6-trader/secrets/enodot-seller-keys --config-version phase3-seller-upstream-guard-v1 --compact-output --apply
+TimeoutStartSec=10min
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/a6-trader
+UMask=0077

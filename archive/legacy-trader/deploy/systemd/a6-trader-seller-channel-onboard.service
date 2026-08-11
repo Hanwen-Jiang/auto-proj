@@ -1,0 +1,20 @@
+[Unit]
+Description=Adopt fresh A6 Seller channels and ensure managed model Listings
+After=network-online.target postgresql.service sub2api-singbox-proxy-pool.service a6-trader-collector.service
+Wants=network-online.target
+Requires=sub2api-singbox-proxy-pool.service
+
+[Service]
+Type=oneshot
+User=a6trader
+Group=a6trader
+EnvironmentFile=/etc/a6-trader.env
+ExecCondition=/opt/a6-trader/current/venv/bin/python /opt/a6-trader/current/scripts/manage_a6_seller_control_gates.py check seller-onboard --expected-owner root --expected-group a6trader
+ExecStart=/usr/bin/flock --exclusive /var/lib/a6-trader/seller-control.lock /opt/a6-trader/current/venv/bin/a6api-auto trade-auto-onboard-seller-channels --sessions-dir /var/lib/a6-trader/secrets/sessions --proxy-map-file /var/lib/a6-trader/secrets/proxy-map.json --model gpt-5.6-sol --inventory-max-age-seconds 900 --target-limit 100 --input-price-micros 5000000 --output-price-micros 30000000 --cache-read-price-micros 500000 --cache-write-price-micros 6250000 --config-version phase5-managed-channel-autoonboard-v1 --systemd-accept-partial-result --compact-output --apply
+TimeoutStartSec=30min
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/a6-trader
+UMask=0077

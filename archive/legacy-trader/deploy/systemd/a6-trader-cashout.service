@@ -1,0 +1,20 @@
+[Unit]
+Description=Plan and submit eligible A6 treasury cashouts
+After=network-online.target postgresql.service a6-trader-collector.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=a6trader
+Group=a6trader
+EnvironmentFile=/etc/a6-trader.env
+ExecCondition=/bin/sh -c 'test "$TREASURY_CASHOUT_ENABLED" = "true"'
+ExecStart=/usr/bin/flock --exclusive --nonblock --conflict-exit-code 75 /var/lib/a6-trader/treasury-cashout.lock /opt/a6-trader/current/venv/bin/python /opt/a6-trader/current/scripts/reconcile_a6_cashout.py --stage plan --max-candidates 1000 --financial-snapshot-ttl-seconds 90 --route-readback-ttl-seconds 86400 --client-timeout-seconds 10 --apply --apply-confirmation a6-risk-balanced-cashout-v2 --compact-output
+SuccessExitStatus=75
+TimeoutStartSec=2min
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/a6-trader
+UMask=0077

@@ -1,0 +1,10 @@
+[Unit]
+Description=Wake Provider liquidity repair after a durable quota failure
+PartOf=a6-trader-control.target
+
+[Path]
+PathChanged=/run/a6-trader/provider-liquidity-request
+Unit=a6-trader-provider-liquidity.service
+
+[Install]
+WantedBy=multi-user.target

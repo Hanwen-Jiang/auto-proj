@@ -1,0 +1,23 @@
+[Unit]
+Description=A6 Provider direct upstream relay
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=a6trader
+Group=a6trader
+WorkingDirectory=/opt/a6-provider-relay/current
+Environment=PYTHONUNBUFFERED=1
+Environment=A6_PROVIDER_RELAY_RESPONSE_HEADER_TIMEOUT_SECONDS=30
+Environment=A6_PROVIDER_RELAY_STREAM_READ_TIMEOUT_SECONDS=120
+ExecStart=/opt/a6-provider-relay/current/venv/bin/python -m a6api_auto.trade_upstream_relay --host 127.0.0.1 --port 8767 --response-header-timeout-seconds ${A6_PROVIDER_RELAY_RESPONSE_HEADER_TIMEOUT_SECONDS} --stream-read-timeout-seconds ${A6_PROVIDER_RELAY_STREAM_READ_TIMEOUT_SECONDS} --pool-max-connections 32 --pool-idle-timeout-seconds 30 --pool-acquire-timeout-seconds 5
+Restart=on-failure
+RestartSec=2s
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+
+[Install]
+WantedBy=multi-user.target

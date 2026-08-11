@@ -1,0 +1,22 @@
+[Unit]
+Description=Apply one Observer-derived A6 Provider marketplace auto-pool generation
+After=network-online.target postgresql.service sub2api-singbox-proxy-pool.service
+Wants=network-online.target
+Requires=sub2api-singbox-proxy-pool.service
+OnSuccess=a6-trader-seller-pilot.service
+PartOf=a6-trader-control.target
+
+[Service]
+Type=oneshot
+User=a6trader
+Group=a6trader
+EnvironmentFile=/etc/a6-trader.env
+ExecCondition=/bin/sh -c 'test "$PROVIDER_AUTO_POOL_ENABLED" = "true"'
+ExecStart=/usr/bin/flock --exclusive /var/lib/a6-trader/provider-control.lock /opt/a6-trader/current/venv/bin/python /opt/a6-trader/current/scripts/reconcile_a6_provider_auto_pool.py --model gpt-5.6-sol --sessions-dir /var/lib/a6-trader/secrets/sessions --proxy-map-file /var/lib/a6-trader/secrets/proxy-map.json --enodot-admin-key-file /var/lib/a6-trader/secrets/enodot-admin-key.secret --observer-snapshot-max-age-seconds 30 --minimum-observers 2 --target-channel-count 5 --hard-max-ratio-cny 0.3 --minimum-ready-accounts 4 --max-workers 6 --marketplace-page-size 100 --request-timeout-seconds 5 --stale-account-claim-seconds 120 --trigger-reason observer_success --config-version provider-auto-pool-v1-owned-channel-hard-ban --apply
+TimeoutStartSec=120s
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/a6-trader
+UMask=0077

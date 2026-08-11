@@ -1,0 +1,12 @@
+[Unit]
+Description=Check Seller retirement thresholds every minute
+
+[Timer]
+OnBootSec=2min
+OnUnitInactiveSec=60s
+AccuracySec=1s
+RandomizedDelaySec=0
+Unit=a6-trader-seller-retirement.service
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,12 @@
+[Unit]
+Description=Clean expired A6 Provider generation history daily
+
+[Timer]
+OnCalendar=*-*-* 03:37:00
+Persistent=true
+AccuracySec=1min
+RandomizedDelaySec=30min
+Unit=a6-trader-provider-generation-cleanup.service
+
+[Install]
+WantedBy=timers.target

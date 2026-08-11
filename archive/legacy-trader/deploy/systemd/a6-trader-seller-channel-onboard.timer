@@ -1,0 +1,12 @@
+[Unit]
+Description=Discover new A6 Seller channels after Collector refreshes
+
+[Timer]
+OnBootSec=3min
+OnUnitInactiveSec=60s
+AccuracySec=5s
+RandomizedDelaySec=5s
+Unit=a6-trader-seller-channel-onboard.service
+
+[Install]
+WantedBy=timers.target

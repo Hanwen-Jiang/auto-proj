@@ -1,0 +1,21 @@
+[Unit]
+Description=Project active A6 Provider routing and cost generation to Redis
+After=network-online.target postgresql.service redis-server.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=a6trader
+Group=a6trader
+EnvironmentFile=/etc/a6-trader.env
+# Default-off: both the active PostgreSQL bundle and
+# PROVIDER_DISPATCH_RECONCILE_ENABLED=true are required before Redis changes.
+ExecStart=/usr/bin/flock --exclusive --nonblock --conflict-exit-code 75 /var/lib/a6-trader/provider-dispatch.lock /opt/a6-trader/current/venv/bin/python /opt/a6-trader/current/scripts/project_a6_provider_dispatch.py --model gpt-5.6-sol --publish
+SuccessExitStatus=75
+TimeoutStartSec=15s
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/a6-trader
+UMask=0077

@@ -1,0 +1,12 @@
+[Unit]
+Description=Continuously reconcile the all-Seller dynamic price band
+
+[Timer]
+OnBootSec=15s
+OnUnitInactiveSec=10s
+AccuracySec=1s
+RandomizedDelaySec=0
+Unit=a6-trader-seller-pilot.service
+
+[Install]
+WantedBy=timers.target

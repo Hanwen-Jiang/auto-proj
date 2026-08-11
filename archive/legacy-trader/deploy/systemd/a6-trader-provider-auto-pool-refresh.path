@@ -1,0 +1,10 @@
+[Unit]
+Description=Wake Observer after a durable auto-pool runtime failure
+PartOf=a6-trader-control.target
+
+[Path]
+PathChanged=/run/a6-trader/provider-auto-pool-request
+Unit=a6-trader-observer.service
+
+[Install]
+WantedBy=multi-user.target

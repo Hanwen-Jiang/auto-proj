@@ -1,0 +1,12 @@
+[Unit]
+Description=Archive expired A6 market history hourly
+
+[Timer]
+OnCalendar=hourly
+Persistent=true
+AccuracySec=1min
+RandomizedDelaySec=5min
+Unit=a6-trader-market-history-cleanup.service
+
+[Install]
+WantedBy=timers.target

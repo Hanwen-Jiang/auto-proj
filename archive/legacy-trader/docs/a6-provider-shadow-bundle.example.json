@@ -1,0 +1,50 @@
+{
+  "model": "gpt-5.6-sol",
+  "routing_generation": 1,
+  "parent_routing_generation": null,
+  "cost_generation": 1,
+  "parent_cost_generation": null,
+  "generation_source": "observer-shadow",
+  "source_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "cost_input_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "ordered_channel_ids": [627],
+  "standby_channel_ids": [1008],
+  "desired_size": 1,
+  "slots": [
+    {
+      "slot_no": 1,
+      "channel_id": 627,
+      "rank": 1,
+      "priority": 2,
+      "assignment_id": "provider-fixture-1",
+      "enodot_binding_id": 44001,
+      "token_id": 14093,
+      "account_id": 45896,
+      "slot_state": "READY",
+      "funding_eligible": true,
+      "desired_schedulable": true,
+      "observed_schedulable": true,
+      "observed_cost_multiplier": "0.8",
+      "pin_confirmed": true,
+      "probe_confirmed": true
+    }
+  ],
+  "cost_plan": {
+    "desired_slot_costs": {
+      "1": "0.8"
+    },
+    "retry_reserve_multiplier": "0.1",
+    "bootstrap_retry_reserve": "0.2",
+    "realized_cost_p95_multiplier": "0.95",
+    "margin_bps": 1000,
+    "headroom_bps": 500,
+    "previous_billing_floor": "1.0",
+    "conservative_fallback_cost": "0",
+    "quantum": "0.000001"
+  },
+  "current": {
+    "ordered_channel_ids": [],
+    "assignments": {},
+    "cost_input_hash": "0000000000000000000000000000000000000000000000000000000000000000"
+  }
+}

@@ -1,0 +1,12 @@
+[Unit]
+Description=Continuously verify all bound Seller channel upstream credentials
+
+[Timer]
+OnBootSec=5s
+OnUnitInactiveSec=2min
+AccuracySec=1s
+RandomizedDelaySec=0
+Unit=a6-trader-seller-upstream-guard.service
+
+[Install]
+WantedBy=timers.target

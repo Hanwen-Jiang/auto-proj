@@ -1,0 +1,13 @@
+[Unit]
+Description=Refresh A6 Trader sessions every seven to ten minutes
+
+[Timer]
+OnBootSec=3min
+OnUnitActiveSec=7min
+RandomizedDelaySec=3min
+AccuracySec=30s
+Persistent=true
+Unit=a6-trader-session-refresh.service
+
+[Install]
+WantedBy=timers.target

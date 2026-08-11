@@ -1,0 +1,27 @@
+[Unit]
+Description=sub2api A6 Trader delta and callback candidate on 48768
+After=network-online.target postgresql.service redis-server.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=sub2api
+Group=sub2api
+WorkingDirectory=/opt/sub2api
+EnvironmentFile=/etc/sub2api/sub2api-bluegreen-48768.env
+Environment=A6_TRADER_PIN_TRIGGER_FILE=/run/sub2api-a6-trader/pin-request
+Environment=A6_TRADER_PIN_FAILURE_FILE=/run/sub2api-a6-trader/pin-request.failures
+Environment=A6_TRADER_PIN_TRIGGER_MODEL=gpt-5.6-sol
+Environment=A6_TRADER_PIN_TRIGGER_MIN_INTERVAL_MS=1000
+RuntimeDirectory=sub2api-a6-trader
+RuntimeDirectoryMode=0755
+ExecStart=/opt/sub2api/releases/sub2api-0.1.159-a6trader-delta-stack-v118-20260802
+ExecStartPost=+/usr/local/sbin/sub2api-load-callback-rules
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=false
+PrivateTmp=true
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target

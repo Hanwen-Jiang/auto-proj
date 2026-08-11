@@ -1,0 +1,20 @@
+[Unit]
+Description=A6 Trader latest Observer Pin plan and Provider Apply wake-up
+After=network-online.target postgresql.service sub2api-singbox-proxy-pool.service
+Wants=network-online.target
+Requires=sub2api-singbox-proxy-pool.service
+OnSuccess=a6-trader-provider-pool-apply.service a6-trader-seller-pilot.service
+
+[Service]
+Type=oneshot
+User=a6trader
+Group=a6trader
+EnvironmentFile=/etc/a6-trader.env
+ExecStart=/opt/a6-trader/current/venv/bin/python -m a6api_auto.cli trade-pin-providers-once --sessions-dir /var/lib/a6-trader/secrets/sessions --proxy-map-file /var/lib/a6-trader/secrets/proxy-map.json --pin-failure-journal-file /run/sub2api-a6-trader/pin-request.failures --pin-failure-cursor-file /var/lib/a6-trader/pin-request-failures.cursor.json --pin-failure-max-age-seconds 300 --pin-channel-failure-threshold 3 --enodot-admin-key-file /var/lib/a6-trader/secrets/enodot-admin-key.secret --enodot-admin-timeout-seconds 8 --model gpt-5.6-sol --min-observers 2 --top-k 5 --observer-snapshot-max-age-seconds 0 --client-timeout-seconds 5 --round-time-budget-seconds 120 --pin-probe-mode disabled --probe-budget 0 --probe-failure-ttl-seconds 60 --pin-price-weight 1 --pin-success-weight 0 --pin-latency-weight 0 --pin-price-span-ratio 0.25 --pin-min-success-rate 0 --pin-max-latency-ms 12000 --pin-max-multiplier 0.05 --pin-max-relative-cost-ratio 2 --pin-failure-window-seconds 900 --provider-initial-balance-ratio 0 --minimum-schedulable-capacity 300 --pin-min-hold-seconds 60 --pin-min-switch-gain 0.05 --emergency-boost-minimum-requests 3 --emergency-boost-maximum-requests 5 --emergency-boost-timeout-seconds 12 --emergency-boost-cooldown-seconds 60 --config-version phase1-provider-pin-v33-latest-commit-single-writer --compact-output --systemd-accept-partial-result
+TimeoutStartSec=150s
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/a6-trader
+UMask=0077

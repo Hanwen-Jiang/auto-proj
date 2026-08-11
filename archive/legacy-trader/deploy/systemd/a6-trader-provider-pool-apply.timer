@@ -1,0 +1,13 @@
+[Unit]
+Description=Fallback A6 Provider remote reconcile after fifteen inactive seconds
+
+[Timer]
+OnBootSec=15s
+OnUnitInactiveSec=15s
+Persistent=true
+AccuracySec=1s
+RandomizedDelaySec=2s
+Unit=a6-trader-provider-pool-apply.service
+
+[Install]
+WantedBy=timers.target

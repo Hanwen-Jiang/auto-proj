@@ -1,0 +1,26 @@
+[Unit]
+Description=Apply one confirmed A6 Provider routing and cost generation
+After=network-online.target postgresql.service
+Wants=network-online.target
+OnSuccess=a6-trader-observer.service
+PartOf=a6-trader-control.target
+
+[Service]
+Type=oneshot
+User=a6trader
+Group=a6trader
+EnvironmentFile=/etc/a6-trader.env
+Environment=PROVIDER_REQUEST_PLANE_URL=http://127.0.0.1:48769
+Environment=PROVIDER_DISPATCH_REDIS_URL=redis://127.0.0.1:6379/0
+# Default-off: PROVIDER_POOL_RECONCILE_ENABLED, PROVIDER_POOL_APPLY_STAGE,
+# PROVIDER_POOL_MAX_MEMBERSHIP_CHANGES and PROVIDER_POOL_APPLY_CONFIRMATION
+# in /etc/a6-trader.env must all authorize a remote write.
+ExecStart=/usr/bin/flock --exclusive --nonblock --conflict-exit-code 75 /var/lib/a6-trader/provider-control.lock /opt/a6-trader/current/venv/bin/python /opt/a6-trader/current/scripts/apply_a6_provider_pool.py --model gpt-5.6-sol --apply --defer-membership-to-auto-pool --sessions-dir /var/lib/a6-trader/secrets/sessions --proxy-map-file /var/lib/a6-trader/secrets/proxy-map.json --enodot-admin-key-file /var/lib/a6-trader/secrets/enodot-admin-key.secret --billing-group-id 26 --billing-user-id 1 --billing-api-key-ids 53,54 --billing-group-name ToA6API --billing-platform openai --observer-freshness-seconds 120 --inventory-freshness-seconds 900 --minimum-health-observers 2 --initial-max-active-slots 12 --minimum-active-slots 4 --pin-failover-attempts 30 --pin-probe-mode disabled --standby-count 0 --retry-reserve-multiplier 0.001 --realized-cost-window-hours 24 --realized-cost-match-tolerance-seconds 5 --minimum-cost-samples 100 --margin-bps 2000 --headroom-bps 0 --maximum-provider-cost-cny 0.3 --remote-max-workers 6 --remote-readback-attempts 2 --remote-request-timeout-seconds 5 --round-time-budget-seconds 60 --config-version a6-provider-topn-failover-v4-all-funded-dynamic-ready
+SuccessExitStatus=75
+TimeoutStartSec=90s
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/a6-trader
+UMask=0077

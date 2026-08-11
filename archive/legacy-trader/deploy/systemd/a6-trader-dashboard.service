@@ -1,0 +1,24 @@
+[Unit]
+Description=A6 Trader management dashboard
+After=network.target postgresql.service
+
+[Service]
+Type=simple
+User=a6trader
+Group=a6trader
+EnvironmentFile=/etc/a6-trader.env
+ExecStart=/opt/a6-trader/current/venv/bin/python /opt/a6-trader/current/venv/bin/a6api-auto trade-dashboard --sessions-dir /var/lib/a6-trader/secrets/sessions --proxy-map-file /var/lib/a6-trader/secrets/proxy-map.json --proxy-pool-file /var/lib/a6-trader/secrets/slow-register-proxies.json --batch-state-file /var/lib/a6-trader/secrets/batches/slow-register-20-v1.json --provider-channel-failure-threshold 3 --host 127.0.0.1 --port 8765
+RuntimeDirectory=a6-trader
+RuntimeDirectoryMode=0750
+Restart=always
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/a6-trader
+ReadWritePaths=/run/a6-trader
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

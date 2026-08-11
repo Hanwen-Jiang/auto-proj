@@ -1,0 +1,13 @@
+[Unit]
+Description=Fallback reconciliation for Observer-driven A6 Provider Pins
+
+[Timer]
+OnBootSec=2s
+OnUnitInactiveSec=15s
+Persistent=true
+AccuracySec=100ms
+RandomizedDelaySec=0
+Unit=a6-trader-pin.service
+
+[Install]
+WantedBy=timers.target

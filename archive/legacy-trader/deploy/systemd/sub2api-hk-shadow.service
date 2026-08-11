@@ -1,0 +1,39 @@
+[Unit]
+Description=Sub2API HK loopback-only shadow request plane
+After=network-online.target sub2api-hk-state-tunnel.service
+Wants=network-online.target
+Requires=sub2api-hk-state-tunnel.service
+
+[Service]
+Type=simple
+User=sub2api
+Group=sub2api
+WorkingDirectory=/opt/sub2api-hk
+EnvironmentFile=/etc/sub2api-hk/sub2api-hk-shadow.env
+Environment=GATEWAY_A6_PROVIDER_REPLAY_ENABLED=false
+Environment=GATEWAY_A6_PROVIDER_REPLAY_DURABLE_COORDINATION_ENABLED=false
+Environment=GATEWAY_A6_PROVIDER_REPLAY_READINESS_ENABLED=true
+Environment=GATEWAY_A6_PROVIDER_REPLAY_READINESS_RELAY_URL=http://127.0.0.1:8767/readyz
+Environment=GATEWAY_A6_PROVIDER_REPLAY_READINESS_PROBE_MODEL=gpt-5.6-sol
+Environment=GATEWAY_A6_PROVIDER_REPLAY_READINESS_INTERVAL_SECONDS=5
+Environment=GATEWAY_A6_PROVIDER_REPLAY_READINESS_TIMEOUT_SECONDS=3
+Environment=GATEWAY_A6_PROVIDER_REPLAY_READINESS_SCHEDULER_MAX_AGE_SECONDS=600
+Environment=GATEWAY_A6_PROVIDER_REPLAY_DURABLE_ATTRIBUTION_ENABLED=false
+Environment=GATEWAY_A6_PROVIDER_REPLAY_CANDIDATE_SNAPSHOT_ENABLED=false
+Environment=GATEWAY_A6_PROVIDER_REPLAY_DISPATCH_LEASE_ENABLED=false
+Environment=GATEWAY_A6_PROVIDER_REPLAY_FAST_BLOCK_ENABLED=false
+Environment=GATEWAY_A6_PROVIDER_REPLAY_USAGE_ATTRIBUTION_ENABLED=false
+Environment=GATEWAY_A6_PROVIDER_REPLAY_SYNTHETIC_USER_FAULT_ENABLED=false
+Environment=GATEWAY_A6_PROVIDER_REPLAY_PERSISTENCE_TIMEOUT_SECONDS=10
+Environment=GATEWAY_A6_PROVIDER_REPLAY_SPOOL_DIRECTORY=/opt/sub2api-hk/replay-spool
+ExecStartPre=/usr/bin/test -r /opt/sub2api-hk/data/.installed
+ExecStart=/opt/sub2api-hk/current/sub2api
+Restart=on-failure
+RestartSec=3s
+TimeoutStopSec=20s
+NoNewPrivileges=true
+PrivateTmp=true
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target

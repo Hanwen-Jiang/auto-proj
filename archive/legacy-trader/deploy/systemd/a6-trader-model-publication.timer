@@ -1,0 +1,13 @@
+[Unit]
+Description=Reconcile A6 model publication every five seconds
+
+[Timer]
+OnBootSec=30s
+OnUnitActiveSec=5s
+Persistent=true
+AccuracySec=1s
+RandomizedDelaySec=1s
+Unit=a6-trader-model-publication.service
+
+[Install]
+WantedBy=timers.target

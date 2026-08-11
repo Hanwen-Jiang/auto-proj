@@ -1,0 +1,24 @@
+[Unit]
+Description=Reconcile managed listings against account/provider schedulability
+After=network-online.target postgresql.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=a6trader
+Group=a6trader
+EnvironmentFile=/etc/a6-trader.env
+# The script takes the seller-control lock itself (fcntl) around its DB reads;
+# an outer flock wrapper would hold the lock and deadlock the inner acquire.
+ExecStart=/opt/a6-trader/current/venv/bin/python /opt/a6-trader/current/scripts/reconcile_a6_listing_schedulability.py --model gpt-5.6-sol --apply --timeout-seconds 20 --attempts 3 --config-version listing-schedulability-v1
+SuccessExitStatus=75
+TimeoutStartSec=300s
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/a6-trader
+UMask=0077
+
+[Install]
+WantedBy=a6-trader-control.target

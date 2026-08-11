@@ -1,0 +1,28 @@
+[Unit]
+Description=Dedicated Valkey for A6 Provider HK regional coordination
+After=network.target
+Before=a6-trader-provider-regional-hk.service sub2api-hk-shadow.service
+
+[Service]
+Type=simple
+User=valkey
+Group=valkey
+ExecStartPre=/usr/bin/test -r /etc/a6-provider-valkey-hk/valkey.conf
+ExecStartPre=/usr/bin/test -r /etc/a6-provider-valkey-hk/users.acl
+ExecStartPre=/usr/bin/test -d /var/lib/a6-provider-valkey-hk
+ExecStart=/usr/bin/valkey-server /etc/a6-provider-valkey-hk/valkey.conf
+Restart=on-failure
+RestartSec=2s
+TimeoutStopSec=30s
+LimitNOFILE=65535
+UMask=0027
+NoNewPrivileges=true
+PrivateDevices=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=full
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+CapabilityBoundingSet=
+
+[Install]
+WantedBy=multi-user.target

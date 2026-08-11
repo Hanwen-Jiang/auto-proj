@@ -1,0 +1,24 @@
+[Unit]
+Description=Project canonical A6 Provider state into the HK regional Valkey
+After=network-online.target sub2api-hk-state-tunnel.service a6-provider-valkey-hk.service
+Wants=network-online.target
+Requires=sub2api-hk-state-tunnel.service a6-provider-valkey-hk.service
+
+[Service]
+Type=oneshot
+User=a6trader
+Group=a6trader
+EnvironmentFile=/etc/a6-provider-regional-hk/projector.env
+StateDirectory=a6-provider-regional-hk
+StateDirectoryMode=0750
+ExecStartPre=/usr/bin/test -x /opt/a6-trader-hk/current/venv/bin/python
+ExecStartPre=/usr/bin/test -r /opt/a6-trader-hk/current/scripts/project_a6_provider_dispatch.py
+ExecStart=/usr/bin/flock --exclusive --nonblock --conflict-exit-code 75 /var/lib/a6-provider-regional-hk/projector.lock /opt/a6-trader-hk/current/venv/bin/python /opt/a6-trader-hk/current/scripts/project_a6_provider_dispatch.py --model gpt-5.6-sol --publish --enabled --regional-enabled --region hk
+SuccessExitStatus=75
+TimeoutStartSec=20s
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/a6-provider-regional-hk

@@ -1,0 +1,9 @@
+[Unit]
+Description=Wake A6 Trader Pin reconciliation on a durable Provider failure
+
+[Path]
+PathModified=/run/sub2api-a6-trader/pin-request.failures
+Unit=a6-trader-pin.service
+
+[Install]
+WantedBy=multi-user.target

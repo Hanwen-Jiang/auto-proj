@@ -1,0 +1,20 @@
+[Unit]
+Description=Sub2API HK shadow tunnel to US PostgreSQL, Redis, Provider relay, and Trader API
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=sub2api-tunnel
+Group=sub2api-tunnel
+EnvironmentFile=/etc/sub2api-hk-tunnel/tunnel.env
+ExecStartPre=/usr/bin/test -r /etc/sub2api-hk-tunnel/id_ed25519
+ExecStartPre=/usr/bin/test -r /etc/sub2api-hk-tunnel/known_hosts
+ExecStart=/usr/bin/ssh -NT -i /etc/sub2api-hk-tunnel/id_ed25519 -o BatchMode=yes -o ExitOnForwardFailure=yes -o ServerAliveInterval=15 -o ServerAliveCountMax=3 -o StrictHostKeyChecking=yes -o UserKnownHostsFile=/etc/sub2api-hk-tunnel/known_hosts -L 127.0.0.1:15432:127.0.0.1:5432 -L 127.0.0.1:16379:127.0.0.1:6379 -L 127.0.0.1:18765:127.0.0.1:8765 -L 127.0.0.1:18767:127.0.0.1:8767 sub2api-tunnel@${US_TUNNEL_HOST}
+Restart=always
+RestartSec=3s
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

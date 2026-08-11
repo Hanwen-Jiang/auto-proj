@@ -1,0 +1,10 @@
+[
+  {
+    "network": "ERC20",
+    "address": "ACCOUNT_ADDRESS_1"
+  },
+  {
+    "network": "TRC20",
+    "address": "ACCOUNT_ADDRESS_2"
+  }
+]

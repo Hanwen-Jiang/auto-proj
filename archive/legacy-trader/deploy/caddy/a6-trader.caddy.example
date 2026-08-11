@@ -1,0 +1,14 @@
+# Replace DASHBOARD_PASSWORD_HASH with an Argon2id hash before validation.
+ai.enodot.shop {
+	encode zstd gzip
+	redir /a6-trader /a6-trader/
+	handle_path /a6-trader/* {
+		basic_auth argon2id {
+			a6admin DASHBOARD_PASSWORD_HASH
+		}
+		reverse_proxy 127.0.0.1:8765
+	}
+	handle {
+		reverse_proxy 127.0.0.1:48767
+	}
+}

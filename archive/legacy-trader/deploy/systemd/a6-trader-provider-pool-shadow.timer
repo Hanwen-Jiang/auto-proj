@@ -1,0 +1,14 @@
+[Unit]
+Description=Plan A6 Provider shadow generations every thirty seconds
+
+[Timer]
+OnBootSec=20s
+OnActiveSec=5s
+OnUnitInactiveSec=30s
+Persistent=true
+AccuracySec=1s
+RandomizedDelaySec=2s
+Unit=a6-trader-provider-pool-shadow.service
+
+[Install]
+WantedBy=timers.target

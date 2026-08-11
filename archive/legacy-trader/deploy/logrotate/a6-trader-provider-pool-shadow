@@ -1,0 +1,11 @@
+/var/lib/a6-trader/provider-pool-shadow-observations.jsonl {
+    daily
+    rotate 7
+    maxsize 16M
+    delaycompress
+    compress
+    notifempty
+    missingok
+    create 0600 a6trader a6trader
+    su a6trader a6trader
+}

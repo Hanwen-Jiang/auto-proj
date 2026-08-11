@@ -1,0 +1,12 @@
+[Unit]
+Description=Fallback trigger for A6 treasury cashout planning
+
+[Timer]
+OnBootSec=2min
+OnUnitInactiveSec=5min
+AccuracySec=5s
+RandomizedDelaySec=0
+Unit=a6-trader-cashout.service
+
+[Install]
+WantedBy=timers.target

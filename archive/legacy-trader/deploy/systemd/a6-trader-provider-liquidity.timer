@@ -1,0 +1,12 @@
+[Unit]
+Description=Reconcile A6 Provider liquidity every 15 seconds
+
+[Timer]
+OnBootSec=30s
+OnUnitInactiveSec=15s
+AccuracySec=1s
+RandomizedDelaySec=0
+Unit=a6-trader-provider-liquidity.service
+
+[Install]
+WantedBy=timers.target

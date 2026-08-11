@@ -1,0 +1,20 @@
+[Unit]
+Description=A6 Trader session cookie and supplier state refresh
+After=network-online.target postgresql.service sub2api-singbox-proxy-pool.service
+Wants=network-online.target
+Requires=sub2api-singbox-proxy-pool.service
+
+[Service]
+Type=oneshot
+User=a6trader
+Group=a6trader
+EnvironmentFile=/etc/a6-trader.env
+ExecStart=/usr/bin/flock --exclusive /var/lib/a6-trader/network-scan.lock /opt/a6-trader/current/venv/bin/a6api-auto trade-refresh-sessions-once --sessions-dir /var/lib/a6-trader/secrets/sessions --proxy-map-file /var/lib/a6-trader/secrets/proxy-map.json --client-timeout-seconds 10 --max-workers 8 --compact-output
+SuccessExitStatus=2
+TimeoutStartSec=4min
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/a6-trader
+UMask=0077

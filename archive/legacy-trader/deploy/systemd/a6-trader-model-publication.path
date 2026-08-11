@@ -1,0 +1,9 @@
+[Unit]
+Description=Wake A6 model publication reconciliation on durable control requests
+
+[Path]
+PathChanged=/run/a6-trader/model-publication-request
+Unit=a6-trader-model-publication.service
+
+[Install]
+WantedBy=multi-user.target

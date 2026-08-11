@@ -1,0 +1,13 @@
+[Unit]
+Description=Continuously converge the HK A6 Provider regional projection
+
+[Timer]
+OnBootSec=5s
+OnUnitActiveSec=2s
+AccuracySec=250ms
+RandomizedDelaySec=250ms
+Persistent=false
+Unit=a6-trader-provider-regional-hk.service
+
+[Install]
+WantedBy=timers.target

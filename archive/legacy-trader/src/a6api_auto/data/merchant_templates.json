@@ -1,0 +1,2002 @@
+[
+  {
+    "template_id": "merchant-001",
+    "supplier_name": "OmniAPI",
+    "supplier_description": "多模型 API 中转服务，保留基础监控。",
+    "channel_name": "niko-sol",
+    "channel_nickname": "niko-sol",
+    "channel_description": "稳定好用，长期维护",
+    "model_description": "bugteam号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-002",
+    "supplier_name": "NexusAPI",
+    "supplier_description": "统一模型网关，保留基础监控。",
+    "channel_name": "Plus快线",
+    "channel_nickname": "Plus快线",
+    "channel_description": "价格实在，日常稳定",
+    "model_description": "Plus主池，Pro备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-003",
+    "supplier_name": "LinkAI",
+    "supplier_description": "面向开发者的 API 转发站，保留基础监控。",
+    "channel_name": "FablePro",
+    "channel_nickname": "FablePro",
+    "channel_description": "满血高速，表现稳定",
+    "model_description": "Pro 20x号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-004",
+    "supplier_name": "BridgeAPI",
+    "supplier_description": "多供应源接口枢纽，保留基础监控。",
+    "channel_name": "天枢池",
+    "channel_nickname": "天枢池",
+    "channel_description": "高缓存｜低延迟",
+    "model_description": "K12 / Team混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-005",
+    "supplier_name": "TransitAPI",
+    "supplier_description": "模型路由与中继服务，保留基础监控。",
+    "channel_name": "不掺水5.6",
+    "channel_nickname": "不掺水5.6",
+    "channel_description": "高速耐跑，长期可用",
+    "model_description": "纯Plus，Team兜底",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-006",
+    "supplier_name": "GatewayAI",
+    "supplier_description": "统一接口接入网关，保留基础监控。",
+    "channel_name": "PA-SOL",
+    "channel_nickname": "PA-SOL",
+    "channel_description": "响应快，运行稳",
+    "model_description": "Team + Plus混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-007",
+    "supplier_name": "HubAPI",
+    "supplier_description": "多模型调用中心，保留基础监控。",
+    "channel_name": "codex特快",
+    "channel_nickname": "codex特快",
+    "channel_description": "高缓存，高并发",
+    "model_description": "bugteam自建池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-008",
+    "supplier_name": "Synapse",
+    "supplier_description": "API 链路聚合服务，保留基础监控。",
+    "channel_name": "Fast56",
+    "channel_nickname": "Fast56",
+    "channel_description": "速度快，日常稳定",
+    "model_description": "K12账号为主",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-009",
+    "supplier_name": "RayAPI",
+    "supplier_description": "模型接口交换站，保留基础监控。",
+    "channel_name": "苍穹Pro",
+    "channel_nickname": "苍穹Pro",
+    "channel_description": "峰值表现也稳",
+    "model_description": "纯血Pro 20x号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-010",
+    "supplier_name": "AnyAPI",
+    "supplier_description": "一站式 AI 网关，保留基础监控。",
+    "channel_name": "随便跑跑",
+    "channel_nickname": "随便跑跑",
+    "channel_description": "价格友好，响应不拖",
+    "model_description": "Plus / Pro混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-011",
+    "supplier_name": "RelayOne",
+    "supplier_description": "多线路 API 中转平台，保留基础监控。",
+    "channel_name": "HaHaSol",
+    "channel_nickname": "HaHaSol",
+    "channel_description": "代码场景响应顺畅",
+    "model_description": "Team号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-012",
+    "supplier_name": "ModelPort",
+    "supplier_description": "模型请求路由枢纽，保留基础监控。",
+    "channel_name": "ZApi56",
+    "channel_nickname": "ZApi56",
+    "channel_description": "稳定快速，接入省心",
+    "model_description": "K12 + Plus号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-013",
+    "supplier_name": "PromptHub",
+    "supplier_description": "通用 LLM 接入服务，保留基础监控。",
+    "channel_name": "sol平价",
+    "channel_nickname": "sol平价",
+    "channel_description": "低价可用，持续维护",
+    "model_description": "bugteam / Plus混池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-014",
+    "supplier_name": "TokenBridge",
+    "supplier_description": "多模型接口集散地，保留基础监控。",
+    "channel_name": "OP-20X",
+    "channel_nickname": "OP-20X",
+    "channel_description": "高质量线路，稳定运行",
+    "model_description": "Pro 20x自建号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-015",
+    "supplier_name": "RouteAI",
+    "supplier_description": "开发者 API 通道，保留基础监控。",
+    "channel_name": "mumu-sol",
+    "channel_nickname": "mumu-sol",
+    "channel_description": "高缓存，响应稳定",
+    "model_description": "Plus为主，K12备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-016",
+    "supplier_name": "LLMGateway",
+    "supplier_description": "智能模型转接网关，保留基础监控。",
+    "channel_name": "SUB-PRO",
+    "channel_nickname": "SUB-PRO",
+    "channel_description": "长跑型线路，稳定耐用",
+    "model_description": "Team / Pro混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-017",
+    "supplier_name": "APIHarbor",
+    "supplier_description": "统一 LLM 路由入口，保留基础监控。",
+    "channel_name": "Lime56",
+    "channel_nickname": "Lime56",
+    "channel_description": "低延迟，维护勤快",
+    "model_description": "bugteam号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-018",
+    "supplier_name": "FluxRelay",
+    "supplier_description": "模型能力聚合接口，保留基础监控。",
+    "channel_name": "星环池",
+    "channel_nickname": "星环池",
+    "channel_description": "峰值稳定，响应利落",
+    "model_description": "Plus主池，Pro备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-019",
+    "supplier_name": "NovaGateway",
+    "supplier_description": "多源 API 调度中心，保留基础监控。",
+    "channel_name": "K12小站",
+    "channel_nickname": "K12小站",
+    "channel_description": "价格友好，长期可用",
+    "model_description": "K12主池，Team备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-020",
+    "supplier_name": "OrbitAPI",
+    "supplier_description": "高速模型中继站，保留基础监控。",
+    "channel_name": "ProDock",
+    "channel_nickname": "ProDock",
+    "channel_description": "并发够用，日常稳定",
+    "model_description": "Pro 20x主池，Team备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-021",
+    "supplier_name": "VectorHub",
+    "supplier_description": "云端 API 转运服务，保留基础监控。",
+    "channel_name": "阿尔法线",
+    "channel_nickname": "阿尔法线",
+    "channel_description": "缓存表现好，响应稳定",
+    "model_description": "纯Plus号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-022",
+    "supplier_name": "MatrixRelay",
+    "supplier_description": "通用模型连接网关，保留基础监控。",
+    "channel_name": "TinySOL",
+    "channel_nickname": "TinySOL",
+    "channel_description": "高峰稳定，持续维护",
+    "model_description": "Team + Plus混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-023",
+    "supplier_name": "PulseAPI",
+    "supplier_description": "开放模型接入枢纽，保留基础监控。",
+    "channel_name": "5.6直达",
+    "channel_nickname": "5.6直达",
+    "channel_description": "线路轻快，稳定在线",
+    "model_description": "bugteam自建池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-024",
+    "supplier_name": "SwiftGateway",
+    "supplier_description": "多路 API 交换服务，保留基础监控。",
+    "channel_name": "TeamBus",
+    "channel_nickname": "TeamBus",
+    "channel_description": "速度扎实，容量充足",
+    "model_description": "Team为主，bugteam备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-025",
+    "supplier_name": "EchoAPI",
+    "supplier_description": "模型接口中转中心，保留基础监控。",
+    "channel_name": "Bug港",
+    "channel_nickname": "Bug港",
+    "channel_description": "响应顺畅，长期可用",
+    "model_description": "bugteam号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-026",
+    "supplier_name": "VertexRelay",
+    "supplier_description": "多模型 API 中转服务，根据可用状态调整。",
+    "channel_name": "PlusOne",
+    "channel_nickname": "PlusOne",
+    "channel_description": "低价耐跑，稳定可用，定期维护",
+    "model_description": "纯Plus号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-027",
+    "supplier_name": "CloudBridge",
+    "supplier_description": "统一模型网关，根据可用状态调整。",
+    "channel_name": "晚风API",
+    "channel_nickname": "晚风API",
+    "channel_description": "响应利落，稳定可用",
+    "model_description": "Team号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-028",
+    "supplier_name": "ModelTransit",
+    "supplier_description": "面向开发者的 API 转发站，根据可用状态调整。",
+    "channel_name": "SOL快车",
+    "channel_nickname": "SOL快车",
+    "channel_description": "并发稳定，缓存表现好",
+    "model_description": "K12 + Plus混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-029",
+    "supplier_name": "FastAPI",
+    "supplier_description": "多供应源接口枢纽，根据可用状态调整。",
+    "channel_name": "PikaPro",
+    "channel_nickname": "PikaPro",
+    "channel_description": "高峰响应稳，维护及时",
+    "model_description": "Pro 20x主池，Plus备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-030",
+    "supplier_name": "ExpressAPI",
+    "supplier_description": "模型路由与中继服务，根据可用状态调整。",
+    "channel_name": "量子池",
+    "channel_nickname": "量子池",
+    "channel_description": "容量充足，日常稳定",
+    "model_description": "Pro 20x自建池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-031",
+    "supplier_name": "CoreLink",
+    "supplier_description": "统一接口接入网关，根据可用状态调整。",
+    "channel_name": "Route56",
+    "channel_nickname": "Route56",
+    "channel_description": "低延迟，长时间可用",
+    "model_description": "Plus为主，K12备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-032",
+    "supplier_name": "OpenRelay",
+    "supplier_description": "多模型调用中心，根据可用状态调整。",
+    "channel_name": "代码急送",
+    "channel_nickname": "代码急送",
+    "channel_description": "代码响应快，运行稳定",
+    "model_description": "Team / Pro混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-033",
+    "supplier_name": "PrimeGateway",
+    "supplier_description": "API 链路聚合服务，根据可用状态调整。",
+    "channel_name": "K12-Lab",
+    "channel_nickname": "K12-Lab",
+    "channel_description": "价格平稳，持续可用",
+    "model_description": "K12号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-034",
+    "supplier_name": "MeshAPI",
+    "supplier_description": "模型接口交换站，根据可用状态调整。",
+    "channel_name": "Pro满格",
+    "channel_nickname": "Pro满格",
+    "channel_description": "峰值容量足，响应稳定",
+    "model_description": "纯Pro 20x号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-035",
+    "supplier_name": "NodePilot",
+    "supplier_description": "一站式 AI 网关，根据可用状态调整。",
+    "channel_name": "TeamNext",
+    "channel_nickname": "TeamNext",
+    "channel_description": "并发从容，长期维护",
+    "model_description": "Team主池，Plus备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-036",
+    "supplier_name": "RouteNest",
+    "supplier_description": "多线路 API 中转平台，根据可用状态调整。",
+    "channel_name": "灯塔SOL",
+    "channel_nickname": "灯塔SOL",
+    "channel_description": "缓存稳定，响应不拖",
+    "model_description": "K12 / Team混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-037",
+    "supplier_name": "APIBeacon",
+    "supplier_description": "模型请求路由枢纽，根据可用状态调整。",
+    "channel_name": "Velo56",
+    "channel_nickname": "Velo56",
+    "channel_description": "低延迟，日常耐跑",
+    "model_description": "纯Plus号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-038",
+    "supplier_name": "ModelDock",
+    "supplier_description": "通用 LLM 接入服务，根据可用状态调整。",
+    "channel_name": "南风线",
+    "channel_nickname": "南风线",
+    "channel_description": "表现稳定，维护规律",
+    "model_description": "Team + Plus混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-039",
+    "supplier_name": "TokenPort",
+    "supplier_description": "多模型接口集散地，根据可用状态调整。",
+    "channel_name": "bugteamGo",
+    "channel_nickname": "bugteamGo",
+    "channel_description": "响应快，并发稳定",
+    "model_description": "bugteam + Plus混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-040",
+    "supplier_name": "InferenceHub",
+    "supplier_description": "开发者 API 通道，根据可用状态调整。",
+    "channel_name": "PlusHub",
+    "channel_nickname": "PlusHub",
+    "channel_description": "价格实在，容量够用",
+    "model_description": "Plus + K12混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-041",
+    "supplier_name": "RelayWorks",
+    "supplier_description": "智能模型转接网关，根据可用状态调整。",
+    "channel_name": "北辰一线",
+    "channel_nickname": "北辰一线",
+    "channel_description": "高峰可用，响应稳定",
+    "model_description": "纯Pro 20x号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-042",
+    "supplier_name": "PromptLane",
+    "supplier_description": "统一 LLM 路由入口，根据可用状态调整。",
+    "channel_name": "ProBox",
+    "channel_nickname": "ProBox",
+    "channel_description": "满速响应，长期稳定",
+    "model_description": "纯Pro 20x号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-043",
+    "supplier_name": "CloudNexusAPI",
+    "supplier_description": "模型能力聚合接口，根据可用状态调整。",
+    "channel_name": "T12混合",
+    "channel_nickname": "T12混合",
+    "channel_description": "缓存充足，运行稳定",
+    "model_description": "Team号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-044",
+    "supplier_name": "AetherAPI",
+    "supplier_description": "多源 API 调度中心，根据可用状态调整。",
+    "channel_name": "轻舟5.6",
+    "channel_nickname": "轻舟5.6",
+    "channel_description": "低延迟，持续可用",
+    "model_description": "K12 + Plus混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-045",
+    "supplier_name": "LoopGateway",
+    "supplier_description": "高速模型中继站，根据可用状态调整。",
+    "channel_name": "SOL驿站",
+    "channel_nickname": "SOL驿站",
+    "channel_description": "日常稳定，维护不断",
+    "model_description": "bugteam / Plus混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-046",
+    "supplier_name": "SwitchAI",
+    "supplier_description": "云端 API 转运服务，根据可用状态调整。",
+    "channel_name": "TeamLane",
+    "channel_nickname": "TeamLane",
+    "channel_description": "并发稳定，响应干脆",
+    "model_description": "Team / Pro混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-047",
+    "supplier_name": "CrossLink",
+    "supplier_description": "通用模型连接网关，根据可用状态调整。",
+    "channel_name": "K12专列",
+    "channel_nickname": "K12专列",
+    "channel_description": "价格友好，线路稳定",
+    "model_description": "K12为主，bugteam备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-048",
+    "supplier_name": "ModelMesh",
+    "supplier_description": "开放模型接入枢纽，根据可用状态调整。",
+    "channel_name": "满血Pro",
+    "channel_nickname": "满血Pro",
+    "channel_description": "高峰容量足，表现稳定",
+    "model_description": "Pro 20x账号为主",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-049",
+    "supplier_name": "KeyTransit",
+    "supplier_description": "多路 API 交换服务，根据可用状态调整。",
+    "channel_name": "Bug直通",
+    "channel_nickname": "Bug直通",
+    "channel_description": "代码响应顺滑，长期可用",
+    "model_description": "bugteam号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-050",
+    "supplier_name": "SignalAPI",
+    "supplier_description": "模型接口中转中心，根据可用状态调整。",
+    "channel_name": "Plus平价",
+    "channel_nickname": "Plus平价",
+    "channel_description": "低价稳定，日常维护",
+    "model_description": "纯Plus号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-051",
+    "supplier_name": "AtlasRelay",
+    "supplier_description": "多模型 API 中转服务，不定期补充容量。",
+    "channel_name": "NovaSOL",
+    "channel_nickname": "NovaSOL",
+    "channel_description": "缓存命中高，响应稳定",
+    "model_description": "Pro 20x号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-052",
+    "supplier_name": "MercuryAPI",
+    "supplier_description": "统一模型网关，不定期补充容量。",
+    "channel_name": "代码走廊",
+    "channel_nickname": "代码走廊",
+    "channel_description": "并发够用，代码响应快",
+    "model_description": "K12 / Team混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-053",
+    "supplier_name": "VegaHub",
+    "supplier_description": "面向开发者的 API 转发站，不定期补充容量。",
+    "channel_name": "K12-24H",
+    "channel_nickname": "K12-24H",
+    "channel_description": "全天可用，延迟平稳",
+    "model_description": "K12 / Team混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-054",
+    "supplier_name": "LumenGateway",
+    "supplier_description": "多供应源接口枢纽，不定期补充容量。",
+    "channel_name": "ProShift",
+    "channel_nickname": "ProShift",
+    "channel_description": "峰值稳定，切换顺畅",
+    "model_description": "Pro / Team混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-055",
+    "supplier_name": "QuantaLink",
+    "supplier_description": "模型路由与中继服务，不定期补充容量。",
+    "channel_name": "TeamBase",
+    "channel_nickname": "TeamBase",
+    "channel_description": "响应稳定，维护踏实",
+    "model_description": "Team + K12混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-056",
+    "supplier_name": "AxiomAPI",
+    "supplier_description": "统一接口接入网关，不定期补充容量。",
+    "channel_name": "56不排队",
+    "channel_nickname": "56不排队",
+    "channel_description": "并发充足，响应不堵",
+    "model_description": "K12账号为主",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-057",
+    "supplier_name": "ZenithRelay",
+    "supplier_description": "多模型调用中心，不定期补充容量。",
+    "channel_name": "AxisSOL",
+    "channel_nickname": "AxisSOL",
+    "channel_description": "长跑稳定，容量有余",
+    "model_description": "纯Pro 20x号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-058",
+    "supplier_name": "ArclightHub",
+    "supplier_description": "API 链路聚合服务，不定期补充容量。",
+    "channel_name": "热缓存",
+    "channel_nickname": "热缓存",
+    "channel_description": "缓存表现稳，延迟低",
+    "model_description": "Plus / Pro混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-059",
+    "supplier_name": "NimbusAPI",
+    "supplier_description": "模型接口交换站，不定期补充容量。",
+    "channel_name": "Bug主线",
+    "channel_nickname": "Bug主线",
+    "channel_description": "代码场景稳定，响应快",
+    "model_description": "bugteam主池，Plus备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-060",
+    "supplier_name": "KiteGateway",
+    "supplier_description": "一站式 AI 网关，不定期补充容量。",
+    "channel_name": "Plus副线",
+    "channel_nickname": "Plus副线",
+    "channel_description": "价格低，持续可用",
+    "model_description": "Plus主池，Team备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-061",
+    "supplier_name": "PioneerAI",
+    "supplier_description": "多线路 API 中转平台，不定期补充容量。",
+    "channel_name": "SkyPro",
+    "channel_nickname": "SkyPro",
+    "channel_description": "峰值响应快，稳定在线",
+    "model_description": "Pro 20x主池，Plus备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-062",
+    "supplier_name": "SummitAPI",
+    "supplier_description": "模型请求路由枢纽，不定期补充容量。",
+    "channel_name": "K12日常",
+    "channel_nickname": "K12日常",
+    "channel_description": "日常稳定，价格合适",
+    "model_description": "K12 + Plus混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-063",
+    "supplier_name": "CobaltRelay",
+    "supplier_description": "通用 LLM 接入服务，不定期补充容量。",
+    "channel_name": "Team燃料",
+    "channel_nickname": "Team燃料",
+    "channel_description": "容量够用，长期稳定",
+    "model_description": "Team + K12混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-064",
+    "supplier_name": "HelixHub",
+    "supplier_description": "多模型接口集散地，不定期补充容量。",
+    "channel_name": "SOL-ONE",
+    "channel_nickname": "SOL-ONE",
+    "channel_description": "响应干净，运行稳定",
+    "model_description": "Team / Pro混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-065",
+    "supplier_name": "AuroraGateway",
+    "supplier_description": "开发者 API 通道，不定期补充容量。",
+    "channel_name": "低价通",
+    "channel_nickname": "低价通",
+    "channel_description": "价格克制，线路可用",
+    "model_description": "bugteam号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-066",
+    "supplier_name": "DeltaLink",
+    "supplier_description": "智能模型转接网关，不定期补充容量。",
+    "channel_name": "ProMax20",
+    "channel_nickname": "ProMax20",
+    "channel_description": "高负载稳定，容量充裕",
+    "model_description": "纯Pro 20x号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-067",
+    "supplier_name": "PrismAPI",
+    "supplier_description": "统一 LLM 路由入口，不定期补充容量。",
+    "channel_name": "K12Mini",
+    "channel_nickname": "K12Mini",
+    "channel_description": "轻量响应快，长期可用",
+    "model_description": "K12主池，Team备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-068",
+    "supplier_name": "CometRelay",
+    "supplier_description": "模型能力聚合接口，不定期补充容量。",
+    "channel_name": "PlusMix",
+    "channel_nickname": "PlusMix",
+    "channel_description": "并发平稳，维护及时",
+    "model_description": "Plus主池，Team备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-069",
+    "supplier_name": "HaloGateway",
+    "supplier_description": "多源 API 调度中心，不定期补充容量。",
+    "channel_name": "Team+Pro",
+    "channel_nickname": "Team+Pro",
+    "channel_description": "峰值可用，响应稳定",
+    "model_description": "Team + Plus混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-070",
+    "supplier_name": "MosaicAI",
+    "supplier_description": "高速模型中继站，不定期补充容量。",
+    "channel_name": "BugTeamX",
+    "channel_nickname": "BugTeamX",
+    "channel_description": "代码响应稳，并发充足",
+    "model_description": "bugteam为主，K12备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-071",
+    "supplier_name": "TeraHub",
+    "supplier_description": "云端 API 转运服务，不定期补充容量。",
+    "channel_name": "快点儿",
+    "channel_nickname": "快点儿",
+    "channel_description": "延迟低，响应不拖",
+    "model_description": "bugteam自建池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-072",
+    "supplier_name": "VertexPort",
+    "supplier_description": "通用模型连接网关，不定期补充容量。",
+    "channel_name": "稳稳跑",
+    "channel_nickname": "稳稳跑",
+    "channel_description": "长期稳定，维护规律",
+    "model_description": "K12账号为主",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-073",
+    "supplier_name": "StrataAPI",
+    "supplier_description": "开放模型接入枢纽，不定期补充容量。",
+    "channel_name": "今天可用",
+    "channel_nickname": "今天可用",
+    "channel_description": "当前可用，响应顺畅",
+    "model_description": "纯Pro 20x号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-074",
+    "supplier_name": "BeaconRelay",
+    "supplier_description": "多路 API 交换服务，不定期补充容量。",
+    "channel_name": "慢价高速",
+    "channel_nickname": "慢价高速",
+    "channel_description": "价格友好，响应很快",
+    "model_description": "Plus / Pro混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-075",
+    "supplier_name": "FusionGateway",
+    "supplier_description": "模型接口中转中心，不定期补充容量。",
+    "channel_name": "小满SOL",
+    "channel_nickname": "小满SOL",
+    "channel_description": "缓存余量足，运行稳定",
+    "model_description": "Team号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-076",
+    "supplier_name": "AstraLink",
+    "supplier_description": "多模型 API 中转服务，以稳定运行作为主要目标。",
+    "channel_name": "常开线",
+    "channel_nickname": "常开线",
+    "channel_description": "持续可用，峰值稳定",
+    "model_description": "K12 + Plus混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-077",
+    "supplier_name": "HyperlaneAPI",
+    "supplier_description": "统一模型网关，以稳定运行作为主要目标。",
+    "channel_name": "省心池",
+    "channel_nickname": "省心池",
+    "channel_description": "响应稳定，维护省心",
+    "model_description": "bugteam / Plus混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-078",
+    "supplier_name": "ContinuumHub",
+    "supplier_description": "面向开发者的 API 转发站，以稳定运行作为主要目标。",
+    "channel_name": "夜班56",
+    "channel_nickname": "夜班56",
+    "channel_description": "夜间延迟低，运行稳定",
+    "model_description": "Pro 20x自建池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-079",
+    "supplier_name": "ParallaxRelay",
+    "supplier_description": "多供应源接口枢纽，以稳定运行作为主要目标。",
+    "channel_name": "白天Pro",
+    "channel_nickname": "白天Pro",
+    "channel_description": "白天容量足，响应稳定",
+    "model_description": "Pro / Plus混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-080",
+    "supplier_name": "NeuralPort",
+    "supplier_description": "模型路由与中继服务，以稳定运行作为主要目标。",
+    "channel_name": "低调Team",
+    "channel_nickname": "低调Team",
+    "channel_description": "表现稳定，并发够用",
+    "model_description": "Team为主，bugteam备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-081",
+    "supplier_name": "OrbitBridge",
+    "supplier_description": "统一接口接入网关，以稳定运行作为主要目标。",
+    "channel_name": "一杯Plus",
+    "channel_nickname": "一杯Plus",
+    "channel_description": "价格合适，日常可用",
+    "model_description": "Plus号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-082",
+    "supplier_name": "RapidNexus",
+    "supplier_description": "多模型调用中心，以稳定运行作为主要目标。",
+    "channel_name": "K12口袋",
+    "channel_nickname": "K12口袋",
+    "channel_description": "轻量稳定，响应及时",
+    "model_description": "K12账号为主",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-083",
+    "supplier_name": "VelocityAPI",
+    "supplier_description": "API 链路聚合服务，以稳定运行作为主要目标。",
+    "channel_name": "Pro小仓",
+    "channel_nickname": "Pro小仓",
+    "channel_description": "容量精简，峰值稳定",
+    "model_description": "Pro 20x自建池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-084",
+    "supplier_name": "TurboRelay",
+    "supplier_description": "模型接口交换站，以稳定运行作为主要目标。",
+    "channel_name": "Bug备用",
+    "channel_nickname": "Bug备用",
+    "channel_description": "备用可用，切换响应快",
+    "model_description": "bugteam / Plus混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-085",
+    "supplier_name": "FlashGateway",
+    "supplier_description": "一站式 AI 网关，以稳定运行作为主要目标。",
+    "channel_name": "SOL常驻",
+    "channel_nickname": "SOL常驻",
+    "channel_description": "长期在线，响应稳定",
+    "model_description": "纯Plus号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-086",
+    "supplier_name": "SprintAI",
+    "supplier_description": "多线路 API 中转平台，以稳定运行作为主要目标。",
+    "channel_name": "不限时",
+    "channel_nickname": "不限时",
+    "channel_description": "全天稳定，容量平稳",
+    "model_description": "Team + Plus混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-087",
+    "supplier_name": "QuickBridge",
+    "supplier_description": "模型请求路由枢纽，以稳定运行作为主要目标。",
+    "channel_name": "快车道56",
+    "channel_nickname": "快车道56",
+    "channel_description": "低延迟，高峰可用",
+    "model_description": "bugteam自建池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-088",
+    "supplier_name": "StreamAPI",
+    "supplier_description": "通用 LLM 接入服务，以稳定运行作为主要目标。",
+    "channel_name": "Team日用",
+    "channel_nickname": "Team日用",
+    "channel_description": "日常稳定，响应自然",
+    "model_description": "Team为主，bugteam备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-089",
+    "supplier_name": "FlowTransit",
+    "supplier_description": "多模型接口集散地，以稳定运行作为主要目标。",
+    "channel_name": "Plus长跑",
+    "channel_nickname": "Plus长跑",
+    "channel_description": "长时间可用，价格稳定",
+    "model_description": "Plus号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-090",
+    "supplier_name": "DirectLLMHub",
+    "supplier_description": "开发者 API 通道，以稳定运行作为主要目标。",
+    "channel_name": "Pro短线",
+    "channel_nickname": "Pro短线",
+    "channel_description": "短任务响应快，峰值稳定",
+    "model_description": "纯Pro 20x号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-091",
+    "supplier_name": "OpenRoute",
+    "supplier_description": "智能模型转接网关，以稳定运行作为主要目标。",
+    "channel_name": "K12长线",
+    "channel_nickname": "K12长线",
+    "channel_description": "长上下文稳定，容量够用",
+    "model_description": "K12主池，Team备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-092",
+    "supplier_name": "UnifiedAPI",
+    "supplier_description": "统一 LLM 路由入口，以稳定运行作为主要目标。",
+    "channel_name": "Bug混搭",
+    "channel_nickname": "Bug混搭",
+    "channel_description": "代码响应稳，维护灵活",
+    "model_description": "bugteam / Plus混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-093",
+    "supplier_name": "PolyModel",
+    "supplier_description": "模型能力聚合接口，以稳定运行作为主要目标。",
+    "channel_name": "现货SOL",
+    "channel_nickname": "现货SOL",
+    "channel_description": "容量现成，响应稳定",
+    "model_description": "bugteam / Plus混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-094",
+    "supplier_name": "MultiLink",
+    "supplier_description": "多源 API 调度中心，以稳定运行作为主要目标。",
+    "channel_name": "平价Pro",
+    "channel_nickname": "平价Pro",
+    "channel_description": "价格适中，峰值可用",
+    "model_description": "Pro / Team混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-095",
+    "supplier_name": "OneGateway",
+    "supplier_description": "高速模型中继站，以稳定运行作为主要目标。",
+    "channel_name": "小额Plus",
+    "channel_nickname": "小额Plus",
+    "channel_description": "小额请求稳定，延迟低",
+    "model_description": "Plus + Team混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-096",
+    "supplier_name": "AllModelHub",
+    "supplier_description": "云端 API 转运服务，以稳定运行作为主要目标。",
+    "channel_name": "Team仓",
+    "channel_nickname": "Team仓",
+    "channel_description": "容量稳定，补充及时",
+    "model_description": "Team为主，bugteam备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-097",
+    "supplier_name": "UniversalRelay",
+    "supplier_description": "通用模型连接网关，以稳定运行作为主要目标。",
+    "channel_name": "K12仓",
+    "channel_nickname": "K12仓",
+    "channel_description": "长期可用，容量有余",
+    "model_description": "K12号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-098",
+    "supplier_name": "MetaTransit",
+    "supplier_description": "开放模型接入枢纽，以稳定运行作为主要目标。",
+    "channel_name": "bug仓",
+    "channel_nickname": "bug仓",
+    "channel_description": "代码响应稳定，备用充足",
+    "model_description": "bugteam自建池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-099",
+    "supplier_name": "InfinityAPI",
+    "supplier_description": "多路 API 交换服务，以稳定运行作为主要目标。",
+    "channel_name": "5.6仓",
+    "channel_nickname": "5.6仓",
+    "channel_description": "持续可用，响应稳健",
+    "model_description": "Pro 20x号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-100",
+    "supplier_name": "OmniRoute",
+    "supplier_description": "模型接口中转中心，以稳定运行作为主要目标。",
+    "channel_name": "混合仓",
+    "channel_nickname": "混合仓",
+    "channel_description": "并发灵活，运行稳定",
+    "model_description": "K12 / Team混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-101",
+    "supplier_name": "万象API",
+    "supplier_description": "多模型 API 中转服务，按实际额度安排调度。",
+    "channel_name": "Aster56",
+    "channel_nickname": "Aster56",
+    "channel_description": "低延迟，缓存稳定",
+    "model_description": "纯Plus号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-102",
+    "supplier_name": "星链网关",
+    "supplier_description": "统一模型网关，按实际额度安排调度。",
+    "channel_name": "CodeJet",
+    "channel_nickname": "CodeJet",
+    "channel_description": "代码响应快，峰值可用",
+    "model_description": "Team + Plus混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-103",
+    "supplier_name": "云桥中转",
+    "supplier_description": "面向开发者的 API 转发站，按实际额度安排调度。",
+    "channel_name": "ProPulse",
+    "channel_nickname": "ProPulse",
+    "channel_description": "响应敏捷，运行稳定",
+    "model_description": "Pro / Plus混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-104",
+    "supplier_name": "光速接口站",
+    "supplier_description": "多供应源接口枢纽，按实际额度安排调度。",
+    "channel_name": "K12Port",
+    "channel_nickname": "K12Port",
+    "channel_description": "接入顺畅，长期可用",
+    "model_description": "K12 + Team + Plus混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-105",
+    "supplier_name": "模型枢纽",
+    "supplier_description": "模型路由与中继服务，按实际额度安排调度。",
+    "channel_name": "TeamFlow",
+    "channel_nickname": "TeamFlow",
+    "channel_description": "并发平稳，响应连续",
+    "model_description": "Team号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-106",
+    "supplier_name": "智联API",
+    "supplier_description": "统一接口接入网关，按实际额度安排调度。",
+    "channel_name": "BugRoute",
+    "channel_nickname": "BugRoute",
+    "channel_description": "代码路由稳，延迟低",
+    "model_description": "bugteam自建池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-107",
+    "supplier_name": "远航网关",
+    "supplier_description": "多模型调用中心，按实际额度安排调度。",
+    "channel_name": "PlusDock",
+    "channel_nickname": "PlusDock",
+    "channel_description": "容量够用，价格稳定",
+    "model_description": "Plus主池，Pro备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-108",
+    "supplier_name": "节点中转站",
+    "supplier_description": "API 链路聚合服务，按实际额度安排调度。",
+    "channel_name": "SolNexus",
+    "channel_nickname": "SolNexus",
+    "channel_description": "峰值可用，维护持续",
+    "model_description": "K12 + Plus混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-109",
+    "supplier_name": "接口港",
+    "supplier_description": "模型接口交换站，按实际额度安排调度。",
+    "channel_name": "Quick5X",
+    "channel_nickname": "Quick5X",
+    "channel_description": "响应快速，日常稳定",
+    "model_description": "K12 + Plus混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-110",
+    "supplier_name": "模型驿站",
+    "supplier_description": "一站式 AI 网关，按实际额度安排调度。",
+    "channel_name": "OpenSOL",
+    "channel_nickname": "OpenSOL",
+    "channel_description": "开放时段稳定，容量充足",
+    "model_description": "Pro 20x自建池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-111",
+    "supplier_name": "云端桥",
+    "supplier_description": "多线路 API 中转平台，按实际额度安排调度。",
+    "channel_name": "Nova20X",
+    "channel_nickname": "Nova20X",
+    "channel_description": "满负载可用，响应稳定",
+    "model_description": "Pro / Plus混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-112",
+    "supplier_name": "极速API",
+    "supplier_description": "模型请求路由枢纽，按实际额度安排调度。",
+    "channel_name": "K12Wave",
+    "channel_nickname": "K12Wave",
+    "channel_description": "延迟平滑，长期稳定",
+    "model_description": "K12 + Team + Plus混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-113",
+    "supplier_name": "一站式模型",
+    "supplier_description": "通用 LLM 接入服务，按实际额度安排调度。",
+    "channel_name": "TeamGrid",
+    "channel_nickname": "TeamGrid",
+    "channel_description": "并发均匀，容量扎实",
+    "model_description": "Team号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-114",
+    "supplier_name": "百川网关",
+    "supplier_description": "多模型接口集散地，按实际额度安排调度。",
+    "channel_name": "ProRelay",
+    "channel_nickname": "ProRelay",
+    "channel_description": "中继响应快，峰值稳定",
+    "model_description": "纯Pro 20x号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-115",
+    "supplier_name": "灵犀接口",
+    "supplier_description": "开发者 API 通道，按实际额度安排调度。",
+    "channel_name": "BugLane",
+    "channel_nickname": "BugLane",
+    "channel_description": "代码线路稳，持续可用",
+    "model_description": "bugteam主池，Plus备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-116",
+    "supplier_name": "跃迁中转",
+    "supplier_description": "智能模型转接网关，按实际额度安排调度。",
+    "channel_name": "PlusNode",
+    "channel_nickname": "PlusNode",
+    "channel_description": "节点稳定，价格友好",
+    "model_description": "Plus主池，Team备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-117",
+    "supplier_name": "矩阵API",
+    "supplier_description": "统一 LLM 路由入口，按实际额度安排调度。",
+    "channel_name": "SOLMesh",
+    "channel_nickname": "SOLMesh",
+    "channel_description": "容量分散，响应稳定",
+    "model_description": "纯Plus号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-118",
+    "supplier_name": "银河模型站",
+    "supplier_description": "模型能力聚合接口，按实际额度安排调度。",
+    "channel_name": "FastK12",
+    "channel_nickname": "FastK12",
+    "channel_description": "轻量响应快，运行稳定",
+    "model_description": "K12 + Plus混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-119",
+    "supplier_name": "天际网关",
+    "supplier_description": "多源 API 调度中心，按实际额度安排调度。",
+    "channel_name": "TeamArc",
+    "channel_nickname": "TeamArc",
+    "channel_description": "峰值可用，延迟平稳",
+    "model_description": "Team + K12混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-120",
+    "supplier_name": "无界接口",
+    "supplier_description": "高速模型中继站，按实际额度安排调度。",
+    "channel_name": "ProMint",
+    "channel_nickname": "ProMint",
+    "channel_description": "高质量响应，长期稳定",
+    "model_description": "Pro 20x账号为主",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-121",
+    "supplier_name": "全域API",
+    "supplier_description": "云端 API 转运服务，按实际额度安排调度。",
+    "channel_name": "BugBase",
+    "channel_nickname": "BugBase",
+    "channel_description": "代码调用稳，容量够用",
+    "model_description": "bugteam号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-122",
+    "supplier_name": "链路中心",
+    "supplier_description": "通用模型连接网关，按实际额度安排调度。",
+    "channel_name": "PlusRun",
+    "channel_nickname": "PlusRun",
+    "channel_description": "长跑可用，维护及时",
+    "model_description": "纯Plus号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-123",
+    "supplier_name": "模型转运站",
+    "supplier_description": "开放模型接入枢纽，按实际额度安排调度。",
+    "channel_name": "SOLBox",
+    "channel_nickname": "SOLBox",
+    "channel_description": "响应扎实，缓存稳定",
+    "model_description": "Team号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-124",
+    "supplier_name": "智能路由站",
+    "supplier_description": "多路 API 交换服务，按实际额度安排调度。",
+    "channel_name": "K12Loop",
+    "channel_nickname": "K12Loop",
+    "channel_description": "轮换平顺，持续可用",
+    "model_description": "K12主池，Plus备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-125",
+    "supplier_name": "云帆API",
+    "supplier_description": "模型接口中转中心，按实际额度安排调度。",
+    "channel_name": "TeamRay",
+    "channel_nickname": "TeamRay",
+    "channel_description": "响应明快，并发稳定",
+    "model_description": "Team + Plus混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-126",
+    "supplier_name": "星门网关",
+    "supplier_description": "多模型 API 中转服务，保持独立线路与账号维护。",
+    "channel_name": "ProLink",
+    "channel_nickname": "ProLink",
+    "channel_description": "峰值链路稳，容量充裕",
+    "model_description": "Pro / Team混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-127",
+    "supplier_name": "光桥接口",
+    "supplier_description": "统一模型网关，保持独立线路与账号维护。",
+    "channel_name": "BugStack",
+    "channel_nickname": "BugStack",
+    "channel_description": "代码栈响应稳，长期可用",
+    "model_description": "bugteam + Plus混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-128",
+    "supplier_name": "中枢AI",
+    "supplier_description": "面向开发者的 API 转发站，保持独立线路与账号维护。",
+    "channel_name": "PlusGo",
+    "channel_nickname": "PlusGo",
+    "channel_description": "价格轻，响应稳定",
+    "model_description": "Plus + K12混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-129",
+    "supplier_name": "万联模型",
+    "supplier_description": "多供应源接口枢纽，保持独立线路与账号维护。",
+    "channel_name": "SolStream",
+    "channel_nickname": "SolStream",
+    "channel_description": "持续响应顺畅，运行稳定",
+    "model_description": "bugteam号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-130",
+    "supplier_name": "直达API",
+    "supplier_description": "模型路由与中继服务，保持独立线路与账号维护。",
+    "channel_name": "K12Gate",
+    "channel_nickname": "K12Gate",
+    "channel_description": "接入稳定，延迟可控",
+    "model_description": "K12账号为主",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-131",
+    "supplier_name": "快线网关",
+    "supplier_description": "统一接口接入网关，保持独立线路与账号维护。",
+    "channel_name": "云梯56",
+    "channel_nickname": "云梯56",
+    "channel_description": "高峰承载稳，响应及时",
+    "model_description": "Pro 20x号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-132",
+    "supplier_name": "迅捷中转",
+    "supplier_description": "多模型调用中心，保持独立线路与账号维护。",
+    "channel_name": "直连Pro",
+    "channel_nickname": "直连Pro",
+    "channel_description": "直连响应快，峰值可用",
+    "model_description": "Pro 20x主池，Team备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-133",
+    "supplier_name": "模型码头",
+    "supplier_description": "API 链路聚合服务，保持独立线路与账号维护。",
+    "channel_name": "K12云仓",
+    "channel_nickname": "K12云仓",
+    "channel_description": "容量有余，长期稳定",
+    "model_description": "K12 / Team混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-134",
+    "supplier_name": "接口集散地",
+    "supplier_description": "模型接口交换站，保持独立线路与账号维护。",
+    "channel_name": "Team中继",
+    "channel_nickname": "Team中继",
+    "channel_description": "并发稳定，转发顺畅",
+    "model_description": "Team / Pro混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-135",
+    "supplier_name": "多模态枢纽",
+    "supplier_description": "一站式 AI 网关，保持独立线路与账号维护。",
+    "channel_name": "Bug接口",
+    "channel_nickname": "Bug接口",
+    "channel_description": "代码接口稳，响应利落",
+    "model_description": "bugteam + Plus混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-136",
+    "supplier_name": "算力桥",
+    "supplier_description": "多线路 API 中转平台，保持独立线路与账号维护。",
+    "channel_name": "Plus节点",
+    "channel_nickname": "Plus节点",
+    "channel_description": "价格友好，节点可用",
+    "model_description": "Plus + K12混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-137",
+    "supplier_name": "神经中继",
+    "supplier_description": "模型请求路由枢纽，保持独立线路与账号维护。",
+    "channel_name": "SOL码头",
+    "channel_nickname": "SOL码头",
+    "channel_description": "容量补充快，响应稳定",
+    "model_description": "纯Pro 20x号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-138",
+    "supplier_name": "云路由",
+    "supplier_description": "通用 LLM 接入服务，保持独立线路与账号维护。",
+    "channel_name": "模型快跑",
+    "channel_nickname": "模型快跑",
+    "channel_description": "低延迟，日常稳定",
+    "model_description": "Plus / Pro混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-139",
+    "supplier_name": "模型交换站",
+    "supplier_description": "多模型接口集散地，保持独立线路与账号维护。",
+    "channel_name": "十点Pro",
+    "channel_nickname": "十点Pro",
+    "channel_description": "高峰表现稳，容量充足",
+    "model_description": "Pro 20x自建池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-140",
+    "supplier_name": "API快车",
+    "supplier_description": "开发者 API 通道，保持独立线路与账号维护。",
+    "channel_name": "零点Team",
+    "channel_nickname": "零点Team",
+    "channel_description": "夜间可用，响应稳定",
+    "model_description": "Team主池，Pro备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-141",
+    "supplier_name": "接口通",
+    "supplier_description": "智能模型转接网关，保持独立线路与账号维护。",
+    "channel_name": "K12北线",
+    "channel_nickname": "K12北线",
+    "channel_description": "线路稳定，延迟较低",
+    "model_description": "K12 / Team混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-142",
+    "supplier_name": "模型直连站",
+    "supplier_description": "统一 LLM 路由入口，保持独立线路与账号维护。",
+    "channel_name": "Bug南线",
+    "channel_nickname": "Bug南线",
+    "channel_description": "代码响应快，持续可用",
+    "model_description": "bugteam为主，K12备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-143",
+    "supplier_name": "云端中继",
+    "supplier_description": "模型能力聚合接口，保持独立线路与账号维护。",
+    "channel_name": "Plus东线",
+    "channel_nickname": "Plus东线",
+    "channel_description": "价格稳定，容量够用",
+    "model_description": "Plus + Team混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-144",
+    "supplier_name": "智算网关",
+    "supplier_description": "多源 API 调度中心，保持独立线路与账号维护。",
+    "channel_name": "SOL西线",
+    "channel_nickname": "SOL西线",
+    "channel_description": "响应平稳，维护持续",
+    "model_description": "Team / Pro混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-145",
+    "supplier_name": "高速模型站",
+    "supplier_description": "高速模型中继站，保持独立线路与账号维护。",
+    "channel_name": "Pro中线",
+    "channel_nickname": "Pro中线",
+    "channel_description": "峰值稳定，链路可用",
+    "model_description": "Pro 20x号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-146",
+    "supplier_name": "全能接口",
+    "supplier_description": "云端 API 转运服务，保持独立线路与账号维护。",
+    "channel_name": "备用Team",
+    "channel_nickname": "备用Team",
+    "channel_description": "备用容量足，响应及时",
+    "model_description": "Team自建池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-147",
+    "supplier_name": "连接者API",
+    "supplier_description": "通用模型连接网关，保持独立线路与账号维护。",
+    "channel_name": "K12清流",
+    "channel_nickname": "K12清流",
+    "channel_description": "响应清爽，运行稳定",
+    "model_description": "K12主池，Team备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-148",
+    "supplier_name": "模型汇",
+    "supplier_description": "开放模型接入枢纽，保持独立线路与账号维护。",
+    "channel_name": "Bug热路",
+    "channel_nickname": "Bug热路",
+    "channel_description": "高峰代码响应稳，并发够用",
+    "model_description": "bugteam / Plus混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-149",
+    "supplier_name": "云接口仓",
+    "supplier_description": "多路 API 交换服务，保持独立线路与账号维护。",
+    "channel_name": "Plus冷路",
+    "channel_nickname": "Plus冷路",
+    "channel_description": "低负载延迟小，长期可用",
+    "model_description": "Plus为主，K12备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-150",
+    "supplier_name": "转接点AI",
+    "supplier_description": "模型接口中转中心，保持独立线路与账号维护。",
+    "channel_name": "SOL回程",
+    "channel_nickname": "SOL回程",
+    "channel_description": "回程稳定，响应连续",
+    "model_description": "Team + Plus混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-151",
+    "supplier_name": "北极星API",
+    "supplier_description": "多模型 API 中转服务，用于日常模型请求。",
+    "channel_name": "晨间Pro",
+    "channel_nickname": "晨间Pro",
+    "channel_description": "晨间容量足，峰值稳定",
+    "model_description": "Pro / Plus混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-152",
+    "supplier_name": "灯塔网关",
+    "supplier_description": "统一模型网关，用于日常模型请求。",
+    "channel_name": "午后Team",
+    "channel_nickname": "午后Team",
+    "channel_description": "午后响应稳，并发平滑",
+    "model_description": "Team为主，bugteam备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-153",
+    "supplier_name": "经纬中转",
+    "supplier_description": "面向开发者的 API 转发站，用于日常模型请求。",
+    "channel_name": "夜航K12",
+    "channel_nickname": "夜航K12",
+    "channel_description": "夜间延迟低，持续可用",
+    "model_description": "K12号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-154",
+    "supplier_name": "脉冲接口",
+    "supplier_description": "多供应源接口枢纽，用于日常模型请求。",
+    "channel_name": "Bug全天",
+    "channel_nickname": "Bug全天",
+    "channel_description": "全天代码响应稳，容量充足",
+    "model_description": "bugteam自建池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-155",
+    "supplier_name": "向量模型站",
+    "supplier_description": "模型路由与中继服务，用于日常模型请求。",
+    "channel_name": "Plus周末",
+    "channel_nickname": "Plus周末",
+    "channel_description": "周末稳定，价格友好",
+    "model_description": "Plus主池，Pro备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-156",
+    "supplier_name": "量子网关",
+    "supplier_description": "统一接口接入网关，用于日常模型请求。",
+    "channel_name": "SOL工作日",
+    "channel_nickname": "SOL工作日",
+    "channel_description": "工作时段可用，响应稳定",
+    "model_description": "K12 + Plus混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-157",
+    "supplier_name": "极光API",
+    "supplier_description": "多模型调用中心，用于日常模型请求。",
+    "channel_name": "Pro低频",
+    "channel_nickname": "Pro低频",
+    "channel_description": "低频请求稳定，维护精细",
+    "model_description": "Pro 20x主池，Plus备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-158",
+    "supplier_name": "深空中继",
+    "supplier_description": "API 链路聚合服务，用于日常模型请求。",
+    "channel_name": "Team高频",
+    "channel_nickname": "Team高频",
+    "channel_description": "高频响应稳，并发有余",
+    "model_description": "Team / Pro混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-159",
+    "supplier_name": "轨道接口",
+    "supplier_description": "模型接口交换站，用于日常模型请求。",
+    "channel_name": "K12缓跑",
+    "channel_nickname": "K12缓跑",
+    "channel_description": "延迟平稳，长跑可用",
+    "model_description": "K12为主，bugteam备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-160",
+    "supplier_name": "棱镜模型",
+    "supplier_description": "一站式 AI 网关，用于日常模型请求。",
+    "channel_name": "Bug急送",
+    "channel_nickname": "Bug急送",
+    "channel_description": "代码响应快，高峰稳定",
+    "model_description": "bugteam主池，Team兜底",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-161",
+    "supplier_name": "回声网关",
+    "supplier_description": "多线路 API 中转平台，用于日常模型请求。",
+    "channel_name": "返航线",
+    "channel_nickname": "返航线",
+    "channel_description": "长时稳定，回切响应快",
+    "model_description": "bugteam号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-162",
+    "supplier_name": "风速API",
+    "supplier_description": "模型请求路由枢纽，用于日常模型请求。",
+    "channel_name": "代码通",
+    "channel_nickname": "代码通",
+    "channel_description": "代码场景可用，并发稳定",
+    "model_description": "Plus主池，Pro备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-163",
+    "supplier_name": "闪电中转",
+    "supplier_description": "通用 LLM 接入服务，用于日常模型请求。",
+    "channel_name": "云上快跑",
+    "channel_nickname": "云上快跑",
+    "channel_description": "云端响应快，运行稳定",
+    "model_description": "Pro 20x号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-164",
+    "supplier_name": "跃动接口",
+    "supplier_description": "多模型接口集散地，用于日常模型请求。",
+    "channel_name": "二号缓存",
+    "channel_nickname": "二号缓存",
+    "channel_description": "缓存稳定，延迟可控",
+    "model_description": "K12 / Team混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-165",
+    "supplier_name": "飞梭网关",
+    "supplier_description": "开发者 API 通道，用于日常模型请求。",
+    "channel_name": "七分满",
+    "channel_nickname": "七分满",
+    "channel_description": "容量留有余量，响应稳定",
+    "model_description": "纯Plus号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-166",
+    "supplier_name": "跨界API",
+    "supplier_description": "智能模型转接网关，用于日常模型请求。",
+    "channel_name": "一路向北",
+    "channel_nickname": "一路向北",
+    "channel_description": "线路长期可用，维护稳定",
+    "model_description": "Team + Plus混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-167",
+    "supplier_name": "连云中继",
+    "supplier_description": "统一 LLM 路由入口，用于日常模型请求。",
+    "channel_name": "省钱快线",
+    "channel_nickname": "省钱快线",
+    "channel_description": "价格友好，低延迟",
+    "model_description": "bugteam自建池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-168",
+    "supplier_name": "万维接口",
+    "supplier_description": "模型能力聚合接口，用于日常模型请求。",
+    "channel_name": "满格线路",
+    "channel_nickname": "满格线路",
+    "channel_description": "容量充足，高峰稳定",
+    "model_description": "K12账号为主",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-169",
+    "supplier_name": "通途模型站",
+    "supplier_description": "多源 API 调度中心，用于日常模型请求。",
+    "channel_name": "轻量直达",
+    "channel_nickname": "轻量直达",
+    "channel_description": "轻量请求响应快，持续可用",
+    "model_description": "纯Pro 20x号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-170",
+    "supplier_name": "聚合网关",
+    "supplier_description": "高速模型中继站，用于日常模型请求。",
+    "channel_name": "模型班车",
+    "channel_nickname": "模型班车",
+    "channel_description": "班次稳定，响应准时",
+    "model_description": "Plus / Pro混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-171",
+    "supplier_name": "RelayCN",
+    "supplier_description": "云端 API 转运服务，用于日常模型请求。",
+    "channel_name": "快速响应",
+    "channel_nickname": "快速响应",
+    "channel_description": "延迟低，日常可用",
+    "model_description": "Team号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-172",
+    "supplier_name": "ModelGo",
+    "supplier_description": "通用模型连接网关，用于日常模型请求。",
+    "channel_name": "高峰备用",
+    "channel_nickname": "高峰备用",
+    "channel_description": "峰值容量足，备用稳定",
+    "model_description": "K12 + Plus混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-173",
+    "supplier_name": "APINow",
+    "supplier_description": "开放模型接入枢纽，用于日常模型请求。",
+    "channel_name": "日常主力",
+    "channel_nickname": "日常主力",
+    "channel_description": "长期稳定，响应不拖",
+    "model_description": "bugteam / Plus混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-174",
+    "supplier_name": "FastModel",
+    "supplier_description": "多路 API 交换服务，用于日常模型请求。",
+    "channel_name": "深夜专线",
+    "channel_nickname": "深夜专线",
+    "channel_description": "深夜可用，延迟平稳",
+    "model_description": "Pro 20x自建池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-175",
+    "supplier_name": "GoGateway",
+    "supplier_description": "模型接口中转中心，用于日常模型请求。",
+    "channel_name": "早高峰",
+    "channel_nickname": "早高峰",
+    "channel_description": "高峰响应稳，并发充足",
+    "model_description": "Pro 20x号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-176",
+    "supplier_name": "OneAPIHub",
+    "supplier_description": "多模型 API 中转服务，持续记录可用性变化。",
+    "channel_name": "路由零号",
+    "channel_nickname": "路由零号",
+    "channel_description": "路由稳定，切换响应快",
+    "model_description": "Team / Pro混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-177",
+    "supplier_name": "NextRelay",
+    "supplier_description": "统一模型网关，持续记录可用性变化。",
+    "channel_name": "接口二队",
+    "channel_nickname": "接口二队",
+    "channel_description": "接入可用，容量灵活",
+    "model_description": "bugteam号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-178",
+    "supplier_name": "EasyGateway",
+    "supplier_description": "面向开发者的 API 转发站，持续记录可用性变化。",
+    "channel_name": "并发小组",
+    "channel_nickname": "并发小组",
+    "channel_description": "并发扎实，运行稳定",
+    "model_description": "Plus主池，Pro备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-179",
+    "supplier_name": "QuickAPIHub",
+    "supplier_description": "多供应源接口枢纽，持续记录可用性变化。",
+    "channel_name": "缓存优先",
+    "channel_nickname": "缓存优先",
+    "channel_description": "缓存命中稳，响应快速",
+    "model_description": "Pro 20x号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-180",
+    "supplier_name": "ModelPass",
+    "supplier_description": "模型路由与中继服务，持续记录可用性变化。",
+    "channel_name": "长跑通道",
+    "channel_nickname": "长跑通道",
+    "channel_description": "长时可用，维护持续",
+    "model_description": "K12 / Team混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-181",
+    "supplier_name": "APIUnion",
+    "supplier_description": "统一接口接入网关，持续记录可用性变化。",
+    "channel_name": "ByteSOL",
+    "channel_nickname": "ByteSOL",
+    "channel_description": "代码响应稳，延迟低",
+    "model_description": "纯Plus号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-182",
+    "supplier_name": "RelayCloud",
+    "supplier_description": "多模型调用中心，持续记录可用性变化。",
+    "channel_name": "Spark56",
+    "channel_nickname": "Spark56",
+    "channel_description": "响应灵敏，日常稳定",
+    "model_description": "Team + Plus混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-183",
+    "supplier_name": "HubMatrix",
+    "supplier_description": "API 链路聚合服务，持续记录可用性变化。",
+    "channel_name": "CoreK12",
+    "channel_nickname": "CoreK12",
+    "channel_description": "核心线路稳，容量够用",
+    "model_description": "K12为主，bugteam备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-184",
+    "supplier_name": "GateFlowAPI",
+    "supplier_description": "模型接口交换站，持续记录可用性变化。",
+    "channel_name": "TeamPort",
+    "channel_nickname": "TeamPort",
+    "channel_description": "并发稳定，接入顺畅",
+    "model_description": "Team为主，bugteam备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-185",
+    "supplier_name": "ModelXpress",
+    "supplier_description": "一站式 AI 网关，持续记录可用性变化。",
+    "channel_name": "bugPilot",
+    "channel_nickname": "bugPilot",
+    "channel_description": "代码任务可用，响应快",
+    "model_description": "bugteam号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-186",
+    "supplier_name": "LLMPort",
+    "supplier_description": "多线路 API 中转平台，持续记录可用性变化。",
+    "channel_name": "PlusLine",
+    "channel_nickname": "PlusLine",
+    "channel_description": "价格稳定，长期维护",
+    "model_description": "纯Plus号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-187",
+    "supplier_name": "AITransit",
+    "supplier_description": "模型请求路由枢纽，持续记录可用性变化。",
+    "channel_name": "SolRapid",
+    "channel_nickname": "SolRapid",
+    "channel_description": "高峰响应快，运行稳定",
+    "model_description": "Team号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-188",
+    "supplier_name": "PromptBridge",
+    "supplier_description": "通用 LLM 接入服务，持续记录可用性变化。",
+    "channel_name": "Orbit20X",
+    "channel_nickname": "Orbit20X",
+    "channel_description": "峰值容量足，持续可用",
+    "model_description": "Pro 20x主池，Team备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-189",
+    "supplier_name": "TokenHub",
+    "supplier_description": "多模型接口集散地，持续记录可用性变化。",
+    "channel_name": "K12Prime",
+    "channel_nickname": "K12Prime",
+    "channel_description": "低延迟，质量稳定",
+    "model_description": "K12 / Team混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-190",
+    "supplier_name": "RouteCloud",
+    "supplier_description": "开发者 API 通道，持续记录可用性变化。",
+    "channel_name": "TeamLite",
+    "channel_nickname": "TeamLite",
+    "channel_description": "轻量并发稳，响应及时",
+    "model_description": "Team / Pro混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-191",
+    "supplier_name": "APIJet",
+    "supplier_description": "智能模型转接网关，持续记录可用性变化。",
+    "channel_name": "BugTurbo",
+    "channel_nickname": "BugTurbo",
+    "channel_description": "代码响应快，峰值稳定",
+    "model_description": "bugteam + Plus混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-192",
+    "supplier_name": "ModelLinker",
+    "supplier_description": "统一 LLM 路由入口，持续记录可用性变化。",
+    "channel_name": "PlusBeam",
+    "channel_nickname": "PlusBeam",
+    "channel_description": "线路响应直，长期可用",
+    "model_description": "Plus + K12混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-193",
+    "supplier_name": "NexusFlowAPI",
+    "supplier_description": "模型能力聚合接口，持续记录可用性变化。",
+    "channel_name": "SOLZero",
+    "channel_nickname": "SOLZero",
+    "channel_description": "运行稳定，切换利落",
+    "model_description": "bugteam号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-194",
+    "supplier_name": "OmniGateway",
+    "supplier_description": "多源 API 调度中心，持续记录可用性变化。",
+    "channel_name": "ProDelta",
+    "channel_nickname": "ProDelta",
+    "channel_description": "峰值差异小，响应稳定",
+    "model_description": "纯Pro 20x号池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-195",
+    "supplier_name": "SwiftRelay",
+    "supplier_description": "高速模型中继站，持续记录可用性变化。",
+    "channel_name": "K12Edge",
+    "channel_nickname": "K12Edge",
+    "channel_description": "边缘线路可用，延迟低",
+    "model_description": "K12主池，Team备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-196",
+    "supplier_name": "CloudPassAPI",
+    "supplier_description": "云端 API 转运服务，持续记录可用性变化。",
+    "channel_name": "TeamVault",
+    "channel_nickname": "TeamVault",
+    "channel_description": "储备容量足，运行稳定",
+    "model_description": "Team主池，Pro备用",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-197",
+    "supplier_name": "DirectAPI",
+    "supplier_description": "通用模型连接网关，持续记录可用性变化。",
+    "channel_name": "BugSwitch",
+    "channel_nickname": "BugSwitch",
+    "channel_description": "代码池切换快，响应稳定",
+    "model_description": "bugteam / Team混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-198",
+    "supplier_name": "MeshGateway",
+    "supplier_description": "开放模型接入枢纽，持续记录可用性变化。",
+    "channel_name": "PlusAxis",
+    "channel_nickname": "PlusAxis",
+    "channel_description": "价格平稳，容量充裕",
+    "model_description": "Plus / Pro混合池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-199",
+    "supplier_name": "ModelRoute",
+    "supplier_description": "多路 API 交换服务，持续记录可用性变化。",
+    "channel_name": "SOLDirect",
+    "channel_nickname": "SOLDirect",
+    "channel_description": "直连响应快，长期稳定",
+    "model_description": "bugteam自建池",
+    "channel_type": 1
+  },
+  {
+    "template_id": "merchant-200",
+    "supplier_name": "AnyModel",
+    "supplier_description": "模型接口中转中心，持续记录可用性变化。",
+    "channel_name": "Ready56",
+    "channel_nickname": "Ready56",
+    "channel_description": "随时可用，响应稳定",
+    "model_description": "K12账号为主",
+    "channel_type": 1
+  }
+]

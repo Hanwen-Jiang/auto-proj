@@ -1,0 +1,13 @@
+[Unit]
+Description=Resume the focus registration batch while it remains incomplete
+
+[Timer]
+OnBootSec=3min
+OnUnitInactiveSec=10min
+AccuracySec=15s
+RandomizedDelaySec=30s
+Persistent=true
+Unit=a6-trader-focus-register-10.service
+
+[Install]
+WantedBy=timers.target

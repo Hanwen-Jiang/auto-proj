@@ -1,0 +1,15 @@
+DO $$
+BEGIN
+    IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'a6trader') THEN
+        GRANT USAGE ON SCHEMA a6_trade TO a6trader;
+        GRANT SELECT, INSERT, UPDATE, DELETE
+            ON ALL TABLES IN SCHEMA a6_trade TO a6trader;
+        GRANT USAGE, SELECT, UPDATE
+            ON ALL SEQUENCES IN SCHEMA a6_trade TO a6trader;
+        ALTER DEFAULT PRIVILEGES IN SCHEMA a6_trade
+            GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO a6trader;
+        ALTER DEFAULT PRIVILEGES IN SCHEMA a6_trade
+            GRANT USAGE, SELECT, UPDATE ON SEQUENCES TO a6trader;
+    END IF;
+END
+$$;

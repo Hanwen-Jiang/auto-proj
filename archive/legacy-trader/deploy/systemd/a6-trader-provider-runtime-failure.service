@@ -1,0 +1,26 @@
+[Unit]
+Description=Bridge live Sub2API failures into A6 Provider control
+After=network-online.target postgresql.service redis-server.service
+Wants=network-online.target
+PartOf=a6-trader-control.target
+
+[Service]
+Type=simple
+User=a6trader
+Group=a6trader
+EnvironmentFile=/etc/a6-trader.env
+ExecStart=/opt/a6-trader/current/venv/bin/python /opt/a6-trader/current/scripts/consume_a6_provider_runtime_failures.py --model gpt-5.6-sol --poll-seconds 15 --drain-limit 100
+Restart=always
+RestartSec=2s
+TimeoutStopSec=15s
+RuntimeDirectory=a6-trader
+RuntimeDirectoryMode=0750
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/run/a6-trader
+UMask=0077
+
+[Install]
+WantedBy=a6-trader-control.target

@@ -1,0 +1,12 @@
+[Unit]
+Description=Reconcile A6 treasury wallet accounts every 30 minutes
+
+[Timer]
+OnBootSec=1min
+OnUnitInactiveSec=30min
+AccuracySec=5s
+RandomizedDelaySec=0
+Unit=a6-trader-cashout-accounts.service
+
+[Install]
+WantedBy=timers.target

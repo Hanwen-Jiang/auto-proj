@@ -1,0 +1,20 @@
+[Unit]
+Description=Advance planned A6 Seller retirement and safe archive
+After=network-online.target postgresql.service sub2api-singbox-proxy-pool.service
+Wants=network-online.target
+Requires=sub2api-singbox-proxy-pool.service
+
+[Service]
+Type=oneshot
+User=a6trader
+Group=a6trader
+EnvironmentFile=/etc/a6-trader.env
+ExecCondition=/opt/a6-trader/current/venv/bin/python /opt/a6-trader/current/scripts/manage_a6_seller_control_gates.py check retirement --expected-owner root --expected-group a6trader
+ExecStart=/usr/bin/flock --exclusive /var/lib/a6-trader/seller-control.lock /opt/a6-trader/current/venv/bin/a6api-auto trade-retire-sellers-once --all-planned --proxy-map-file /var/lib/a6-trader/secrets/proxy-map.json --enodot-admin-key-file /var/lib/a6-trader/secrets/enodot-admin-key.secret --group-id 26 --model gpt-5.6-sol --min-observers 2 --snapshot-max-age-seconds 600 --systemd-accept-partial-result --compact-output --apply
+TimeoutStartSec=5min
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/a6-trader
+UMask=0077

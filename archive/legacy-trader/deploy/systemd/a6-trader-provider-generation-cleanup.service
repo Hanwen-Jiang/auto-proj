@@ -1,0 +1,17 @@
+[Unit]
+Description=Archive expired superseded A6 Provider generation pairs
+After=network-online.target postgresql.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=a6trader
+Group=a6trader
+EnvironmentFile=/etc/a6-trader.env
+ExecStart=/opt/a6-trader/current/venv/bin/python /opt/a6-trader/current/scripts/cleanup_a6_provider_generations.py --model gpt-5.6-sol --retention-days 180 --batch-size 100 --apply
+TimeoutStartSec=2min
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+UMask=0077

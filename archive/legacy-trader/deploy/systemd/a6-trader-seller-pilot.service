@@ -1,0 +1,22 @@
+[Unit]
+Description=A6 Trader all-default-channel dynamic price-band reconciliation
+After=network-online.target postgresql.service sub2api-singbox-proxy-pool.service
+Wants=network-online.target
+Requires=sub2api-singbox-proxy-pool.service
+OnSuccess=a6-trader-seller-channel-onboard.service
+
+[Service]
+Type=oneshot
+User=a6trader
+Group=a6trader
+EnvironmentFile=/etc/a6-trader.env
+ExecCondition=/opt/a6-trader/current/venv/bin/python /opt/a6-trader/current/scripts/manage_a6_seller_control_gates.py check seller-pilot --expected-owner root --expected-group a6trader
+ExecStart=/usr/bin/flock --exclusive --nonblock --conflict-exit-code 75 /var/lib/a6-trader/seller-control.lock /opt/a6-trader/current/venv/bin/python -m a6api_auto.cli trade-apply-seller-price-band --eligible-sellers --bound-sellers-only --group-id 26 --model gpt-5.6-sol --margin 0.60 --conversion-factor 0.833333333333 --price-headroom 0 --maximum-price-multiplier 0.64 --maximum-final-multiplier 0.64 --maximum-band-utilization 0.75 --quote-max-age-seconds 300 --usage-window-seconds 3600 --market-density-buckets 8 --market-density-coverage-ratio 0.20 --market-density-min-channels 2 --proxy-map-file /var/lib/a6-trader/secrets/proxy-map.json --seller-key-dir /var/lib/a6-trader/secrets/enodot-seller-keys --channel-map-file /var/lib/a6-trader/secrets/default-channel-map.json --listing-description-map-file /var/lib/a6-trader/secrets/listing-descriptions.json --enodot-admin-key-file /var/lib/a6-trader/secrets/enodot-admin-key.secret --config-version phase3-all-default-listings-v17-runtime-profit --rollout-batch-limit 100 --rollout-confirmation CONFIRM_CORRELATED_ACCOUNT_BATCH_RISK --max-workers 16 --remote-request-timeout-seconds 5 --round-time-budget-seconds 90 --stale-claim-seconds 300 --systemd-accept-partial-result --compact-output --apply
+SuccessExitStatus=75
+TimeoutStartSec=120s
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/a6-trader
+UMask=0077

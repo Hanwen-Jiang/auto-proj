@@ -1,0 +1,13 @@
+[Unit]
+Description=Check A6 merchant recovery every minute
+
+[Timer]
+OnBootSec=90s
+OnUnitInactiveSec=60s
+AccuracySec=1s
+RandomizedDelaySec=0
+Persistent=true
+Unit=a6-trader-merchant-recovery.service
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,22 @@
+[Unit]
+Description=Discover and cost owned weekly accounts for Priority 1 routing
+After=network-online.target postgresql.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=a6trader
+Group=a6trader
+EnvironmentFile=/etc/a6-trader.env
+ExecStart=/usr/bin/flock --exclusive --nonblock --conflict-exit-code 75 /var/lib/a6-trader/economic-account-sync.lock /opt/a6-trader/current/venv/bin/python /opt/a6-trader/current/scripts/sync_a6_economic_accounts.py
+SuccessExitStatus=75
+TimeoutStartSec=25s
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/a6-trader
+UMask=0077
+
+[Install]
+WantedBy=a6-trader-control.target

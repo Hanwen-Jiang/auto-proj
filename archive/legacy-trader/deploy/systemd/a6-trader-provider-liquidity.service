@@ -1,0 +1,25 @@
+[Unit]
+Description=Reconcile A6 Provider liquidity, top-up, and hard-line drains
+After=network-online.target postgresql.service sub2api-singbox-proxy-pool.service
+Wants=network-online.target
+Requires=sub2api-singbox-proxy-pool.service
+OnSuccess=a6-trader-observer.service
+PartOf=a6-trader-control.target
+
+[Service]
+Type=oneshot
+User=a6trader
+Group=a6trader
+EnvironmentFile=/etc/a6-trader.env
+# Both the environment gate and the exact confirmation are required before this
+# worker reads Provider sessions or performs any remote write.
+ExecCondition=/bin/sh -c 'test "$PROVIDER_LIQUIDITY_RECONCILE_ENABLED" = "true"'
+ExecStart=/usr/bin/flock --exclusive --nonblock --conflict-exit-code 75 /var/lib/a6-trader/provider-control.lock /opt/a6-trader/current/venv/bin/python /opt/a6-trader/current/scripts/reconcile_a6_provider_liquidity.py --model gpt-5.6-sol --max-providers 100 --proxy-map-file /var/lib/a6-trader/secrets/proxy-map.json --enodot-admin-key-file /var/lib/a6-trader/secrets/enodot-admin-key.secret --apply --apply-confirmation a6-provider-liquidity-v1 --compact-output
+SuccessExitStatus=75
+TimeoutStartSec=5min
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/a6-trader
+UMask=0077

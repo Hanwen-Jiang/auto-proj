@@ -1,0 +1,23 @@
+[Unit]
+Description=Archive and prune expired A6 market scan and quote history
+After=network-online.target postgresql.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=a6trader
+Group=a6trader
+EnvironmentFile=/etc/a6-trader.env
+EnvironmentFile=/etc/a6-market-archive.env
+ExecStartPre=+/usr/bin/install -d -o a6trader -g a6trader -m 0700 /www/a6-market-archive-staging
+ExecStart=/opt/a6-trader/current/venv/bin/python /opt/a6-trader/current/scripts/cleanup_a6_market_history.py --retention-hours 72 --batch-size 500 --max-batches 4 --staging-directory /www/a6-market-archive-staging --apply
+TimeoutStartSec=15min
+Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/www/a6-market-archive-staging
+UMask=0077

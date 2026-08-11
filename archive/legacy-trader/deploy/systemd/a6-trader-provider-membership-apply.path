@@ -1,0 +1,10 @@
+[Unit]
+Description=Wake Provider membership apply after a durable vacancy request
+PartOf=a6-trader-control.target
+
+[Path]
+PathChanged=/run/a6-trader/provider-membership-apply-request
+Unit=a6-trader-provider-pool-apply.service
+
+[Install]
+WantedBy=multi-user.target

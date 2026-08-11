@@ -1,0 +1,20 @@
+[Unit]
+Description=Reconcile in-flight A6 treasury cashout intents
+After=network-online.target postgresql.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=a6trader
+Group=a6trader
+EnvironmentFile=/etc/a6-trader.env
+ExecCondition=/bin/sh -c 'test "$TREASURY_CASHOUT_ENABLED" = "true"'
+ExecStart=/usr/bin/flock --exclusive --nonblock --conflict-exit-code 75 /var/lib/a6-trader/treasury-cashout.lock /opt/a6-trader/current/venv/bin/python /opt/a6-trader/current/scripts/reconcile_a6_cashout.py --stage reconcile --reconcile-limit 100 --reconcile-lease-seconds 30 --reconcile-retry-seconds 30 --client-timeout-seconds 10 --compact-output
+SuccessExitStatus=75
+TimeoutStartSec=90s
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/a6-trader
+UMask=0077

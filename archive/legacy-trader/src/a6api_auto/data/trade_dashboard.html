@@ -1,0 +1,4621 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A6 商户总览</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f4f6f7;
+      --surface: #ffffff;
+      --surface-muted: #f8f9fa;
+      --ink: #1c2228;
+      --muted: #65717c;
+      --line: #d9dfe4;
+      --line-strong: #bdc7cf;
+      --blue: #255f96;
+      --blue-soft: #e9f1f8;
+      --green: #14764a;
+      --green-soft: #e8f5ed;
+      --amber: #936200;
+      --amber-soft: #fff4d7;
+      --red: #b42318;
+      --red-soft: #fdecea;
+      --shadow: 0 1px 2px rgb(16 24 40 / 5%);
+    }
+
+    * {
+      box-sizing: border-box;
+      letter-spacing: 0;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    html {
+      background: var(--bg);
+    }
+
+    body {
+      min-width: 320px;
+      margin: 0;
+      color: var(--ink);
+      background: var(--bg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      color: inherit;
+      font: inherit;
+    }
+
+    button,
+    select {
+      cursor: pointer;
+    }
+
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 2px;
+    }
+
+    .shell {
+      width: min(100%, 1760px);
+      margin: 0 auto;
+      padding: 0 24px 32px;
+    }
+
+    .topbar {
+      display: flex;
+      min-height: 82px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 750;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 21px;
+      font-weight: 700;
+    }
+
+    h2 {
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .top-actions,
+    .collector-state,
+    .section-title,
+    .filters,
+    .filter,
+    .data-time {
+      display: flex;
+      align-items: center;
+    }
+
+    .top-actions {
+      gap: 12px;
+    }
+
+    .collector-state {
+      gap: 7px;
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .state-dot {
+      width: 8px;
+      height: 8px;
+      flex: 0 0 8px;
+      border-radius: 50%;
+      background: var(--line-strong);
+    }
+
+    .state-dot.fresh {
+      background: var(--green);
+    }
+
+    .state-dot.delayed,
+    .state-dot.stale,
+    .state-dot.degraded {
+      background: var(--amber);
+    }
+
+    .state-dot.error,
+    .state-dot.unavailable {
+      background: var(--red);
+    }
+
+    .command {
+      min-height: 34px;
+      padding: 0 13px;
+      border: 1px solid var(--line-strong);
+      border-radius: 6px;
+      background: var(--surface);
+      font-weight: 650;
+    }
+
+    .command:hover {
+      border-color: #93a1ad;
+      background: var(--surface-muted);
+    }
+
+    .command:disabled {
+      cursor: wait;
+      opacity: 0.6;
+    }
+
+    .command.primary-command {
+      border-color: var(--blue);
+      color: #fff;
+      background: var(--blue);
+    }
+
+    .command.primary-command:hover {
+      border-color: #194f7d;
+      background: #194f7d;
+    }
+
+    .control-band {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      min-height: 62px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .segmented {
+      display: inline-grid;
+      grid-template-columns: repeat(9, minmax(44px, auto));
+      overflow: hidden;
+      border: 1px solid var(--line-strong);
+      border-radius: 6px;
+      background: var(--surface);
+    }
+
+    .segmented button {
+      min-width: 44px;
+      min-height: 32px;
+      padding: 0 10px;
+      border: 0;
+      border-right: 1px solid var(--line);
+      background: transparent;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
+    .segmented button:last-child {
+      border-right: 0;
+    }
+
+    .segmented button:hover {
+      color: var(--ink);
+      background: var(--surface-muted);
+    }
+
+    .segmented button[aria-pressed="true"] {
+      color: #ffffff;
+      background: var(--blue);
+    }
+
+    .data-time {
+      gap: 7px;
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .alert-band {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin: 16px 0 0;
+      padding: 10px 12px;
+      border: 1px solid #efb5af;
+      border-radius: 6px;
+      color: #7b1c16;
+      background: var(--red-soft);
+      font-size: 13px;
+    }
+
+    .alert-band[hidden] {
+      display: none;
+    }
+
+    .section {
+      padding-top: 22px;
+    }
+
+    .section-title {
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    .section-count {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(195px, 1fr));
+      gap: 10px;
+    }
+
+    .metric {
+      min-width: 0;
+      min-height: 106px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .metric-name {
+      overflow: hidden;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .metric-value {
+      overflow-wrap: anywhere;
+      margin-top: 10px;
+      font-size: 22px;
+      font-variant-numeric: tabular-nums;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+
+    .metric-meta {
+      min-height: 18px;
+      margin-top: 9px;
+      color: var(--muted);
+      font-size: 11px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .metric-value.positive,
+    .positive {
+      color: var(--red);
+    }
+
+    .metric-value.negative,
+    .negative {
+      color: var(--green);
+    }
+
+    .traffic-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .traffic-model-select {
+      height: 30px;
+      min-width: 146px;
+      padding: 0 28px 0 9px;
+      border: 1px solid var(--line-strong);
+      border-radius: 6px;
+      background: var(--surface);
+      font-size: 11px;
+      font-weight: 650;
+    }
+
+    .traffic-segmented {
+      display: inline-grid;
+      grid-template-columns: repeat(3, minmax(52px, auto));
+      overflow: hidden;
+      border: 1px solid var(--line-strong);
+      border-radius: 6px;
+      background: var(--surface);
+    }
+
+    .traffic-segmented button {
+      min-height: 30px;
+      padding: 0 10px;
+      border: 0;
+      border-right: 1px solid var(--line);
+      color: var(--muted);
+      background: transparent;
+      font-size: 11px;
+      font-weight: 650;
+    }
+
+    .traffic-segmented button:last-child {
+      border-right: 0;
+    }
+
+    .traffic-segmented button[aria-pressed="true"] {
+      color: #fff;
+      background: var(--blue);
+    }
+
+    .traffic-summary {
+      display: flex;
+      min-height: 42px;
+      align-items: center;
+      gap: 22px;
+      padding: 0 2px 10px;
+      color: var(--muted);
+      font-size: 11px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .traffic-summary strong {
+      color: var(--ink);
+      font-size: 13px;
+    }
+
+    .provider-summary {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .provider-heading-line {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .provider-mode {
+      color: #8a5300;
+      font-size: 10px;
+      font-weight: 750;
+    }
+
+    .provider-mode[hidden] {
+      display: none;
+    }
+
+    .provider-stat {
+      min-width: 0;
+      padding: 12px 14px;
+      border-right: 1px solid var(--line);
+    }
+
+    .provider-stat:last-child {
+      border-right: 0;
+    }
+
+    .provider-stat-label {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 650;
+    }
+
+    .provider-stat-value {
+      overflow-wrap: anywhere;
+      margin-top: 5px;
+      font-size: 14px;
+      font-variant-numeric: tabular-nums;
+      font-weight: 720;
+    }
+
+    .provider-stat-value[data-state="healthy"] {
+      color: var(--green);
+    }
+
+    .provider-stat-value[data-state="degraded"],
+    .provider-stat-value[data-state="repairing"],
+    .provider-stat-value[data-state="planned"] {
+      color: #8a5300;
+    }
+
+    .provider-stat-value[data-state="unpublished"],
+    .provider-stat-value[data-state="failed"],
+    .provider-stat-value[data-state="mismatch"] {
+      color: var(--red);
+    }
+
+    .economic-profit-form {
+      display: flex;
+      min-height: 36px;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .economic-controls {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .economic-profit-field {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
+    .economic-profit-input-wrap {
+      display: inline-flex;
+      height: 32px;
+      align-items: center;
+      border: 1px solid var(--line-strong);
+      border-radius: 4px;
+      color: var(--ink);
+      background: var(--surface);
+    }
+
+    .economic-profit-input-wrap:focus-within {
+      border-color: var(--blue);
+    }
+
+    .economic-profit-input {
+      width: 76px;
+      height: 30px;
+      padding: 0 5px 0 8px;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      font-variant-numeric: tabular-nums;
+      text-align: right;
+    }
+
+    .economic-profit-unit {
+      padding-right: 8px;
+      color: var(--muted);
+    }
+
+    .economic-profit-floor {
+      min-width: 142px;
+      color: var(--muted);
+      font-size: 11px;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .economic-profit-floor strong {
+      color: var(--ink);
+      font-size: 13px;
+    }
+
+    .economic-profit-status {
+      min-width: 92px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .provider-table-frame {
+      margin-top: 12px;
+    }
+
+    .traffic-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.35fr);
+      gap: 14px;
+    }
+
+    .traffic-panel {
+      min-width: 0;
+    }
+
+    .traffic-failure-details {
+      margin-top: 14px;
+    }
+
+    .traffic-failure-details > summary {
+      width: fit-content;
+      cursor: pointer;
+      color: #4b5863;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .traffic-failure-details[open] > summary {
+      margin-bottom: 7px;
+    }
+
+    .traffic-table.failure-table {
+      min-width: 940px;
+    }
+
+    .traffic-panel-heading {
+      margin: 0 0 7px;
+      color: #4b5863;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .traffic-panel-header,
+    .traffic-panel-title {
+      display: flex;
+      align-items: center;
+    }
+
+    .traffic-panel-header {
+      min-height: 30px;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 7px 12px;
+      margin-bottom: 7px;
+    }
+
+    .traffic-panel-title {
+      gap: 8px;
+    }
+
+    .traffic-panel-header .traffic-panel-heading {
+      margin: 0;
+    }
+
+    .traffic-position-select {
+      height: 30px;
+      min-width: 104px;
+      padding: 0 28px 0 9px;
+      border: 1px solid var(--line-strong);
+      border-radius: 6px;
+      background: var(--surface);
+      font-size: 11px;
+      font-weight: 650;
+    }
+
+    .traffic-table-frame {
+      max-height: 520px;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .traffic-table {
+      min-width: 620px;
+      table-layout: auto;
+    }
+
+    .traffic-table.economic-source-table {
+      min-width: 1360px;
+    }
+
+    .traffic-table.position-table {
+      min-width: 1040px;
+    }
+
+    .traffic-table.position-table tr.managed-position-blocked {
+      background: #fffafa;
+    }
+
+    .traffic-table th,
+    .traffic-table td {
+      padding: 8px 9px;
+      text-align: right;
+      vertical-align: middle;
+    }
+
+    .traffic-table th:first-child,
+    .traffic-table td:first-child,
+    .traffic-table th:nth-child(2),
+    .traffic-table td:nth-child(2) {
+      text-align: left;
+    }
+
+    .traffic-table th:first-child {
+      width: auto;
+    }
+
+    .traffic-table th:nth-child(2) {
+      width: auto;
+    }
+
+    .traffic-table th:nth-child(3),
+    .traffic-table th:last-child {
+      width: auto;
+    }
+
+    .traffic-range {
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .traffic-trend {
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .traffic-trend.up,
+    .traffic-trend.new {
+      color: var(--red);
+    }
+
+    .traffic-trend.down {
+      color: var(--green);
+    }
+
+    .sparkline {
+      display: flex;
+      width: 120px;
+      height: 24px;
+      align-items: end;
+      justify-content: flex-end;
+      gap: 2px;
+      margin-left: auto;
+    }
+
+    .sparkline-bar {
+      width: 3px;
+      min-height: 2px;
+      border-radius: 1px 1px 0 0;
+      background: #84a9c9;
+    }
+
+    .delta-evidence {
+      display: inline-flex;
+      min-height: 20px;
+      align-items: center;
+      padding: 1px 6px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      color: var(--muted);
+      background: var(--surface-muted);
+      font-size: 10px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .delta-evidence.routing_unverified,
+    .delta-evidence.partial {
+      border-color: #e3c36f;
+      color: #745000;
+      background: var(--amber-soft);
+    }
+
+    .delta-evidence.matched_count {
+      border-color: #a8d8bd;
+      color: #0f603d;
+      background: var(--green-soft);
+    }
+
+    .filters {
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .filter {
+      gap: 6px;
+    }
+
+    .filter label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    .filter select,
+    .filter input {
+      height: 34px;
+      border: 1px solid var(--line-strong);
+      border-radius: 6px;
+      background: var(--surface);
+    }
+
+    .filter select {
+      min-width: 108px;
+      padding: 0 30px 0 10px;
+    }
+
+    .filter input {
+      width: 190px;
+      padding: 0 10px;
+    }
+
+    .table-frame {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    table {
+      width: 100%;
+      min-width: 1040px;
+      table-layout: fixed;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 12px;
+    }
+
+    th,
+    td {
+      padding: 10px 11px;
+      border-bottom: 1px solid var(--line);
+      text-align: right;
+      vertical-align: top;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      color: #55616c;
+      background: #f3f5f6;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    th:first-child,
+    td:first-child,
+    th:nth-child(2),
+    td:nth-child(2),
+    th:nth-child(3),
+    td:nth-child(3),
+    th:last-child,
+    td:last-child {
+      text-align: left;
+    }
+
+    th:first-child,
+    .toggle-cell {
+      width: 44px;
+      padding-right: 6px;
+      padding-left: 8px;
+      text-align: center;
+    }
+
+    th:nth-child(2) {
+      width: 150px;
+    }
+
+    th:nth-child(3) {
+      width: 240px;
+    }
+
+    th:last-child {
+      width: 210px;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    tbody tr:hover td {
+      background: #f9fafb;
+    }
+
+    .summary-row > td {
+      vertical-align: middle;
+    }
+
+    .merchant-toggle {
+      display: inline-grid;
+      width: 28px;
+      height: 28px;
+      place-items: center;
+      padding: 0;
+      border: 1px solid var(--line-strong);
+      border-radius: 4px;
+      background: var(--surface);
+    }
+
+    .merchant-toggle:hover {
+      border-color: #93a1ad;
+      background: var(--surface-muted);
+    }
+
+    .toggle-glyph {
+      width: 7px;
+      height: 7px;
+      border-right: 1.5px solid currentColor;
+      border-bottom: 1.5px solid currentColor;
+      transform: rotate(-45deg);
+      transition: transform 120ms ease;
+    }
+
+    .merchant-toggle[aria-expanded="true"] .toggle-glyph {
+      transform: rotate(45deg) translate(-1px, -1px);
+    }
+
+    .summary-alert .primary,
+    .summary-alert .secondary {
+      max-width: 100%;
+      overflow-wrap: anywhere;
+      white-space: normal;
+    }
+
+    .detail-row[hidden] {
+      display: none;
+    }
+
+    .detail-row > td {
+      padding: 0;
+      background: var(--surface-muted);
+      text-align: left;
+    }
+
+    .detail-row:hover > td {
+      background: var(--surface-muted);
+    }
+
+    .merchant-detail {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0 28px;
+      padding: 18px 20px 20px 52px;
+      border-top: 1px solid var(--line-strong);
+    }
+
+    .detail-section {
+      min-width: 0;
+      padding: 4px 0 14px;
+    }
+
+    .detail-section.inventory-section {
+      grid-column: 1 / -1;
+    }
+
+    .detail-heading {
+      margin: 0 0 5px;
+      color: #3f4b55;
+      font-size: 11px;
+      font-weight: 750;
+      text-transform: uppercase;
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0 18px;
+    }
+
+    .detail-field {
+      min-width: 0;
+      padding: 8px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .detail-field.wide {
+      grid-column: 1 / -1;
+    }
+
+    .detail-label {
+      margin-bottom: 4px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 650;
+    }
+
+    .detail-value,
+    .detail-value .primary {
+      max-width: none;
+      min-width: 0;
+      overflow: visible;
+      text-overflow: clip;
+      white-space: normal;
+    }
+
+    .credential-control {
+      display: flex;
+      min-width: 0;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .credential-action {
+      display: inline-flex;
+      min-height: 30px;
+      flex: 0 0 auto;
+      align-items: center;
+      gap: 6px;
+      padding: 0 10px;
+      border: 1px solid var(--line-strong);
+      border-radius: 4px;
+      background: var(--surface);
+      color: var(--ink);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .credential-action:hover {
+      border-color: #93a1ad;
+      background: var(--surface-muted);
+    }
+
+    .credential-action:disabled {
+      cursor: wait;
+      opacity: 0.65;
+    }
+
+    .credential-icon {
+      width: 14px;
+      text-align: center;
+      font-size: 13px;
+      line-height: 1;
+    }
+
+    .credential-values {
+      display: grid;
+      min-width: 0;
+      gap: 7px;
+    }
+
+    .credential-row {
+      display: grid;
+      grid-template-columns: 64px minmax(0, 1fr);
+      gap: 10px;
+    }
+
+    .credential-row-label {
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .credential-row-value {
+      min-width: 0;
+      overflow-wrap: anywhere;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 11px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .inventory-shell {
+      min-width: 0;
+    }
+
+    .inventory-toolbar,
+    .inventory-heading,
+    .retirement-heading,
+    .dialog-actions,
+    .inline-edit-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .inventory-toolbar {
+      min-height: 32px;
+      margin-bottom: 8px;
+    }
+
+    .inventory-heading {
+      align-items: flex-start;
+      padding: 8px 0 10px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .inventory-title {
+      font-size: 13px;
+      font-weight: 750;
+      overflow-wrap: anywhere;
+    }
+
+    .inventory-description {
+      max-width: 900px;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 11px;
+      overflow-wrap: anywhere;
+    }
+
+    .channel-tree {
+      margin-top: 10px;
+      border-top: 1px solid var(--line-strong);
+    }
+
+    .channel-node {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .channel-node > summary {
+      display: grid;
+      grid-template-columns: minmax(150px, 1fr) minmax(0, 2fr) auto;
+      gap: 12px;
+      align-items: center;
+      min-height: 44px;
+      padding: 6px 2px;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .channel-node > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .channel-node > summary::after {
+      width: 7px;
+      height: 7px;
+      border-right: 1.5px solid currentColor;
+      border-bottom: 1.5px solid currentColor;
+      content: "";
+      transform: rotate(-45deg);
+    }
+
+    .channel-node[open] > summary::after {
+      transform: rotate(45deg) translate(-1px, -1px);
+    }
+
+    .channel-meta {
+      color: var(--muted);
+      font-size: 10px;
+      overflow-wrap: anywhere;
+    }
+
+    .channel-body {
+      display: grid;
+      grid-template-columns: minmax(240px, 0.85fr) minmax(0, 1.6fr);
+      gap: 18px;
+      padding: 4px 18px 16px;
+    }
+
+    .listing-list {
+      min-width: 0;
+      border-left: 1px solid var(--line);
+      padding-left: 18px;
+    }
+
+    .listing-item + .listing-item {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+    }
+
+    .listing-identity {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 6px 10px;
+      margin-bottom: 7px;
+    }
+
+    .model-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 6px;
+    }
+
+    .model-token {
+      padding: 2px 5px;
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      background: var(--surface-muted);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 10px;
+      overflow-wrap: anywhere;
+    }
+
+    .inline-edit-form {
+      display: grid;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .inline-edit-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .inline-edit-field {
+      display: grid;
+      gap: 3px;
+      min-width: 0;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 650;
+    }
+
+    .inline-edit-field.wide {
+      grid-column: 1 / -1;
+    }
+
+    .inline-edit-field input,
+    .inline-edit-field textarea,
+    .account-field input {
+      width: 100%;
+      border: 1px solid var(--line-strong);
+      border-radius: 4px;
+      color: var(--ink);
+      background: var(--surface);
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .inline-edit-field input,
+    .account-field input {
+      height: 32px;
+      padding: 0 8px;
+    }
+
+    .inline-edit-field textarea {
+      min-height: 64px;
+      padding: 7px 8px;
+      resize: vertical;
+    }
+
+    .inline-edit-actions {
+      justify-content: flex-end;
+      min-height: 30px;
+    }
+
+    .inline-status {
+      margin-right: auto;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 500;
+    }
+
+    .small-command,
+    .danger-command {
+      min-height: 28px;
+      padding: 0 9px;
+      border: 1px solid var(--line-strong);
+      border-radius: 4px;
+      background: var(--surface);
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .small-command:hover {
+      background: var(--surface-muted);
+    }
+
+    .danger-command {
+      border-color: #efb5af;
+      color: #8e2119;
+      background: var(--red-soft);
+    }
+
+    .danger-command:disabled,
+    .small-command:disabled {
+      cursor: wait;
+      opacity: 0.55;
+    }
+
+    .retirement-panel {
+      display: grid;
+      gap: 9px;
+    }
+
+    .retirement-track {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 4px;
+    }
+
+    .retirement-step {
+      min-height: 5px;
+      border-radius: 2px;
+      background: var(--line);
+    }
+
+    .retirement-step.complete {
+      background: var(--green);
+    }
+
+    .summary-row.archived-row > td {
+      color: #69737b;
+      background: #f7f8f8;
+    }
+
+    dialog.account-dialog {
+      width: min(92vw, 460px);
+      padding: 0;
+      border: 1px solid var(--line-strong);
+      border-radius: 6px;
+      color: var(--ink);
+      background: var(--surface);
+      box-shadow: 0 18px 50px rgb(16 24 40 / 22%);
+    }
+
+    dialog.account-dialog::backdrop {
+      background: rgb(28 34 40 / 45%);
+    }
+
+    .account-form {
+      display: grid;
+      gap: 15px;
+      padding: 20px;
+    }
+
+    .account-form h2 {
+      font-size: 16px;
+    }
+
+    .account-field {
+      display: grid;
+      gap: 5px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 650;
+    }
+
+    .dialog-actions {
+      justify-content: flex-end;
+      padding-top: 3px;
+    }
+
+    .primary {
+      max-width: 180px;
+      overflow: hidden;
+      font-weight: 700;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .secondary {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 10px;
+      font-variant-numeric: tabular-nums;
+      overflow-wrap: anywhere;
+    }
+
+    .rate-entry + .rate-entry {
+      margin-top: 7px;
+      padding-top: 6px;
+      border-top: 1px solid var(--line);
+    }
+
+    .num {
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .badges + .badges {
+      margin-top: 5px;
+    }
+
+    .badge {
+      display: inline-flex;
+      min-height: 20px;
+      align-items: center;
+      padding: 1px 6px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      color: #4b5863;
+      background: var(--surface-muted);
+      font-size: 10px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .badge.fresh,
+    .badge.healthy,
+    .badge.active,
+    .badge.confirmed {
+      border-color: #a8d8bd;
+      color: #0f603d;
+      background: var(--green-soft);
+    }
+
+    .badge.base-role {
+      border-color: #a9c6df;
+      color: #194f7d;
+      background: var(--blue-soft);
+    }
+
+    .badge.duty {
+      border-color: var(--line-strong);
+      color: var(--ink);
+      background: var(--surface);
+    }
+
+    .badge.delayed,
+    .badge.stale,
+    .badge.degraded,
+    .badge.cooling,
+    .badge.pending,
+    .badge.partial {
+      border-color: #e3c36f;
+      color: #745000;
+      background: var(--amber-soft);
+    }
+
+    .badge.error,
+    .badge.expired,
+    .badge.disabled,
+    .badge.unavailable {
+      border-color: #efb5af;
+      color: #8e2119;
+      background: var(--red-soft);
+    }
+
+    .empty-state {
+      padding: 36px 16px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .loading .metric-value,
+    .loading .metric-meta {
+      color: transparent;
+      border-radius: 4px;
+      background: #e9edf0;
+    }
+
+    @media (max-width: 1100px) {
+      .shell {
+        padding-right: 16px;
+        padding-left: 16px;
+      }
+
+      .control-band,
+      .section-title {
+        align-items: flex-start;
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+
+      .traffic-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .traffic-controls,
+      .economic-controls,
+      .traffic-summary {
+        width: 100%;
+        flex-wrap: wrap;
+      }
+
+      .control-band {
+        padding: 14px 0;
+      }
+
+      .segmented {
+        width: 100%;
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .segmented button {
+        border-bottom: 1px solid var(--line);
+      }
+
+      .segmented button:nth-child(3n) {
+        border-right: 0;
+      }
+
+      .segmented button:nth-child(n + 7) {
+        border-bottom: 0;
+      }
+
+      .filters {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .merchant-table,
+      .merchant-table tbody {
+        display: block;
+        width: 100%;
+        min-width: 0;
+      }
+
+      .merchant-table thead {
+        display: none;
+      }
+
+      .summary-row {
+        display: grid;
+        grid-template-columns: 38px repeat(2, minmax(0, 1fr));
+        width: 100%;
+        padding: 5px 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .summary-row > td {
+        display: block;
+        min-width: 0;
+        padding: 7px 9px;
+        border-bottom: 0;
+        text-align: left;
+      }
+
+      .summary-row > td:not(.toggle-cell, .summary-merchant, .summary-health, .summary-alert)::before {
+        display: block;
+        margin-bottom: 2px;
+        color: var(--muted);
+        content: attr(data-label);
+        font-size: 10px;
+        font-weight: 650;
+      }
+
+      .toggle-cell {
+        grid-row: 1 / span 4;
+        width: auto;
+        padding-right: 0;
+        padding-left: 8px;
+      }
+
+      .summary-merchant,
+      .summary-health,
+      .summary-alert {
+        grid-column: 2 / -1;
+      }
+
+      .summary-health {
+        padding-top: 2px !important;
+      }
+
+      .summary-alert {
+        padding-bottom: 10px !important;
+      }
+
+      .detail-row,
+      .detail-row > td {
+        display: block;
+        width: 100%;
+      }
+
+      .detail-row[hidden] {
+        display: none;
+      }
+
+      .merchant-detail {
+        grid-template-columns: 1fr;
+        padding: 14px 16px 18px 46px;
+      }
+
+      .detail-section.inventory-section {
+        grid-column: auto;
+      }
+
+      .channel-body {
+        grid-template-columns: 1fr;
+        padding-right: 4px;
+        padding-left: 10px;
+      }
+
+      .listing-list {
+        border-top: 1px solid var(--line);
+        border-left: 0;
+        padding-top: 12px;
+        padding-left: 0;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .shell {
+        padding-right: 12px;
+        padding-left: 12px;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+        padding: 15px 0;
+      }
+
+      .brand {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 3px;
+      }
+
+      .top-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .metrics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .metric {
+        min-height: 100px;
+        padding: 12px;
+      }
+
+      .metric-value {
+        font-size: 18px;
+      }
+
+      .filters,
+      .filter,
+      .filter select,
+      .filter input {
+        width: 100%;
+      }
+
+      .detail-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .detail-field.wide {
+        grid-column: auto;
+      }
+
+      .channel-node > summary,
+      .inline-edit-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .channel-node > summary {
+        position: relative;
+        gap: 2px;
+        padding-right: 18px;
+      }
+
+      .channel-node > summary::after {
+        position: absolute;
+        top: 17px;
+        right: 3px;
+      }
+
+      .inline-edit-field.wide {
+        grid-column: auto;
+      }
+    }
+
+    @media (max-width: 390px) {
+      .metrics {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .provider-summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .provider-stat {
+        border-bottom: 1px solid var(--line);
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">Enodot Operations</span>
+        <h1>A6 商户总览</h1>
+      </div>
+      <div class="top-actions">
+        <div class="collector-state" aria-live="polite">
+          <span class="state-dot" id="collector-dot"></span>
+          <span id="collector-text">等待数据</span>
+        </div>
+        <button class="command primary-command" id="add-account" type="button">新增账号</button>
+        <button class="command" id="refresh" type="button">刷新</button>
+      </div>
+    </header>
+
+    <section class="control-band" aria-label="统计时间窗口">
+      <div class="segmented" id="windows" role="group" aria-label="统计时间窗口">
+        <button type="button" data-window="5m" aria-pressed="false">5 分钟</button>
+        <button type="button" data-window="1h" aria-pressed="true">1 小时</button>
+        <button type="button" data-window="5h" aria-pressed="false">5 小时</button>
+        <button type="button" data-window="12h" aria-pressed="false">12 小时</button>
+        <button type="button" data-window="24h" aria-pressed="false">24 小时</button>
+        <button type="button" data-window="7d" aria-pressed="false">7 天</button>
+        <button type="button" data-window="30d" aria-pressed="false">30 天</button>
+        <button type="button" data-window="mtd" aria-pressed="false">本月</button>
+        <button type="button" data-window="all" aria-pressed="false">总计</button>
+      </div>
+      <div class="data-time">
+        <span>数据时间</span>
+        <time id="data-time">--</time>
+      </div>
+    </section>
+
+    <div class="alert-band" id="alert" role="status" hidden>
+      <span id="alert-text"></span>
+    </div>
+
+    <section class="section" aria-labelledby="summary-heading">
+      <div class="section-title">
+        <h2 id="summary-heading">账户与收益</h2>
+        <span class="section-count" id="merchant-count">0 个商户</span>
+      </div>
+      <div class="metrics loading" id="metrics" aria-live="polite"></div>
+    </section>
+
+    <section class="section" aria-labelledby="provider-heading">
+      <div class="section-title">
+        <div>
+          <div class="provider-heading-line">
+            <h2 id="provider-heading">Provider 路由与发布</h2>
+            <span class="provider-mode" id="provider-mode" hidden>影子计划</span>
+          </div>
+          <span class="section-count" id="provider-freshness">等待控制面数据</span>
+        </div>
+      </div>
+      <div class="provider-summary" id="provider-summary" aria-live="polite">
+        <div class="provider-stat">
+          <div class="provider-stat-label">Routing generation</div>
+          <div class="provider-stat-value">--</div>
+        </div>
+        <div class="provider-stat">
+          <div class="provider-stat-label">Cost generation</div>
+          <div class="provider-stat-value">--</div>
+        </div>
+        <div class="provider-stat">
+          <div class="provider-stat-label">ACTIVE READY / 可调度</div>
+          <div class="provider-stat-value">--</div>
+        </div>
+        <div class="provider-stat">
+          <div class="provider-stat-label">Publication</div>
+          <div class="provider-stat-value">--</div>
+        </div>
+        <div class="provider-stat">
+          <div class="provider-stat-label">近期失败</div>
+          <div class="provider-stat-value">--</div>
+        </div>
+      </div>
+      <div class="traffic-table-frame provider-table-frame">
+        <table class="traffic-table">
+          <thead>
+            <tr>
+              <th scope="col">槽位</th>
+              <th scope="col">状态</th>
+              <th scope="col">路由 / Subscription</th>
+              <th scope="col">Priority</th>
+              <th scope="col">成本 K_CNY</th>
+              <th scope="col">资金 / 路由 / 调度</th>
+              <th scope="col">最近成功</th>
+            </tr>
+          </thead>
+          <tbody id="provider-slot-rows">
+            <tr><td class="empty-state" colspan="7">等待 Provider pool 数据</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="economic-heading">
+      <div class="section-title">
+        <div>
+          <div class="provider-heading-line">
+            <h2 id="economic-heading">Priority 1 经济源站</h2>
+            <span class="provider-mode" id="economic-mode" hidden>Plan only</span>
+          </div>
+          <span class="section-count" id="economic-freshness">等待经济调度数据</span>
+        </div>
+        <div class="economic-controls">
+          <div class="filter">
+            <label for="economic-model">模型</label>
+            <select class="traffic-model-select" id="economic-model">
+              <option value="gpt-5.6-sol">gpt-5.6-sol</option>
+            </select>
+          </div>
+          <form class="economic-profit-form" id="economic-profit-form">
+            <label class="economic-profit-field" for="economic-profit-percent">
+              成本利润率
+              <span class="economic-profit-input-wrap">
+                <input class="economic-profit-input" id="economic-profit-percent" name="profit_percent" type="number" value="60" min="0" max="1000" step="0.01" inputmode="decimal" required>
+                <span class="economic-profit-unit">%</span>
+              </span>
+            </label>
+            <span class="economic-profit-floor">毛价硬下限 <strong id="economic-gross-floor">1.92x</strong></span>
+            <button class="small-command" id="economic-profit-save" type="submit">保存</button>
+            <span class="economic-profit-status" id="economic-profit-status" role="status"></span>
+          </form>
+        </div>
+      </div>
+      <div class="provider-summary" id="economic-summary" aria-live="polite">
+        <div class="provider-stat">
+          <div class="provider-stat-label">Economic generation</div>
+          <div class="provider-stat-value">--</div>
+        </div>
+        <div class="provider-stat">
+          <div class="provider-stat-label">Projection</div>
+          <div class="provider-stat-value">--</div>
+        </div>
+        <div class="provider-stat">
+          <div class="provider-stat-label">源站 / 可服务 Channel</div>
+          <div class="provider-stat-value">--</div>
+        </div>
+        <div class="provider-stat">
+          <div class="provider-stat-label">Eligible pairs</div>
+          <div class="provider-stat-value">--</div>
+        </div>
+        <div class="provider-stat">
+          <div class="provider-stat-label">Realized profit / 负利润</div>
+          <div class="provider-stat-value">--</div>
+        </div>
+      </div>
+      <div class="traffic-grid">
+        <div class="traffic-panel">
+          <h3 class="traffic-panel-heading">源站成本与周额度</h3>
+          <div class="traffic-table-frame">
+            <table class="traffic-table economic-source-table">
+              <thead>
+                <tr>
+                  <th scope="col">源站</th>
+                  <th scope="col">合同</th>
+                  <th scope="col">Used / Remaining / Total A</th>
+                  <th scope="col">成本 K_CNY</th>
+                  <th scope="col">最低净结算 K</th>
+                  <th scope="col">最低 Listing K</th>
+                  <th scope="col">服务对象</th>
+                  <th scope="col">实际流量</th>
+                  <th scope="col">经济账本</th>
+                </tr>
+              </thead>
+              <tbody id="economic-source-rows">
+                <tr><td class="empty-state" colspan="9">等待经济源站数据</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="traffic-panel">
+          <h3 class="traffic-panel-heading">Channel 利润门禁</h3>
+          <div class="traffic-table-frame">
+            <table class="traffic-table">
+              <thead>
+                <tr>
+                  <th scope="col">Channel</th>
+                  <th scope="col">净结算 K_CNY</th>
+                  <th scope="col">最低源站 K_CNY</th>
+                  <th scope="col" id="economic-profit-threshold-heading">成本利润率门槛</th>
+                  <th scope="col">Headroom</th>
+                  <th scope="col">可用源站</th>
+                </tr>
+              </thead>
+              <tbody id="economic-channel-rows">
+                <tr><td class="empty-state" colspan="6">等待 Channel 门禁数据</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="traffic-heading">
+      <div class="section-title">
+        <div>
+          <h2 id="traffic-heading">全局流量分布</h2>
+          <span class="section-count" id="traffic-freshness">等待 Observer 数据</span>
+        </div>
+        <div class="traffic-controls">
+          <div class="filter">
+            <label for="traffic-model">模型</label>
+            <select class="traffic-model-select" id="traffic-model">
+              <option value="gpt-5.6-sol">gpt-5.6-sol</option>
+            </select>
+          </div>
+          <div class="traffic-segmented" id="traffic-windows" role="group" aria-label="流量时间窗口">
+            <button type="button" data-traffic-window="5m" aria-pressed="true">5 分钟</button>
+            <button type="button" data-traffic-window="15m" aria-pressed="false">15 分钟</button>
+            <button type="button" data-traffic-window="1h" aria-pressed="false">1 小时</button>
+          </div>
+        </div>
+      </div>
+      <div class="traffic-summary" id="traffic-summary" aria-live="polite">
+        <span>市场渠道 <strong>--</strong></span>
+        <span>可用 <strong>--</strong></span>
+        <span>活跃秒下界 <strong>--</strong></span>
+        <span>活跃渠道 <strong>--</strong></span>
+      </div>
+      <div class="traffic-grid">
+        <div class="traffic-panel">
+          <h3 class="traffic-panel-heading">实时市场倍率分布</h3>
+          <div class="traffic-table-frame">
+            <table class="traffic-table">
+              <thead>
+                <tr>
+                  <th scope="col">K_CNY</th>
+                  <th scope="col">渠道</th>
+                  <th scope="col">我方</th>
+                  <th scope="col">刚刚</th>
+                  <th scope="col">前一分钟</th>
+                  <th scope="col">趋势</th>
+                  <th scope="col">窗口序列</th>
+                </tr>
+              </thead>
+              <tbody id="traffic-band-rows">
+                <tr><td class="empty-state" colspan="7">等待 Observer 数据</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="traffic-panel">
+          <div class="traffic-panel-header">
+            <div class="traffic-panel-title">
+              <h3 class="traffic-panel-heading">受管渠道</h3>
+              <span class="section-count" id="traffic-position-count">0 / 0</span>
+            </div>
+            <label class="visually-hidden" for="traffic-position-filter">上架状态</label>
+            <select class="traffic-position-select" id="traffic-position-filter">
+              <option value="all">全部</option>
+              <option value="listed" selected>已上架</option>
+              <option value="unlisted">未上架</option>
+            </select>
+          </div>
+          <div class="traffic-table-frame">
+            <table class="traffic-table position-table">
+              <thead>
+                <tr>
+                  <th scope="col">渠道 / Listing</th>
+                  <th scope="col">K_CNY</th>
+                  <th scope="col">成功率 / 健康</th>
+                  <th scope="col">延迟</th>
+                  <th scope="col">标签</th>
+                  <th scope="col">调用 / 收益</th>
+                  <th scope="col">定价</th>
+                </tr>
+              </thead>
+              <tbody id="traffic-position-rows">
+                <tr><td class="empty-state" colspan="7">等待经营数据</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <details class="traffic-failure-details">
+        <summary>展开近期渠道失败归因</summary>
+        <div class="traffic-table-frame">
+          <table class="traffic-table failure-table">
+            <thead>
+              <tr>
+                <th scope="col">渠道</th>
+                <th scope="col">健康 / 原始成功率</th>
+                <th scope="col">Provider / 平台</th>
+                <th scope="col">用户请求</th>
+                <th scope="col">未知</th>
+                <th scope="col">近期错误码</th>
+                <th scope="col">最近失败</th>
+              </tr>
+            </thead>
+            <tbody id="traffic-failure-rows">
+              <tr><td class="empty-state" colspan="7">等待失败归因数据</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <section class="section" aria-labelledby="merchant-heading">
+      <div class="section-title">
+        <div>
+          <h2 id="merchant-heading">商户状态</h2>
+          <span class="section-count" id="visible-count">0 / 0</span>
+        </div>
+        <div class="filters">
+          <div class="filter">
+            <label for="duty-filter">运行职责</label>
+            <select id="duty-filter">
+              <option value="">全部运行职责</option>
+              <option value="seller-only">Seller-only（无额外职责）</option>
+              <option value="provider">Provider duty</option>
+              <option value="observer">Observer duty</option>
+            </select>
+          </div>
+          <div class="filter">
+            <label for="status-filter">状态</label>
+            <select id="status-filter">
+              <option value="">全部状态</option>
+              <option value="active">运行中</option>
+              <option value="cooling">冷却中</option>
+              <option value="pending">待处理</option>
+              <option value="error">异常</option>
+              <option value="disabled">已停用</option>
+            </select>
+          </div>
+          <div class="filter">
+            <label for="freshness-filter">新鲜度</label>
+            <select id="freshness-filter">
+              <option value="">全部新鲜度</option>
+              <option value="fresh">新鲜</option>
+              <option value="delayed">延迟</option>
+              <option value="stale">过期</option>
+              <option value="error">采集异常</option>
+            </select>
+          </div>
+          <div class="filter">
+            <label for="search">搜索商户</label>
+            <input id="search" type="search" placeholder="商户、模型或渠道" autocomplete="off">
+          </div>
+        </div>
+      </div>
+
+      <div class="table-frame">
+        <table class="merchant-table">
+          <thead>
+            <tr>
+              <th scope="col"><span class="visually-hidden">详情</span></th>
+              <th scope="col">商户</th>
+              <th scope="col">身份 / 健康</th>
+              <th scope="col">用户余额</th>
+              <th scope="col">可提现</th>
+              <th scope="col">今日收益</th>
+              <th scope="col">实际利润</th>
+              <th scope="col">关键异常 / 更新时间</th>
+            </tr>
+          </thead>
+          <tbody id="merchant-rows">
+            <tr><td class="empty-state" colspan="8">正在读取</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <dialog class="account-dialog" id="account-dialog" aria-labelledby="account-dialog-title">
+    <form class="account-form" id="account-form">
+      <h2 id="account-dialog-title">新增 A6 账号</h2>
+      <label class="account-field">
+        登录账号
+        <input id="account-username" name="username" autocomplete="username" required maxlength="256">
+      </label>
+      <label class="account-field">
+        密码
+        <input id="account-password" name="password" type="password" autocomplete="current-password" required maxlength="4096">
+      </label>
+      <div class="inline-status" id="account-status" role="status"></div>
+      <div class="dialog-actions">
+        <button class="command" id="account-cancel" type="button">取消</button>
+        <button class="command primary-command" id="account-submit" type="submit">添加</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const windowLabels = {
+        "5m": "5 分钟",
+        "1h": "1 小时",
+        "5h": "5 小时",
+        "12h": "12 小时",
+        "24h": "24 小时",
+        "7d": "7 天",
+        "30d": "30 天",
+        "mtd": "本月",
+        "all": "总计"
+      };
+      const statusLabels = {
+        active: "运行中",
+        cooling: "冷却中",
+        pending: "待处理",
+        disabled: "已停用",
+        fresh: "新鲜",
+        delayed: "延迟",
+        stale: "过期",
+        healthy: "正常",
+        degraded: "降级",
+        unavailable: "不可用",
+        unlabeled: "未带标",
+        idle: "无近期成功",
+        expired: "失效",
+        error: "异常",
+        unknown: "未知"
+      };
+      const ledgerStatusLabels = {
+        confirmed: "已确认",
+        partial: "部分确认",
+        pending: "待归属",
+        unavailable: "不可用",
+        not_applicable: "不适用"
+      };
+      const dutyLabels = {
+        provider: "Provider",
+        observer: "Observer"
+      };
+      const growthActionLabels = {
+        listing_recycle: "摘挂恢复",
+        callback_readiness: "Callback 就绪检查",
+        callback_burst: "Callback 抖加"
+      };
+      const failureResponsibilityLabels = {
+        client: "用户请求",
+        provider: "Provider",
+        platform: "平台路由",
+        unknown: "待归因"
+      };
+      const healthReasonLabels = {
+        active_cooling_window: "有效冷却窗口",
+        market_unavailable: "市场路由当前不可用",
+        current_provider_failure: "最近一次失败归责 Provider",
+        current_platform_failure: "最近一次失败归责平台路径",
+        current_unknown_failure: "最近一次失败仍待归因",
+        latest_success_supersedes_stale_failure: "最近成功已覆盖旧失败",
+        smart_routing_label_missing: "智能路由标签尚未形成",
+        recent_success_missing: "近期没有成功样本",
+        failure_responsibility_unconfirmed: "低成功窗口仍待归因",
+        current_success: "最近状态正常"
+      };
+      const managedPositionBlockedReasonLabels = {
+        merchant_status_not_supplier_submitted: "商户尚未完成供应商入驻",
+        merchant_seller_role_missing: "商户缺少 Seller 角色",
+        binding_missing: "受管绑定不存在",
+        binding_not_verified: "受管绑定尚未验证",
+        listing_missing: "Listing 当前快照缺失",
+        listing_channel_mismatch: "Listing 渠道与绑定不一致",
+        listing_model_mismatch: "Listing 模型与定价计划不一致",
+        listing_status_inactive: "Listing 未处于上架状态",
+        listing_unavailable: "Listing 当前不可用",
+        listing_hidden: "Listing 当前不可见",
+        unknown: "经营状态待核对"
+      };
+      const retirementPhaseLabels = {
+        none: "正常运行",
+        pre_retirement: "预退休",
+        retiring: "退休处理中",
+        draining: "余额消耗中",
+        archived: "已退居幕后"
+      };
+      const metricDefinitions = [
+        { name: "用户余额", type: "stock", key: "user_balance" },
+        { name: "可提现", type: "stock", key: "withdrawable" },
+        { name: "提现中", type: "stock", key: "withdrawing" },
+        { name: "收益", type: "flow", key: "earned_micros" },
+        { name: "已打款", type: "flow", key: "paid_micros" },
+        { name: "转入金额", type: "flow", key: "transfer_in_micros", countKey: "transfer_in_count" },
+        { name: "Enodot 外部收入", type: "sales", key: "external_enodot_revenue_micros" },
+        { name: "Provider 成本", type: "provider", key: "provider_cost_micros" },
+        { name: "Managed Key 内部扣账", type: "internal-debit", key: "managed_internal_debit_micros" },
+        { name: "待归属成本", type: "pending-cost", key: "unattributed_provider_cost_micros" },
+        { name: "Seller 收益", type: "flow", key: "seller_income_micros" },
+        { name: "Probe 损耗", type: "probe", key: "probe_loss_micros" },
+        { name: "提现费", type: "flow", key: "withdrawal_fee_micros" },
+        { name: "实际利润", type: "profit", key: "actual_profit_micros" }
+      ];
+      const amountFormat = new Intl.NumberFormat("zh-CN", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 6
+      });
+      const percentFormat = new Intl.NumberFormat("zh-CN", {
+        style: "percent",
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 2
+      });
+      const integerFormat = new Intl.NumberFormat("zh-CN", { maximumFractionDigits: 0 });
+      const multiplierFormat = new Intl.NumberFormat("zh-CN", {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 6
+      });
+
+      const state = {
+        window: "1h",
+        trafficWindow: "5m",
+        trafficModel: "gpt-5.6-sol",
+        economicModel: "gpt-5.6-sol",
+        overview: null,
+        traffic: null,
+        providerPool: null,
+        providerInventory: null,
+        economicPriority1: null,
+        merchants: [],
+        expandedMerchants: new Set(),
+        credentials: new Map(),
+        inventories: new Map(),
+        mutations: new Map(),
+        loading: false,
+        trafficLoading: false,
+        providerLoading: false,
+        economicLoading: false,
+        economicRefreshPending: false,
+        economicProfitSubmitting: false,
+        accountSubmitting: false
+      };
+
+      const elements = {
+        addAccount: document.querySelector("#add-account"),
+        accountCancel: document.querySelector("#account-cancel"),
+        accountDialog: document.querySelector("#account-dialog"),
+        accountForm: document.querySelector("#account-form"),
+        accountPassword: document.querySelector("#account-password"),
+        accountStatus: document.querySelector("#account-status"),
+        accountSubmit: document.querySelector("#account-submit"),
+        accountUsername: document.querySelector("#account-username"),
+        alert: document.querySelector("#alert"),
+        alertText: document.querySelector("#alert-text"),
+        collectorDot: document.querySelector("#collector-dot"),
+        collectorText: document.querySelector("#collector-text"),
+        dataTime: document.querySelector("#data-time"),
+        economicChannelRows: document.querySelector("#economic-channel-rows"),
+        economicFreshness: document.querySelector("#economic-freshness"),
+        economicGrossFloor: document.querySelector("#economic-gross-floor"),
+        economicMode: document.querySelector("#economic-mode"),
+        economicModel: document.querySelector("#economic-model"),
+        economicProfitForm: document.querySelector("#economic-profit-form"),
+        economicProfitPercent: document.querySelector("#economic-profit-percent"),
+        economicProfitSave: document.querySelector("#economic-profit-save"),
+        economicProfitStatus: document.querySelector("#economic-profit-status"),
+        economicProfitThresholdHeading: document.querySelector("#economic-profit-threshold-heading"),
+        economicSourceRows: document.querySelector("#economic-source-rows"),
+        economicSummary: document.querySelector("#economic-summary"),
+        freshness: document.querySelector("#freshness-filter"),
+        merchantCount: document.querySelector("#merchant-count"),
+        metrics: document.querySelector("#metrics"),
+        providerFreshness: document.querySelector("#provider-freshness"),
+        providerMode: document.querySelector("#provider-mode"),
+        providerSlotRows: document.querySelector("#provider-slot-rows"),
+        providerSummary: document.querySelector("#provider-summary"),
+        refresh: document.querySelector("#refresh"),
+        duty: document.querySelector("#duty-filter"),
+        rows: document.querySelector("#merchant-rows"),
+        search: document.querySelector("#search"),
+        status: document.querySelector("#status-filter"),
+        trafficBandRows: document.querySelector("#traffic-band-rows"),
+        trafficFreshness: document.querySelector("#traffic-freshness"),
+        trafficFailureRows: document.querySelector("#traffic-failure-rows"),
+        trafficModel: document.querySelector("#traffic-model"),
+        trafficPositionCount: document.querySelector("#traffic-position-count"),
+        trafficPositionFilter: document.querySelector("#traffic-position-filter"),
+        trafficPositionRows: document.querySelector("#traffic-position-rows"),
+        trafficSummary: document.querySelector("#traffic-summary"),
+        trafficWindows: document.querySelector("#traffic-windows"),
+        visibleCount: document.querySelector("#visible-count"),
+        windows: document.querySelector("#windows")
+      };
+
+      function apiUrl(path) {
+        return new URL(path, document.baseURI);
+      }
+
+      async function fetchJson(path, signal) {
+        const response = await fetch(apiUrl(path), {
+          headers: { Accept: "application/json" },
+          credentials: "same-origin",
+          cache: "no-store",
+          signal
+        });
+        if (!response.ok) {
+          throw new Error("request_failed");
+        }
+        return response.json();
+      }
+
+      async function mutateJson(path, method, payload, signal) {
+        const response = await fetch(apiUrl(path), {
+          method,
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            "X-Requested-With": "a6-trader-dashboard"
+          },
+          credentials: "same-origin",
+          cache: "no-store",
+          body: JSON.stringify(payload),
+          signal
+        });
+        const document = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          const error = new Error(document?.error?.code || "request_failed");
+          error.code = document?.error?.code || "request_failed";
+          throw error;
+        }
+        return document;
+      }
+
+      async function refresh() {
+        if (state.loading) return;
+        state.loading = true;
+        elements.refresh.disabled = true;
+        elements.collectorText.textContent = "读取中";
+        const overviewController = new AbortController();
+        const merchantsController = new AbortController();
+        const overviewTimeout = window.setTimeout(() => overviewController.abort(), 30000);
+        const merchantsTimeout = window.setTimeout(() => merchantsController.abort(), 30000);
+        try {
+          const query = `?window=${encodeURIComponent(state.window)}`;
+          const overviewRequest = fetchJson(
+            `api/overview${query}`,
+            overviewController.signal
+          ).then((overview) => {
+            state.overview = overview;
+            renderOverview();
+            return true;
+          }).catch((error) => {
+            console.error("dashboard_overview_refresh_failed", error);
+            return false;
+          }).finally(() => window.clearTimeout(overviewTimeout));
+          const merchantsRequest = fetchJson(
+            `api/merchants${query}`,
+            merchantsController.signal
+          ).then((merchants) => {
+            state.merchants = Array.isArray(merchants.items) ? merchants.items : [];
+            renderMerchants();
+            if (state.providerPool) renderProviderPool();
+            return true;
+          }).catch((error) => {
+            console.error("dashboard_merchants_refresh_failed", error);
+            return false;
+          }).finally(() => window.clearTimeout(merchantsTimeout));
+          const [overviewUpdated, merchantsUpdated] = await Promise.all([
+            overviewRequest,
+            merchantsRequest
+          ]);
+          if (!overviewUpdated) {
+            setCollectorState("error", "总览指标读取失败");
+          }
+          if (!overviewUpdated && !merchantsUpdated) {
+            showAlert("总览与商户数据暂时不可用");
+          } else if (!overviewUpdated) {
+            showAlert("总览指标读取异常，商户数据已更新");
+          } else if (!merchantsUpdated) {
+            showAlert("商户明细读取异常，总览指标已更新");
+          }
+        } finally {
+          window.clearTimeout(overviewTimeout);
+          window.clearTimeout(merchantsTimeout);
+          state.loading = false;
+          elements.refresh.disabled = false;
+          elements.metrics.classList.remove("loading");
+        }
+      }
+
+      async function refreshTraffic() {
+        if (state.trafficLoading) return;
+        state.trafficLoading = true;
+        const controller = new AbortController();
+        const timeout = window.setTimeout(() => controller.abort(), 30000);
+        try {
+          state.traffic = await fetchJson(
+            `api/market-traffic?window=${encodeURIComponent(state.trafficWindow)}&model=${encodeURIComponent(state.trafficModel)}`,
+            controller.signal
+          );
+          renderTraffic();
+        } catch (error) {
+          console.error("dashboard_market_traffic_refresh_failed", error);
+          elements.trafficFreshness.textContent = state.traffic
+            ? "实时流量更新异常，保留最近数据"
+            : "实时流量读取异常";
+        } finally {
+          window.clearTimeout(timeout);
+          state.trafficLoading = false;
+        }
+      }
+
+      async function refreshProviderPool() {
+        if (state.providerLoading) return;
+        state.providerLoading = true;
+        const controller = new AbortController();
+        const timeout = window.setTimeout(() => controller.abort(), 9000);
+        try {
+          const model = encodeURIComponent(state.trafficModel);
+          const [providerPool, providerInventory] = await Promise.all([
+            fetchJson(`internal/provider-pools/${model}`, controller.signal),
+            fetchJson(`internal/provider-inventory/${model}`, controller.signal).catch((error) => {
+              console.error("dashboard_provider_inventory_refresh_failed", error);
+              return null;
+            })
+          ]);
+          state.providerPool = providerPool;
+          state.providerInventory = providerInventory;
+          renderProviderPool();
+        } catch (_error) {
+          state.providerPool = null;
+          state.providerInventory = null;
+          elements.providerFreshness.textContent = "Provider 控制面读取异常";
+          elements.providerSlotRows.replaceChildren(
+              emptyTableRow(7, "Provider pool 暂不可用")
+          );
+        } finally {
+          window.clearTimeout(timeout);
+          state.providerLoading = false;
+        }
+      }
+
+      async function refreshEconomicPriority1() {
+        if (state.economicLoading) {
+          state.economicRefreshPending = true;
+          return;
+        }
+        state.economicLoading = true;
+        state.economicRefreshPending = false;
+        const requestedModel = state.economicModel;
+        const controller = new AbortController();
+        const timeout = window.setTimeout(() => controller.abort(), 9000);
+        try {
+          const model = encodeURIComponent(requestedModel);
+          const economicPriority1 = await fetchJson(
+            `internal/economic-priority1/${model}`,
+            controller.signal
+          );
+          if (requestedModel !== state.economicModel) return;
+          state.economicPriority1 = economicPriority1;
+          renderEconomicPriority1();
+        } catch (error) {
+          if (requestedModel !== state.economicModel) return;
+          console.error("dashboard_economic_priority1_refresh_failed", error);
+          if (!state.economicPriority1) renderEconomicPriority1();
+          elements.economicFreshness.textContent = state.economicPriority1
+            ? "经济调度更新异常，保留最近数据"
+            : "经济调度读取异常";
+        } finally {
+          window.clearTimeout(timeout);
+          state.economicLoading = false;
+          if (state.economicRefreshPending || requestedModel !== state.economicModel) {
+            state.economicRefreshPending = false;
+            refreshEconomicPriority1();
+          }
+        }
+      }
+
+      function refreshAll() {
+        refresh();
+        refreshTraffic();
+        refreshProviderPool();
+        refreshEconomicPriority1();
+      }
+
+      function renderAll() {
+        renderOverview();
+        renderMerchants();
+      }
+
+      function renderTraffic() {
+        const traffic = state.traffic || {};
+        const freshness = traffic.freshness || {};
+        const totals = traffic.totals || {};
+        const observerBackoff = traffic.observer_backoff || {};
+        elements.trafficFreshness.textContent = observerBackoff.active
+          ? `Observer 退避 ${integerFormat.format(Number(observerBackoff.remaining_seconds || 0))}s · ${observerBackoff.last_error_class || "上游异常"}`
+          : (freshness.last_observed_at
+            ? `${ageText(freshness.age_seconds)}前 · ${formatTime(freshness.last_observed_at)}`
+            : "尚无 Observer 数据");
+        elements.trafficSummary.replaceChildren(
+          trafficSummaryItem("市场渠道", freshness.current_channel_count),
+          trafficSummaryItem("可用", freshness.available_channel_count),
+          trafficSummaryItem("活跃秒下界", totals.event_lower_bound),
+          trafficSummaryItem("活跃渠道", totals.active_channel_count)
+        );
+        const managedPositions = Array.isArray(traffic.managed_positions)
+          ? traffic.managed_positions
+          : [];
+        renderTrafficBands(
+          Array.isArray(traffic.bands) ? traffic.bands : [],
+          managedPositions
+        );
+        renderTrafficPositions(managedPositions);
+        renderTrafficFailures(
+          Array.isArray(traffic.channel_failures) ? traffic.channel_failures : []
+        );
+      }
+
+      function renderProviderPool() {
+        const pool = state.providerPool || {};
+        const activeRouting = pool.routing || {};
+        const activeCost = pool.cost || {};
+        const autoPool = pool.auto_pool || null;
+        const preview = pool.preview || null;
+        const hasNewerPreview = Boolean(preview
+          && preview.routing
+          && preview.cost
+          && Number(preview.routing.generation || 0) > Number(activeRouting.generation || 0));
+        const routing = activeRouting;
+        const cost = activeCost;
+        const publication = pool.publication || {};
+        const summary = pool.summary || {};
+        const slots = Array.isArray(pool.slots) ? pool.slots : [];
+        const inventory = state.providerInventory?.model === pool.model
+          ? state.providerInventory
+          : null;
+        const inventorySummary = inventory?.summary || {};
+        const inventoryItems = Array.isArray(inventory?.items) ? inventory.items : [];
+        const inventoryByIdentity = new Map();
+        for (const item of inventoryItems) {
+          inventoryByIdentity.set(`${item.account_id ?? ""}:${item.token_id ?? ""}`, item);
+        }
+        const failures = Array.isArray(pool.recent_failures)
+          ? pool.recent_failures
+          : [];
+        const generationFailures = Number(pool.recent_generation_failure_count || 0);
+        const previewKind = hasNewerPreview ? (preview.kind || "planned") : "";
+        const previewLabel = previewKind === "applying"
+          ? "自动切换中"
+          : previewKind === "failed"
+          ? "最近切换失败"
+          : "等待应用";
+        const publicationState = publication.converged
+          ? (publication.desired_state || "unknown")
+          : "mismatch";
+        const activeReadyCount = Number(summary.ready_slot_count || 0);
+        const activeSchedulableCount = Number(summary.schedulable_slot_count);
+        const schedulableCount = Number.isFinite(activeSchedulableCount)
+          ? activeSchedulableCount
+          : inventory
+          ? Number(inventorySummary.schedulable_count || 0)
+          : null;
+        const exchangeRate = dashboardExchangeRate();
+        elements.providerMode.hidden = !hasNewerPreview;
+        elements.providerMode.textContent = hasNewerPreview
+          ? `${previewLabel} · r${preview.routing.generation}`
+          : "";
+        elements.providerSummary.replaceChildren(
+          providerSummaryItem(
+            "Routing / Auto-pool generation",
+            autoPool
+              ? `${routing.generation ?? "--"} / ${autoPool.generation ?? "--"}`
+              : routing.generation ?? "--"
+          ),
+          providerSummaryItem(
+            autoPool ? "Auto-pool 成本上限 K_CNY" : "Cost generation",
+            autoPool ? formatMultiplier(autoPool.max_ratio_cny) : cost.generation ?? "--"
+          ),
+          providerSummaryItem(
+            "ACTIVE READY / 可调度",
+            `${activeReadyCount} / ${schedulableCount ?? "--"}`,
+            schedulableCount === null
+              ? "unknown"
+              : schedulableCount > 0
+              ? "healthy"
+              : "unpublished"
+          ),
+          providerSummaryItem(
+            "Publication",
+            publication.converged
+              ? (publication.desired_state || "unknown")
+              : `${publication.desired_state || "unknown"} / ${publication.observed_state || "unknown"} · 未收敛`,
+            publicationState
+          ),
+          providerSummaryItem(
+            "切换失败 / 请求失败",
+            `${generationFailures} / ${failures.length}`,
+            generationFailures + failures.length > 0 ? "failed" : ""
+          )
+        );
+        const controlTime = [
+          publication.updated_at,
+          autoPool?.updated_at,
+          routing.updated_at,
+          cost.updated_at
+        ]
+          .filter(Boolean)
+          .reduce((latest, value) => (
+            !latest || Date.parse(value) > Date.parse(latest) ? value : latest
+          ), null);
+        const probeText = publication.last_real_probe_at
+          ? ` · probe ${relativeTime(publication.last_real_probe_at)}`
+          : "";
+        const freshnessParts = [
+          controlTime ? `Active ${formatTime(controlTime)}${probeText}` : "Active 时间未知"
+        ];
+        if (hasNewerPreview) {
+          const previewTime = preview.routing.updated_at
+            || preview.cost.updated_at
+            || preview.routing.planned_at
+            || preview.cost.planned_at;
+          freshnessParts.push(
+            `${previewLabel} r${preview.routing.generation}${previewTime ? ` · ${formatTime(previewTime)}` : ""}`
+          );
+        }
+        if (schedulableCount !== null) freshnessParts.push(`实际可调度 ${schedulableCount}`);
+        elements.providerFreshness.textContent = freshnessParts.join(" · ");
+
+        if (!slots.length) {
+          elements.providerSlotRows.replaceChildren(emptyTableRow(7, "当前没有激活槽位"));
+          return;
+        }
+        const fragment = document.createDocumentFragment();
+        for (const slot of slots) {
+          const row = document.createElement("tr");
+          const runtime = inventoryByIdentity.get(
+            `${slot.account_id ?? ""}:${slot.token_id ?? ""}`
+          );
+          const runtimeState = slot.state === "READY"
+            ? "READY"
+            : runtime?.inventory_state || "运行态未知";
+          const schedulable = typeof slot.observed_schedulable === "boolean"
+            ? slot.observed_schedulable
+            : runtime
+            ? runtime.schedulable === true
+            : null;
+          const autoPoolRoute = slot.route_mode === "auto_pool";
+          const awaitingAutoPool = !autoPoolRoute
+            && slot.state === "REPAIRING"
+            && slot.funding_eligible === true
+            && !slot.observed_schedulable;
+          const routeIdentity = autoPoolRoute
+            ? `AUTO_POOL · sub ${slot.auto_pool_subscription_id ?? "--"}`
+            : awaitingAutoPool
+            ? "待 auto-pool 接管"
+            : slot.channel_id ?? "--";
+          const routeHealth = autoPoolRoute
+            ? [
+                slot.owned_channel_ban_confirmed ? "自有渠道已 Ban" : "Ban 待确认",
+                slot.auto_pool_confirmed ? "Auto-pool" : "Auto-pool 待确认"
+              ]
+            : awaitingAutoPool
+            ? ["Auto-pool 接管待确认"]
+            : [
+                slot.pin_confirmed ? "Pin" : "Pin 待确认"
+              ];
+          const health = [
+            slot.funding_eligible ? "资金" : "无资金",
+            ...routeHealth,
+            schedulable === null ? "调度状态未知" : schedulable ? "可调度" : "不可调度"
+          ].join(" · ");
+          const costText = autoPoolRoute
+            ? `${formatMultiplier(slot.auto_pool_max_ratio_cny)} / ${formatCnyMultiplier(slot.observed_cost_multiplier, exchangeRate)}`
+            : `${formatCnyMultiplier(slot.desired_cost_multiplier, exchangeRate)} / ${formatCnyMultiplier(slot.observed_cost_multiplier, exchangeRate)}`;
+          for (const value of [
+            slot.slot_name || `slot-${slot.slot_no}`,
+            `${slot.state || "UNKNOWN"} · ${runtimeState}`,
+            routeIdentity,
+            slot.priority ?? "--",
+            costText,
+            health,
+            slot.last_success_at ? relativeTime(slot.last_success_at) : "--"
+          ]) {
+            const cell = document.createElement("td");
+            cell.textContent = String(value);
+            row.append(cell);
+          }
+          fragment.append(row);
+        }
+        elements.providerSlotRows.replaceChildren(fragment);
+      }
+
+      function economicGrossMultiplier(profitPercent) {
+        const percent = Number(profitPercent);
+        return Number.isFinite(percent) && percent >= 0 && percent <= 1000
+          ? (1 + percent / 100) * 1.2
+          : null;
+      }
+
+      function renderEconomicProfitControl(economic, generation) {
+        const setting = economic.profit_setting || null;
+        const configuredBps = Number(
+          setting?.minimum_profit_on_cost_bps
+            ?? generation?.minimum_profit_on_cost_bps
+        );
+        if (!Number.isFinite(configuredBps)) return null;
+        const percent = configuredBps / 100;
+        const activeElement = document.activeElement;
+        if (
+          !state.economicProfitSubmitting
+          && (!activeElement || activeElement !== elements.economicProfitPercent)
+        ) {
+          elements.economicProfitPercent.value = percent.toFixed(2).replace(/\.?0+$/, "");
+        }
+        const gross = economicGrossMultiplier(percent);
+        elements.economicGrossFloor.textContent = gross == null
+          ? "--"
+          : `${formatDecimal(gross)}x`;
+        elements.economicProfitThresholdHeading.textContent = `${formatDecimal(percent)}% 利润门槛`;
+        return configuredBps;
+      }
+
+      function updateEconomicProfitPreview() {
+        const gross = economicGrossMultiplier(elements.economicProfitPercent.value);
+        elements.economicGrossFloor.textContent = gross == null
+          ? "--"
+          : `${formatDecimal(gross)}x`;
+      }
+
+      function renderEconomicPriority1() {
+        const economic = state.economicPriority1 || {};
+        const generation = economic.generation || null;
+        const projection = economic.projection || null;
+        const summary = economic.summary || {};
+        const sources = Array.isArray(economic.sources) ? economic.sources : [];
+        const channels = Array.isArray(economic.channels) ? economic.channels : [];
+        const configuredProfitBps = renderEconomicProfitControl(economic, generation);
+        if (!generation) {
+          elements.economicMode.hidden = true;
+          elements.economicFreshness.textContent = "经济调度尚无激活 generation";
+          elements.economicSummary.replaceChildren(
+            providerSummaryItem("Economic generation", "--"),
+            providerSummaryItem("Projection", "--"),
+            providerSummaryItem("源站 / 可服务 Channel", "--"),
+            providerSummaryItem("Eligible pairs", "--"),
+            providerSummaryItem("Realized profit / 负利润", "--")
+          );
+          elements.economicSourceRows.replaceChildren(
+            emptyTableRow(9, "当前没有经济源站计划")
+          );
+          elements.economicChannelRows.replaceChildren(
+            emptyTableRow(6, "当前没有 Channel 经济门禁")
+          );
+          return;
+        }
+
+        elements.economicMode.hidden = false;
+        elements.economicMode.textContent = generation.plan_only ? "Plan only" : "Active";
+        const projectionState = projection?.state || "missing";
+        const projectionHealthy = economic.projection_matches_generation === true;
+        const negativeCount = Number(summary.negative_profit_attempt_count || 0);
+        elements.economicSummary.replaceChildren(
+          providerSummaryItem("Economic generation", generation.generation ?? "--"),
+          providerSummaryItem(
+            "Projection",
+            projectionHealthy ? projectionState : `${projectionState} · 不一致`,
+            projectionHealthy ? (generation.plan_only ? "pending" : "healthy") : "failed"
+          ),
+          providerSummaryItem(
+            "源站 / 可服务 Channel",
+            `${Number(summary.source_count || 0)} / ${Number(summary.eligible_channel_count || 0)}`
+          ),
+          providerSummaryItem("Eligible pairs", Number(summary.eligible_pair_count || 0)),
+          providerSummaryItem(
+            "Realized profit / 负利润",
+            `${formatEconomicCny(summary.realized_profit_cny)} / ${negativeCount}`,
+            negativeCount > 0 ? "failed" : ""
+          )
+        );
+        const freshnessAt = projection?.updated_at || generation.evaluated_at;
+        const activeProfitBps = Number(generation.minimum_profit_on_cost_bps);
+        const profitLabel = Number.isFinite(configuredProfitBps)
+          && configuredProfitBps !== activeProfitBps
+          ? `目标 ${formatBasisPoints(configuredProfitBps)} · 当前 ${formatBasisPoints(activeProfitBps)}`
+          : `门槛 ${formatBasisPoints(activeProfitBps)}`;
+        elements.economicFreshness.textContent = [
+          generation.plan_only ? "Plan only" : "请求面生效",
+          `g${generation.generation}`,
+          freshnessAt ? formatTime(freshnessAt) : "时间未知",
+          profitLabel
+        ].join(" · ");
+
+        if (!sources.length) {
+          elements.economicSourceRows.replaceChildren(
+            emptyTableRow(9, "当前没有登记经济源站")
+          );
+        } else {
+          const sourceFragment = document.createDocumentFragment();
+          for (const source of sources) {
+            const row = document.createElement("tr");
+            const contract = source.contract || {};
+            const quota = source.quota || {};
+            const attempts = source.attempts || {};
+            const runtimeUsage = source.runtime_usage || {};
+            const sourceIdentity = document.createElement("td");
+            sourceIdentity.append(
+              div("traffic-range", source.source_key || `source-${source.source_id}`),
+              div(
+                "secondary",
+                `${source.source_kind || "unknown"} · account ${source.account_id ?? "--"}`
+              ),
+              div(
+                "secondary",
+                `${source.health_state || "UNKNOWN"} / ${source.capacity_state || "UNKNOWN"}`
+              )
+            );
+            const contractCell = document.createElement("td");
+            const contractLabel = contract.cost_mode === "weekly_amortized"
+              ? `周摊 ${formatEconomicCny(contract.cycle_cost_cny)}`
+              : contract.cost_mode === "declared_k"
+              ? `API K ${formatEconomicCny(contract.declared_k_cny)}`
+              : "合同缺失";
+            contractCell.append(
+              div("traffic-range", contractLabel),
+              div("secondary", contract.state || "--")
+            );
+            const quotaCell = document.createElement("td");
+            const estimateState = quota.estimate_state === "CONVERGED"
+              ? "已收敛"
+              : quota.estimate_state === "PROVISIONAL"
+              ? "临时 100 A"
+              : "额度来源未知";
+            quotaCell.append(
+              div(
+                "traffic-range",
+                quota.total_a == null
+                  ? "--"
+                  : `${formatDecimal(quota.used_a)} / ${formatDecimal(quota.remaining_a)} / ${formatDecimal(quota.total_a)}`
+              ),
+              div("secondary", quota.quota_epoch || "API 不使用周额度"),
+              div(
+                "secondary",
+                `${estimateState} · ${Number(quota.evidence_point_count || 0)} points` +
+                  (quota.raw_utilization_percent == null
+                    ? ""
+                    : ` · ${formatDecimal(quota.raw_utilization_percent)}%`)
+              )
+            );
+            const costCell = document.createElement("td");
+            costCell.append(
+              div("traffic-range", formatEconomicCny(source.source_k_cny)),
+              div("secondary", "动态周摊成本")
+            );
+            const netFloorCell = document.createElement("td");
+            netFloorCell.append(
+              div("traffic-range", formatEconomicCny(source.minimum_channel_k_cny)),
+              div("secondary", ">= 成本 x 净收入倍率")
+            );
+            const listingFloorCell = document.createElement("td");
+            listingFloorCell.append(
+              div("traffic-range", formatEconomicCny(source.minimum_listing_k_cny)),
+              div("secondary", ">= 成本 x 毛价倍率")
+            );
+            const channelCell = document.createElement("td");
+            const eligibleChannelIds = Array.isArray(source.eligible_channel_ids)
+              ? source.eligible_channel_ids
+              : [];
+            const evaluatedCount = Number(source.evaluated_channel_count || 0);
+            const eligibleCount = Number(source.eligible_channel_count || 0);
+            const runtimeGroupIds = Array.isArray(runtimeUsage.group_ids)
+              ? runtimeUsage.group_ids
+              : [];
+            channelCell.append(
+              div(
+                "traffic-range",
+                eligibleChannelIds.length
+                  ? eligibleChannelIds.map((channelId) => `#${channelId}`).join(", ")
+                  : evaluatedCount > 0
+                  ? "当前无可服务 Channel"
+                  : "待 Channel 收入快照"
+              ),
+              div("secondary", `资格 ${eligibleCount} / ${evaluatedCount}`)
+            );
+            const runtimeCell = document.createElement("td");
+            runtimeCell.append(
+              div("traffic-range", `1h ${formatDecimal(runtimeUsage.consumed_a_1h)} A`),
+              div(
+                "secondary",
+                `${Number(runtimeUsage.request_count_1h || 0)} 请求 · ` +
+                  (runtimeGroupIds.length
+                    ? `Group ${runtimeGroupIds.join(", ")}`
+                    : "无 Group")
+              ),
+              div(
+                "secondary",
+                runtimeUsage.last_used_at ? formatTime(runtimeUsage.last_used_at) : "最近 1h 无调用"
+              )
+            );
+            const profitCell = document.createElement("td");
+            const profit = Number(attempts.realized_profit_cny);
+            profitCell.append(
+              div("traffic-range", formatEconomicCny(attempts.realized_profit_cny)),
+              div(
+                "secondary",
+                `经济账本 ${Number(attempts.attempt_count || 0)} attempts · ${Number(attempts.negative_profit_attempt_count || 0)} 负利润`
+              ),
+              div("secondary", quota.reset_at ? `Reset ${formatTime(quota.reset_at)}` : "--")
+            );
+            profitCell.classList.toggle("positive", Number.isFinite(profit) && profit > 0);
+            profitCell.classList.toggle("negative", Number.isFinite(profit) && profit < 0);
+            row.append(
+              sourceIdentity,
+              contractCell,
+              quotaCell,
+              costCell,
+              netFloorCell,
+              listingFloorCell,
+              channelCell,
+              runtimeCell,
+              profitCell
+            );
+            sourceFragment.append(row);
+          }
+          elements.economicSourceRows.replaceChildren(sourceFragment);
+        }
+
+        if (!channels.length) {
+          elements.economicChannelRows.replaceChildren(
+            emptyTableRow(6, "当前 generation 没有 Channel 收入快照")
+          );
+        } else {
+          const channelFragment = document.createDocumentFragment();
+          for (const channel of channels) {
+            const row = document.createElement("tr");
+            const headroom = Number(channel.headroom_cny);
+            const available = Array.isArray(channel.eligible_sources)
+              ? channel.eligible_sources
+              : [];
+            const values = [
+              channel.channel_id,
+              formatEconomicCny(channel.channel_net_k_cny),
+              formatEconomicCny(channel.minimum_source_k_cny),
+              formatEconomicCny(channel.minimum_required_channel_k_cny),
+              `${formatEconomicCny(channel.headroom_cny)} · ${formatBasisPoints(channel.headroom_bps)}`,
+              available.length
+                ? available.map((source) => source.source_key || `source-${source.source_id}`).join(", ")
+                : "无"
+            ];
+            values.forEach((value, index) => {
+              const cell = document.createElement("td");
+              cell.textContent = String(value ?? "--");
+              if (index === 4) {
+                cell.classList.toggle("positive", Number.isFinite(headroom) && headroom >= 0);
+                cell.classList.toggle("negative", Number.isFinite(headroom) && headroom < 0);
+              }
+              row.append(cell);
+            });
+            channelFragment.append(row);
+          }
+          elements.economicChannelRows.replaceChildren(channelFragment);
+        }
+      }
+
+      function formatEconomicCny(value) {
+        const numeric = Number(value);
+        return Number.isFinite(numeric) ? `¥${amountFormat.format(numeric)}` : "--";
+      }
+
+      function providerSummaryItem(label, value, status = "") {
+        const item = document.createElement("div");
+        item.className = "provider-stat";
+        const name = div("provider-stat-label", label);
+        const content = div("provider-stat-value", String(value));
+        if (status) content.dataset.state = status;
+        item.append(name, content);
+        return item;
+      }
+
+      function dashboardExchangeRate() {
+        const merchants = Array.isArray(state.merchants) ? state.merchants : [];
+        for (const merchant of merchants) {
+          for (const collection of [merchant.pin_rates, merchant.listing_rates]) {
+            if (!Array.isArray(collection)) continue;
+            for (const rate of collection) {
+              const value = Number(rate.exchange_rate);
+              if (Number.isFinite(value) && value > 0) return value;
+            }
+          }
+        }
+        return null;
+      }
+
+      function formatCnyMultiplier(value, exchangeRate = dashboardExchangeRate()) {
+        const multiplier = Number(value);
+        const rate = Number(exchangeRate);
+        if (!Number.isFinite(multiplier) || !Number.isFinite(rate) || rate <= 0) return "--";
+        return formatMultiplier(multiplier * rate);
+      }
+
+      function emptyTableRow(columns, text) {
+        const row = document.createElement("tr");
+        const cell = document.createElement("td");
+        cell.className = "empty-state";
+        cell.colSpan = columns;
+        cell.textContent = text;
+        row.append(cell);
+        return row;
+      }
+
+      function trafficSummaryItem(label, value) {
+        const item = document.createElement("span");
+        const strong = document.createElement("strong");
+        strong.textContent = integerFormat.format(Number(value || 0));
+        item.append(document.createTextNode(`${label} `), strong);
+        return item;
+      }
+
+      function renderTrafficBands(bands, positions) {
+        const visible = bands
+          .map((band) => ({
+            ...band,
+            managed_listing_count: managedPositionCount(band, positions)
+          }))
+          .filter((band) =>
+            Number(band.current_channel_count || 0) > 0 ||
+            Number(band.event_lower_bound || 0) > 0 ||
+            Number(band.managed_listing_count || 0) > 0
+          );
+        if (!visible.length) {
+          elements.trafficBandRows.replaceChildren(emptyRow(7, "当前窗口没有市场活动"));
+          return;
+        }
+        const fragment = document.createDocumentFragment();
+        for (const band of visible) {
+          const row = document.createElement("tr");
+          const range = document.createElement("td");
+          range.className = "traffic-range";
+          range.textContent = kCnyRange(band.minimum_k_cny, band.maximum_k_cny);
+          const channels = document.createElement("td");
+          channels.textContent = integerFormat.format(Number(band.current_channel_count || 0));
+          const managed = document.createElement("td");
+          managed.textContent = integerFormat.format(Number(band.managed_listing_count || 0));
+          const current = document.createElement("td");
+          current.textContent = integerFormat.format(Number(band.just_now_rate_per_minute || 0));
+          const previous = document.createElement("td");
+          previous.textContent = integerFormat.format(Number(band.one_minute_ago_rate_per_minute || 0));
+          const trend = document.createElement("td");
+          trend.className = `traffic-trend ${band.trend || "idle"}`;
+          trend.textContent = trafficTrendText(band.trend, band.trend_ratio);
+          const series = document.createElement("td");
+          series.append(sparkline(Array.isArray(band.series) ? band.series : []));
+          row.append(range, channels, managed, current, previous, trend, series);
+          fragment.append(row);
+        }
+        elements.trafficBandRows.replaceChildren(fragment);
+      }
+
+      function managedPositionCount(band, positions) {
+        const lower = Number(band.minimum_k_cny);
+        const upper = band.maximum_k_cny == null
+          ? Number.POSITIVE_INFINITY
+          : Number(band.maximum_k_cny);
+        if (!Number.isFinite(lower)) return 0;
+        return positions.filter((position) => {
+          if (position.operational_state === "blocked") return false;
+          if (position.current_k_cny == null || position.current_k_cny === "") return false;
+          const value = Number(position.current_k_cny);
+          return Number.isFinite(value) && value >= lower && value < upper;
+        }).length;
+      }
+
+      function renderTrafficPositions(positions) {
+        const filter = ["all", "listed", "unlisted"].includes(
+          elements.trafficPositionFilter.value
+        )
+          ? elements.trafficPositionFilter.value
+          : "listed";
+        const visible = positions.filter((position) => {
+          if (filter === "all") return true;
+          const listed = managedPositionIsListed(position);
+          return filter === "listed" ? listed : !listed;
+        });
+        elements.trafficPositionCount.textContent = `${integerFormat.format(visible.length)} / ${integerFormat.format(positions.length)}`;
+        if (!visible.length) {
+          const emptyText = !positions.length
+            ? "当前没有受管渠道"
+            : filter === "listed"
+              ? "当前没有已上架渠道"
+              : filter === "unlisted"
+                ? "当前没有未上架渠道"
+                : "当前没有受管渠道";
+          elements.trafficPositionRows.replaceChildren(emptyRow(7, emptyText));
+          return;
+        }
+        const fragment = document.createDocumentFragment();
+        for (const position of visible) {
+          const row = document.createElement("tr");
+          const operational = position.operational_state === "active";
+          row.dataset.operationalState = operational ? "active" : "blocked";
+          if (!operational) row.className = "managed-position-blocked";
+          const identity = document.createElement("td");
+          const channelName = position.channel_name || position.channel_nickname || `channel ${position.channel_id || "--"}`;
+          const operationalBadges = document.createElement("div");
+          operationalBadges.className = "badges";
+          operationalBadges.append(
+            badge(operational ? "经营中" : "未经营", operational ? "healthy" : "unavailable")
+          );
+          identity.append(
+            div("traffic-range", channelName),
+            operationalBadges,
+            ...(!operational
+              ? [div(
+                "secondary",
+                managedPositionBlockedReasonLabels[position.blocked_reason] ||
+                  position.blocked_reason ||
+                  "经营状态待核对"
+              )]
+              : []),
+            div("secondary", `#${position.rank || "--"} · channel ${position.channel_id || "--"}`),
+            div("secondary", `M${position.merchant_id || "--"} · listing ${position.listing_id || "--"}`)
+          );
+          const price = document.createElement("td");
+          price.textContent = formatK(position.current_k_cny);
+          price.title = `Panel ${formatMultiplier(position.panel_multiplier)} · Final ${formatMultiplier(position.target_final_multiplier)}`;
+          const health = document.createElement("td");
+          const healthBadges = document.createElement("div");
+          healthBadges.className = "badges";
+          healthBadges.append(
+            badge(statusLabels[position.health_state] || position.health_state || "未知", position.health_state),
+            badge(position.market_available ? "可用" : "不可用", position.market_available ? "healthy" : "unavailable")
+          );
+          if (
+            position.raw_health_state &&
+            position.raw_health_state !== position.health_state
+          ) {
+            healthBadges.append(badge("旧状态已恢复", "healthy"));
+          }
+          health.append(
+            healthBadges,
+            div(
+              "secondary",
+              healthReasonLabels[position.health_reason] || position.health_reason || "状态依据待补"
+            ),
+            div(
+              "secondary",
+              `商户 ${position.merchant_status || "--"} · Seller ${Array.isArray(position.merchant_roles) && position.merchant_roles.includes("seller") ? "有" : "无"}`
+            ),
+            div(
+              "secondary",
+              `绑定 ${position.binding_present ? position.binding_control_state || "--" : "未加载"} · Listing ${position.listing_present ? "已加载" : "未加载"}`
+            ),
+            div(
+              "secondary",
+              `Listing 状态 ${position.listing_status ?? "--"} · 可用 ${position.listing_availability ?? "--"} · 可见 ${position.listing_visibility ?? "--"}`
+            ),
+            div("secondary", `成功率 ${formatBasisPoints(position.recent_success_rate)} · route ${position.route_status || "--"}`),
+            div("secondary", `渠道责任 ${integerFormat.format(Number(position.recent_provider_failure_count || 0) + Number(position.recent_platform_failure_count || 0))} · 用户请求 ${integerFormat.format(Number(position.recent_client_failure_count || 0))} · 未知 ${integerFormat.format(Number(position.recent_unknown_failure_count || 0))}`),
+            div("secondary", formatTime(position.health_observed_at))
+          );
+          const latency = document.createElement("td");
+          latency.append(
+            div("traffic-range", `P50 ${formatLatency(position.recent_p50_ms)}`),
+            div("secondary", `TTFT ${formatLatency(position.p50_ttft_ms)}`)
+          );
+          const tags = document.createElement("td");
+          const tagList = Array.isArray(position.smart_routing_labels)
+            ? position.smart_routing_labels
+            : [];
+          if (tagList.length) {
+            const tagBadges = document.createElement("div");
+            tagBadges.className = "badges";
+            for (const label of tagList) tagBadges.append(badge(label, ""));
+            tags.append(tagBadges);
+          } else {
+            tags.textContent = "--";
+          }
+          const operations = document.createElement("td");
+          operations.append(
+            div("traffic-range", `${integerFormat.format(Number(position.seller_call_count || 0))} 次 · ${formatMicros(position.seller_income_micros)}`),
+            div("secondary", position.seller_income_per_call_micros == null
+              ? "单次 --"
+              : `单次 ${formatMicros(position.seller_income_per_call_micros)}`)
+          );
+          const pricing = document.createElement("td");
+          const evidenceBadge = document.createElement("span");
+          evidenceBadge.className = `delta-evidence ${position.delta_sample_status || "no_sample"}`;
+          evidenceBadge.textContent = deltaEvidenceText(position.delta_sample_status);
+          pricing.append(
+            div("traffic-range", `delta ${formatDecimal(position.delta)}`),
+            div("secondary", `P ${formatMultiplier(position.panel_multiplier)} · F ${formatMultiplier(position.target_final_multiplier)}`),
+            evidenceBadge
+          );
+          row.append(identity, price, health, latency, tags, operations, pricing);
+          fragment.append(row);
+        }
+        elements.trafficPositionRows.replaceChildren(fragment);
+      }
+
+      function managedPositionIsListed(position) {
+        return Boolean(position.listing_present) &&
+          Number(position.listing_status) === 2 &&
+          Number(position.listing_availability) === 1 &&
+          Number(position.listing_visibility) === 1;
+      }
+
+      function renderTrafficFailures(failures) {
+        if (!failures.length) {
+          elements.trafficFailureRows.replaceChildren(emptyRow(7, "当前窗口没有失败事件"));
+          return;
+        }
+        const fragment = document.createDocumentFragment();
+        for (const failure of failures) {
+          const row = document.createElement("tr");
+          const identity = document.createElement("td");
+          identity.append(
+            div("traffic-range", `channel ${failure.channel_id || "--"}`),
+            div("secondary", `#${failure.market_rank || "--"} · listing ${failure.listing_id || "--"}`)
+          );
+          const health = document.createElement("td");
+          const healthBadges = document.createElement("div");
+          healthBadges.className = "badges";
+          healthBadges.append(
+            badge(statusLabels[failure.health_state] || failure.health_state || "未知", failure.health_state),
+            badge(failure.available ? "可用" : "不可用", failure.available ? "healthy" : "unavailable")
+          );
+          health.append(
+            healthBadges,
+            div("secondary", `原始 ${formatBasisPoints(failure.recent_success_rate)}`)
+          );
+          const attributable = document.createElement("td");
+          attributable.append(
+            div("traffic-range", integerFormat.format(Number(failure.recent_provider_failure_count || 0) + Number(failure.recent_platform_failure_count || 0))),
+            div("secondary", `Provider ${integerFormat.format(Number(failure.recent_provider_failure_count || 0))} · 平台 ${integerFormat.format(Number(failure.recent_platform_failure_count || 0))}`)
+          );
+          const client = document.createElement("td");
+          client.textContent = integerFormat.format(Number(failure.recent_client_failure_count || 0));
+          const unknown = document.createElement("td");
+          unknown.textContent = integerFormat.format(Number(failure.recent_unknown_failure_count || 0));
+          const codes = document.createElement("td");
+          const codeItems = Array.isArray(failure.top_failure_codes) ? failure.top_failure_codes : [];
+          if (codeItems.length) {
+            for (const item of codeItems) {
+              const tone = item.responsibility === "client"
+                ? "healthy"
+                : (item.responsibility === "unknown" ? "pending" : "degraded");
+              codes.append(
+                div("secondary", `${item.code || "unknown"} ×${integerFormat.format(Number(item.count || 0))} · ${failureResponsibilityLabels[item.responsibility] || "待归因"}`)
+              );
+              codes.lastChild?.classList.add(tone);
+            }
+          } else {
+            codes.textContent = failure.last_failure_code || "--";
+          }
+          const latest = document.createElement("td");
+          latest.append(
+            div("traffic-range", failure.last_failure_code || "--"),
+            div("secondary", failureResponsibilityLabels[failure.last_failure_responsibility] || "待归因"),
+            div("secondary", formatTime(failure.last_failure_at))
+          );
+          row.append(identity, health, attributable, client, unknown, codes, latest);
+          fragment.append(row);
+        }
+        elements.trafficFailureRows.replaceChildren(fragment);
+      }
+
+      function emptyRow(columns, text) {
+        const row = document.createElement("tr");
+        const cell = document.createElement("td");
+        cell.colSpan = columns;
+        cell.className = "empty-state";
+        cell.textContent = text;
+        row.append(cell);
+        return row;
+      }
+
+      function sparkline(series) {
+        const chart = document.createElement("div");
+        chart.className = "sparkline";
+        const compact = compactTrafficSeries(series, 30);
+        const maximum = Math.max(1, ...compact.map((item) => item.value));
+        for (const item of compact) {
+          const bar = document.createElement("span");
+          bar.className = "sparkline-bar";
+          bar.style.height = `${Math.max(2, Math.round(item.value / maximum * 24))}px`;
+          bar.title = `${formatTime(item.at)} · ${integerFormat.format(item.value)}`;
+          chart.append(bar);
+        }
+        return chart;
+      }
+
+      function compactTrafficSeries(series, maximumBars) {
+        if (series.length <= maximumBars) {
+          return series.map((item) => ({
+            at: item.bucket_start,
+            value: Number(item.event_lower_bound || 0)
+          }));
+        }
+        const width = Math.ceil(series.length / maximumBars);
+        const compact = [];
+        for (let index = 0; index < series.length; index += width) {
+          const group = series.slice(index, index + width);
+          compact.push({
+            at: group[0]?.bucket_start,
+            value: group.reduce((sum, item) => sum + Number(item.event_lower_bound || 0), 0)
+          });
+        }
+        return compact;
+      }
+
+      function kCnyRange(minimum, maximum) {
+        if (maximum == null) return `${formatK(minimum)}+`;
+        return `${formatK(minimum)}-${formatK(maximum)}`;
+      }
+
+      function formatK(value) {
+        return value == null ? "--" : `x${formatDecimal(value)}`;
+      }
+
+      function trafficTrendText(trend, ratio) {
+        if (trend === "new") return "新增";
+        if (trend === "idle") return "静止";
+        if (trend === "flat") return "持平";
+        if (ratio == null) return trend === "up" ? "上升" : "下降";
+        const sign = Number(ratio) > 0 ? "+" : "";
+        return `${sign}${percentFormat.format(Number(ratio))}`;
+      }
+
+      function deltaEvidenceText(status) {
+        return {
+          no_sample: "无样本",
+          routing_unverified: "Key 路由未证实",
+          matched_count: "Key 调用已匹配",
+          partial: "部分匹配"
+        }[status] || "无样本";
+      }
+
+      function renderOverview() {
+        const overview = state.overview || {};
+        const freshness = overview.freshness || {};
+        const stocks = overview.stocks || {};
+        const flows = overview.flows || {};
+        const fragment = document.createDocumentFragment();
+
+        for (const definition of metricDefinitions) {
+          const metric = document.createElement("article");
+          metric.className = "metric";
+          const name = document.createElement("div");
+          name.className = "metric-name";
+          name.textContent = definition.name;
+          const value = document.createElement("div");
+          value.className = "metric-value";
+          const meta = document.createElement("div");
+          meta.className = "metric-meta";
+
+          if (definition.type === "stock") {
+            const stock = stocks[definition.key] || {};
+            value.textContent = formatMicros(stock.current_micros);
+            const change = Number(stock.change_micros || 0);
+            meta.textContent = `${windowLabels[state.window]} ${signedMicros(change)}`;
+            meta.classList.toggle("positive", change > 0);
+            meta.classList.toggle("negative", change < 0);
+          } else {
+            const rawAmount = flows[definition.key];
+            const amount = Number(rawAmount || 0);
+            if (definition.type === "profit") {
+              const profitStatus = flows.profit_status || "pending";
+              const profitConfirmed = ["confirmed", "not_applicable"].includes(profitStatus);
+              value.textContent = profitConfirmed && rawAmount != null ? formatMicros(amount) : "--";
+              value.classList.toggle("positive", profitConfirmed && amount > 0);
+              value.classList.toggle("negative", profitConfirmed && amount < 0);
+              const margin = flows.profit_margin == null
+                ? "--"
+                : percentFormat.format(Number(flows.profit_margin));
+              const pendingSales = Number(flows.unattributed_external_enodot_request_count || 0);
+              if (pendingSales) {
+                meta.textContent = `${ledgerStatusText(profitStatus)} · ${integerFormat.format(pendingSales)} 笔 / ${formatMicros(flows.unattributed_external_enodot_revenue_micros)} 外部收入缺少 Provider 成本`;
+              } else {
+                meta.textContent = `${ledgerStatusText(profitStatus)} · 利润率 ${margin}`;
+              }
+            } else if (definition.type === "sales") {
+              value.textContent = formatMicros(amount);
+              const pendingSales = Number(flows.unattributed_external_enodot_request_count || 0);
+              const suffix = pendingSales
+                ? ` · ${integerFormat.format(pendingSales)} 笔待成本归因`
+                : "";
+              meta.textContent = `${ledgerStatusText(flows.sales_status)} · ${integerFormat.format(Number(flows.external_enodot_request_count || 0))} 次${suffix}`;
+            } else if (definition.type === "provider") {
+              value.textContent = formatMicros(amount);
+              meta.textContent = `外部 ${formatMicros(flows.external_provider_cost_micros)} · Managed ${formatMicros(flows.managed_internal_provider_cost_micros)} · Owner/Internal ${formatMicros(flows.owner_internal_provider_cost_micros)} · 待归属 ${formatMicros(flows.unattributed_provider_cost_micros)}`;
+            } else if (definition.type === "internal-debit") {
+              value.textContent = formatMicros(amount);
+              meta.textContent = `Managed ${integerFormat.format(Number(flows.managed_internal_request_count || 0))} 次 · Owner/Internal ${integerFormat.format(Number(flows.owner_internal_request_count || 0))} 次 / ${formatMicros(flows.owner_internal_debit_micros)} · 均不计收入`;
+            } else if (definition.type === "pending-cost") {
+              value.textContent = formatMicros(amount);
+              meta.textContent = `${integerFormat.format(Number(flows.unattributed_provider_event_count || 0))} 条 · ${integerFormat.format(Number(flows.pending_binding_count || 0))} 个待绑定`;
+            } else if (definition.type === "probe") {
+              value.textContent = formatMicros(amount);
+              meta.textContent = `毛成本 ${formatMicros(flows.probe_gross_cost_micros)} · Pin 探活 ${formatMicros(flows.pin_probe_cost_micros)} / ${integerFormat.format(Number(flows.pin_probe_event_count || 0))} 次 · 回流 ${formatMicros(flows.probe_recovery_micros)}`;
+            } else if (definition.countKey) {
+              value.textContent = formatMicros(amount);
+              meta.textContent = `${integerFormat.format(Number(flows[definition.countKey] || 0))} 次`;
+            } else {
+              value.textContent = formatMicros(amount);
+              meta.textContent = windowLabels[state.window];
+            }
+          }
+          metric.append(name, value, meta);
+          fragment.append(metric);
+        }
+
+        elements.metrics.replaceChildren(fragment);
+        elements.merchantCount.textContent = `${integerFormat.format(Number(overview.merchant_count || 0))} 个商户`;
+        elements.dataTime.textContent = formatTime(overview.generated_at);
+        setCollectorState(freshness.status || "unknown", freshnessText(freshness));
+
+        const errors = Number(freshness.error_count || 0);
+        const stale = Number(freshness.stale_count || 0);
+        const profitStatus = flows.profit_status || "pending";
+        if (errors || stale || !["confirmed", "not_applicable"].includes(profitStatus)) {
+          const parts = [];
+          if (errors) parts.push(`${errors} 个商户采集异常`);
+          if (stale) parts.push(`${stale} 个商户数据过期`);
+          const pendingSales = Number(flows.unattributed_external_enodot_request_count || 0);
+          if (pendingSales) parts.push(`${integerFormat.format(pendingSales)} 笔 / ${formatMicros(flows.unattributed_external_enodot_revenue_micros)} Enodot 外部收入未匹配 Provider 成本`);
+          const pendingProvider = Number(flows.unattributed_provider_event_count || 0);
+          if (pendingProvider) parts.push(`${integerFormat.format(pendingProvider)} 笔 / ${formatMicros(flows.unattributed_provider_cost_micros)} A6 Provider 成本待归属`);
+          if (profitStatus === "partial") parts.push("经营利润仍有待归属流水");
+          if (profitStatus === "pending") parts.push("经营利润等待账号绑定");
+          if (profitStatus === "unavailable") parts.push("经营利润数据源不可用");
+          showAlert(parts.join("，"));
+        } else {
+          hideAlert();
+        }
+      }
+
+      function renderMerchants() {
+        const duty = elements.duty.value;
+        const status = elements.status.value;
+        const freshness = elements.freshness.value;
+        const query = elements.search.value.trim().toLowerCase();
+        const visible = state.merchants.filter((item) => {
+          const roles = new Set(item.roles || []);
+          const activeDuties = ["provider", "observer"].filter((name) => roles.has(name));
+          if (duty === "seller-only" && (!roles.has("seller") || activeDuties.length)) return false;
+          if (duty && duty !== "seller-only" && !activeDuties.includes(duty)) return false;
+          if (status && item.status !== status) return false;
+          if (freshness && item.freshness !== freshness) return false;
+          if (!query) return true;
+          return [
+            item.display_name,
+            item.merchant_id,
+            item.current_pin_model,
+            item.current_pin_channel_id,
+            ...(item.pin_rates || []).flatMap((rate) => [rate.model, rate.channel_id]),
+            ...(item.listing_rates || []).flatMap((rate) => [rate.model, rate.listing_id]),
+            ...inventorySearchValues(item.merchant_id),
+            item.last_error_class
+          ].some((value) => String(value || "").toLowerCase().includes(query));
+        }).sort((left, right) => Number(isObserverOnly(left)) - Number(isObserverOnly(right)));
+
+        elements.visibleCount.textContent = `${visible.length} / ${state.merchants.length}`;
+        if (!visible.length) {
+          const row = document.createElement("tr");
+          const cell = document.createElement("td");
+          cell.colSpan = 8;
+          cell.className = "empty-state";
+          cell.textContent = "没有匹配的商户";
+          row.append(cell);
+          elements.rows.replaceChildren(row);
+          return;
+        }
+
+        const fragment = document.createDocumentFragment();
+        for (const [index, merchant] of visible.entries()) {
+          const merchantKey = merchant.merchant_id || `merchant-${index}`;
+          const detailId = `merchant-detail-${index}`;
+          const expanded = state.expandedMerchants.has(merchantKey);
+          const row = document.createElement("tr");
+          row.className = `summary-row${isObserverOnly(merchant) ? " archived-row" : ""}`;
+
+          const toggleCell = document.createElement("td");
+          toggleCell.className = "toggle-cell";
+          const toggle = document.createElement("button");
+          toggle.type = "button";
+          toggle.className = "merchant-toggle";
+          toggle.dataset.merchantToggle = merchantKey;
+          toggle.setAttribute("aria-expanded", String(expanded));
+          toggle.setAttribute("aria-controls", detailId);
+          toggle.setAttribute("aria-label", `${expanded ? "收起" : "展开"} ${merchant.display_name || merchantKey} 详情`);
+          toggle.title = expanded ? "收起商户详情" : "展开商户详情";
+          const glyph = document.createElement("span");
+          glyph.className = "toggle-glyph";
+          glyph.setAttribute("aria-hidden", "true");
+          toggle.append(glyph);
+          toggleCell.append(toggle);
+
+          const merchantSummary = merchantCell(merchant);
+          merchantSummary.classList.add("summary-merchant");
+          const healthSummary = roleHealthCell(merchant);
+          healthSummary.classList.add("summary-health");
+          const userBalance = amountCell(merchant.user_balance_micros);
+          userBalance.dataset.label = "用户余额";
+          const withdrawable = amountCell(merchant.withdrawable_micros);
+          withdrawable.dataset.label = "可提现";
+          const today = amountCell(merchant.today_earned_micros);
+          today.dataset.label = "今日收益";
+          const profit = summaryProfitCell(merchant);
+          profit.dataset.label = "实际利润";
+          const alert = merchantAlertCell(merchant);
+          alert.classList.add("summary-alert");
+          row.append(
+            toggleCell,
+            merchantSummary,
+            healthSummary,
+            userBalance,
+            withdrawable,
+            today,
+            profit,
+            alert
+          );
+
+          const detail = merchantDetailRow(merchant, detailId, expanded);
+          fragment.append(row, detail);
+        }
+        elements.rows.replaceChildren(fragment);
+      }
+
+      function merchantDetailRow(merchant, detailId, expanded) {
+        const row = document.createElement("tr");
+        row.id = detailId;
+        row.className = "detail-row";
+        row.hidden = !expanded;
+        const cell = document.createElement("td");
+        cell.colSpan = 8;
+        const panel = document.createElement("div");
+        panel.className = "merchant-detail";
+        panel.append(
+          inventorySection(merchant),
+          detailSection("资金与结算", [
+            detailField("提现中", amountCell(merchant.withdrawing_micros)),
+            detailField("本月收益", amountCell(merchant.month_earned_micros)),
+            detailField("累计收益", amountCell(merchant.lifetime_earned_micros)),
+            detailField("已打款", amountCell(merchant.paid_micros)),
+            detailField(`${windowLabels[state.window]}收益`, amountCell(merchant.earned_micros)),
+            detailField("转入", transferCell(merchant)),
+            detailField("提现费", amountCell(merchant.withdrawal_fee_micros))
+          ]),
+          detailSection("渠道与定价", [
+            detailField("渠道 / 上架", listingCell(merchant), true),
+            detailField("Listing 四价 / 倍率", listingRatesCell(merchant), true),
+            detailField("Pin / 实时倍率", pinCell(merchant), true)
+          ]),
+          detailSection("Enodot 与经营", [
+            detailField("Enodot 外部收入", salesCell(merchant)),
+            detailField("Provider 成本", providerCostCell(merchant)),
+            detailField("Seller 毛收益 / Managed Key 内部扣账", sellerIncomeCell(merchant), true),
+            detailField("Probe 损耗", probeCell(merchant)),
+            detailField("实际利润", profitCell(merchant), true)
+          ]),
+          detailSection("账户与绑定", [
+            detailField("A6 登录凭据", credentialCell(merchant), true),
+            detailField("会话 / 代理", componentCell(merchant), true),
+            detailField("Enodot 绑定", enodotBindingCell(merchant)),
+            detailField("提现账户", withdrawAccountCell(merchant)),
+            detailField("安全删除（退居幕后）", retirementCell(merchant), true),
+            detailField("新鲜度 / 异常", freshnessCell(merchant), true)
+          ])
+        );
+        cell.append(panel);
+        row.append(cell);
+        return row;
+      }
+
+      function isObserverOnly(merchant) {
+        const roles = Array.isArray(merchant?.roles) ? merchant.roles : [];
+        return roles.length === 1 && roles[0] === "observer";
+      }
+
+      function inventorySearchValues(merchantKey) {
+        const entry = state.inventories.get(String(merchantKey || ""));
+        if (entry?.status !== "loaded") return [];
+        const inventory = entry.data || {};
+        return [
+          inventory.supplier?.name,
+          inventory.supplier?.description,
+          ...(inventory.channels || []).flatMap((channel) => [
+            channel.name,
+            channel.nickname,
+            channel.description,
+            ...(channel.models || []),
+            ...(channel.listings || []).flatMap((listing) => [
+              listing.own_model,
+              listing.platform_model,
+              listing.display_name,
+              listing.description
+            ])
+          ])
+        ];
+      }
+
+      function inventorySection(merchant) {
+        const section = document.createElement("section");
+        section.className = "detail-section inventory-section";
+        const heading = document.createElement("h3");
+        heading.className = "detail-heading";
+        heading.textContent = "商户 / 渠道 / 模型";
+        section.append(heading, inventoryCell(merchant));
+        return section;
+      }
+
+      function inventoryCell(merchant) {
+        const shell = document.createElement("div");
+        shell.className = "inventory-shell";
+        const merchantKey = String(merchant.merchant_id || "");
+        const entry = state.inventories.get(merchantKey);
+        if (!entry || entry.status === "loading") {
+          shell.append(div("secondary", entry ? "正在读取实时商户资料" : "展开后读取实时商户资料"));
+          return shell;
+        }
+        if (entry.status === "error") {
+          const toolbar = document.createElement("div");
+          toolbar.className = "inventory-toolbar";
+          toolbar.append(
+            div("secondary", `读取失败 · ${operationErrorLabel(entry.error)}`),
+            actionButton("重试", "small-command", "inventoryReload", merchantKey)
+          );
+          shell.append(toolbar);
+          return shell;
+        }
+        const inventory = entry.data || {};
+        if (!inventory.supplier) {
+          shell.append(div("secondary", "该账号当前没有已生效商户资料"));
+          return shell;
+        }
+
+        const supplier = inventory.supplier;
+        const heading = document.createElement("div");
+        heading.className = "inventory-heading";
+        const identity = document.createElement("div");
+        identity.append(
+          div("inventory-title", supplier.name || "未命名商户"),
+          div("inventory-description", supplier.description || "--")
+        );
+        const count = div(
+          "secondary",
+          `${integerFormat.format((inventory.channels || []).length)} 个渠道`
+        );
+        heading.append(identity, count);
+        shell.append(heading);
+
+        const tree = document.createElement("div");
+        tree.className = "channel-tree";
+        const channels = inventory.channels || [];
+        if (!channels.length) {
+          tree.append(div("empty-state", "当前没有渠道"));
+        }
+        for (const [index, channel] of channels.entries()) {
+          tree.append(channelNode(merchantKey, channel, index === 0));
+        }
+        shell.append(tree);
+        return shell;
+      }
+
+      function channelNode(merchantKey, channel, initiallyOpen) {
+        const node = document.createElement("details");
+        node.className = "channel-node";
+        node.open = initiallyOpen;
+        const summary = document.createElement("summary");
+        const name = div("primary", channel.name || `channel-${channel.id || "--"}`);
+        const description = div("channel-meta", channel.description || "--");
+        const listings = channel.listings || [];
+        const activeListingCount = listings.filter(listingIsActive).length;
+        const counts = div(
+          "channel-meta",
+          `${integerFormat.format((channel.models || []).length)} 可辖 · ${integerFormat.format(activeListingCount)} 上架 · ${integerFormat.format(listings.length - activeListingCount)} 下架`
+        );
+        summary.append(name, description, counts);
+
+        const body = document.createElement("div");
+        body.className = "channel-body";
+        const channelEditor = document.createElement("div");
+        const modelsLabel = div("detail-label", "渠道可以下辖 model");
+        const models = document.createElement("div");
+        models.className = "model-list";
+        for (const model of channel.models || []) models.append(div("model-token", model));
+        if (!models.childNodes.length) models.append(div("secondary", "--"));
+        channelEditor.append(
+          modelsLabel,
+          models,
+          inlineEditForm(
+            `api/merchants/${encodeURIComponent(merchantKey)}/channels/${encodeURIComponent(channel.id)}`,
+            [
+              { name: "nickname", label: "渠道昵称", value: channel.nickname || "" },
+              {
+                name: "models",
+                label: "可下辖 model",
+                value: (channel.models || []).join(","),
+                wide: true
+              },
+              {
+                name: "description",
+                label: "渠道简介",
+                value: channel.description || "",
+                multiline: true,
+                wide: true
+              }
+            ]
+          )
+        );
+
+        const listingList = document.createElement("div");
+        listingList.className = "listing-list";
+        listingList.append(div("detail-label", `已下辖 model · ${listings.length}`));
+        if (!listings.length) listingList.append(div("secondary", "当前没有已下辖 model"));
+        for (const listing of listings) {
+          const item = document.createElement("div");
+          item.className = "listing-item";
+          const identity = document.createElement("div");
+          identity.className = "listing-identity";
+          identity.append(
+            div("primary", listing.platform_model || listing.own_model || "未命名 model"),
+            div("secondary", `上游 ${listing.own_model || "--"} · Listing ${listing.id || "--"}`),
+            badge(listingIsActive(listing) ? "已上架" : "已下架", listingIsActive(listing) ? "active" : "disabled")
+          );
+          item.append(
+            identity,
+            inlineEditForm(
+              `api/merchants/${encodeURIComponent(merchantKey)}/listings/${encodeURIComponent(listing.id)}`,
+              [
+                {
+                  name: "display_name",
+                  label: "Model 显示名",
+                  value: listing.display_name || ""
+                },
+                {
+                  name: "description",
+                  label: "Model 简介",
+                  value: listing.description || "",
+                  multiline: true,
+                  wide: true
+                }
+              ]
+            )
+          );
+          listingList.append(item);
+        }
+        body.append(channelEditor, listingList);
+        node.append(summary, body);
+        return node;
+      }
+
+      function listingIsActive(listing) {
+        return Number(listing?.status) === 2
+          && Number(listing?.availability) === 1
+          && Number(listing?.visibility) === 1;
+      }
+
+      function inlineEditForm(path, fields) {
+        const form = document.createElement("form");
+        form.className = "inline-edit-form";
+        form.dataset.editPath = path;
+        const grid = document.createElement("div");
+        grid.className = "inline-edit-grid";
+        for (const field of fields) {
+          const label = document.createElement("label");
+          label.className = `inline-edit-field${field.wide ? " wide" : ""}`;
+          label.append(document.createTextNode(field.label));
+          const input = document.createElement(field.multiline ? "textarea" : "input");
+          input.name = field.name;
+          input.value = field.value;
+          input.maxLength = field.name === "description" ? 1000 : 256;
+          label.append(input);
+          grid.append(label);
+        }
+        const mutation = state.mutations.get(path);
+        const actions = document.createElement("div");
+        actions.className = "inline-edit-actions";
+        actions.append(
+          div(
+            "inline-status",
+            mutation?.status === "saving"
+              ? "保存中"
+              : mutation?.status === "error"
+                ? `保存失败 · ${operationErrorLabel(mutation.error)}`
+                : mutation?.status === "saved"
+                  ? "已保存并回读确认"
+                  : ""
+          )
+        );
+        const save = document.createElement("button");
+        save.type = "submit";
+        save.className = "small-command";
+        save.disabled = mutation?.status === "saving";
+        save.textContent = "保存";
+        actions.append(save);
+        form.append(grid, actions);
+        return form;
+      }
+
+      function actionButton(label, className, datasetName, value) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = className;
+        button.dataset[datasetName] = value;
+        button.textContent = label;
+        return button;
+      }
+
+      function retirementCell(merchant) {
+        const panel = document.createElement("div");
+        panel.className = "retirement-panel";
+        const phase = merchant.retirement_phase || "none";
+        const heading = document.createElement("div");
+        heading.className = "retirement-heading";
+        const status = document.createElement("div");
+        status.append(
+          div("primary", retirementPhaseLabels[phase] || phase),
+          div(
+            "secondary",
+            merchant.retirement_error_class
+              ? `异常 ${merchant.retirement_error_class}`
+              : merchant.retirement_updated_at
+                ? `更新 ${relativeTime(merchant.retirement_updated_at)}`
+                : ""
+          )
+        );
+        const merchantKey = String(merchant.merchant_id || "");
+        const mutationKey = `retirement:${merchantKey}`;
+        const mutation = state.mutations.get(mutationKey);
+        const button = actionButton(
+          phase === "none" ? "安全删除" : phase === "archived" ? "已退居幕后" : "处理中",
+          phase === "none" ? "danger-command" : "small-command",
+          "retirement",
+          merchantKey
+        );
+        button.disabled = phase !== "none" || mutation?.status === "saving";
+        heading.append(status, button);
+        const progress = document.createElement("div");
+        progress.className = "retirement-track";
+        const completed = { none: 0, pre_retirement: 1, retiring: 2, draining: 3, archived: 4 }[phase] || 0;
+        for (let index = 0; index < 4; index += 1) {
+          const step = document.createElement("span");
+          step.className = `retirement-step${index < completed ? " complete" : ""}`;
+          progress.append(step);
+        }
+        panel.append(heading, progress);
+        return panel;
+      }
+
+      function operationErrorLabel(code) {
+        const labels = {
+          account_login_failed: "账密校验失败",
+          proxy_pool_exhausted: "代理池已满",
+          merchant_relogin_failed: "会话登录失败",
+          supplier_channel_update_failed: "渠道更新失败",
+          supplier_listing_update_failed: "Model 更新失败",
+          request_failed: "请求失败"
+        };
+        return labels[code] || code || "请求失败";
+      }
+
+      function detailSection(title, fields) {
+        const section = document.createElement("section");
+        section.className = "detail-section";
+        const heading = document.createElement("h3");
+        heading.className = "detail-heading";
+        heading.textContent = title;
+        const grid = document.createElement("div");
+        grid.className = "detail-grid";
+        grid.append(...fields);
+        section.append(heading, grid);
+        return section;
+      }
+
+      function detailField(label, sourceCell, wide = false) {
+        const field = document.createElement("div");
+        field.className = `detail-field${wide ? " wide" : ""}`;
+        const heading = div("detail-label", label);
+        const value = document.createElement("div");
+        value.className = "detail-value";
+        for (const className of sourceCell.classList) value.classList.add(className);
+        value.append(...sourceCell.childNodes);
+        field.append(heading, value);
+        return field;
+      }
+
+      function credentialCell(merchant) {
+        const cell = document.createElement("div");
+        const merchantKey = String(merchant.merchant_id || "");
+        const entry = state.credentials.get(merchantKey);
+        const control = document.createElement("div");
+        control.className = "credential-control";
+        const status = div(
+          "secondary",
+          entry?.status === "loading"
+            ? "正在读取"
+            : entry?.status === "error"
+              ? "读取失败，凭据仍已遮罩"
+              : entry?.status === "visible"
+                ? "仅当前页面显示"
+                : "账号密码已遮罩"
+        );
+        const action = document.createElement("button");
+        action.type = "button";
+        action.className = "credential-action";
+        action.dataset.credentialToggle = merchantKey;
+        action.disabled = !merchantKey || entry?.status === "loading";
+        const visible = entry?.status === "visible";
+        action.setAttribute("aria-pressed", String(visible));
+        action.setAttribute(
+          "aria-label",
+          visible ? "重新遮罩 A6 登录凭据" : "显示 A6 登录凭据"
+        );
+        action.title = visible ? "重新遮罩账号密码" : "按需读取账号密码";
+        const icon = document.createElement("span");
+        icon.className = "credential-icon";
+        icon.setAttribute("aria-hidden", "true");
+        icon.textContent = visible ? "⊘" : "◉";
+        action.append(icon, document.createTextNode(visible ? "遮罩" : "显示"));
+        control.append(status, action);
+        cell.append(control);
+
+        if (visible) {
+          const values = document.createElement("div");
+          values.className = "credential-values";
+          values.append(
+            credentialRow("登录账号", entry.username),
+            credentialRow("注册邮箱", entry.email || "--"),
+            credentialRow("密码", entry.password)
+          );
+          cell.append(values);
+        }
+        return cell;
+      }
+
+      function credentialRow(label, value) {
+        const row = document.createElement("div");
+        row.className = "credential-row";
+        row.append(
+          div("credential-row-label", label),
+          div("credential-row-value", value)
+        );
+        return row;
+      }
+
+      function forgetCredentials(merchantKey) {
+        const entry = state.credentials.get(merchantKey);
+        if (entry?.controller) entry.controller.abort();
+        state.credentials.delete(merchantKey);
+      }
+
+      async function toggleCredentials(merchantKey) {
+        const existing = state.credentials.get(merchantKey);
+        if (existing?.status === "visible" || existing?.status === "loading") {
+          forgetCredentials(merchantKey);
+          renderMerchants();
+          return;
+        }
+
+        const controller = new AbortController();
+        const timeout = window.setTimeout(() => controller.abort(), 10000);
+        state.credentials.set(merchantKey, { status: "loading", controller });
+        renderMerchants();
+        try {
+          const payload = await fetchJson(
+            `api/merchants/${encodeURIComponent(merchantKey)}/credentials`,
+            controller.signal
+          );
+          if (state.credentials.get(merchantKey)?.controller !== controller) return;
+          if (
+            String(payload.merchant_id || "") !== merchantKey ||
+            typeof payload.username !== "string" ||
+            typeof payload.email !== "string" ||
+            typeof payload.password !== "string"
+          ) {
+            throw new Error("credential_response_invalid");
+          }
+          state.credentials.set(merchantKey, {
+            status: "visible",
+            username: payload.username,
+            email: payload.email,
+            password: payload.password
+          });
+        } catch (_error) {
+          if (state.credentials.get(merchantKey)?.controller !== controller) return;
+          state.credentials.set(merchantKey, { status: "error" });
+        } finally {
+          window.clearTimeout(timeout);
+          if (state.expandedMerchants.has(merchantKey)) renderMerchants();
+        }
+      }
+
+      async function loadInventory(merchantKey, force = false) {
+        const existing = state.inventories.get(merchantKey);
+        if (!force && ["loading", "loaded"].includes(existing?.status)) return;
+        if (existing?.controller) existing.controller.abort();
+        const controller = new AbortController();
+        state.inventories.set(merchantKey, { status: "loading", controller });
+        renderMerchants();
+        try {
+          const payload = await fetchJson(
+            `api/merchants/${encodeURIComponent(merchantKey)}/inventory`,
+            controller.signal
+          );
+          if (state.inventories.get(merchantKey)?.controller !== controller) return;
+          if (String(payload.merchant_id || "") !== merchantKey) throw new Error("inventory_identity_mismatch");
+          state.inventories.set(merchantKey, { status: "loaded", data: payload });
+        } catch (error) {
+          if (error?.name === "AbortError") return;
+          if (state.inventories.get(merchantKey)?.controller !== controller) return;
+          state.inventories.set(merchantKey, {
+            status: "error",
+            error: error?.code || error?.message || "request_failed"
+          });
+        }
+        if (state.expandedMerchants.has(merchantKey)) renderMerchants();
+      }
+
+      async function saveEconomicProfit(event) {
+        event.preventDefault();
+        if (state.economicProfitSubmitting) return;
+        const rawPercent = elements.economicProfitPercent.value.trim();
+        const percent = Number(rawPercent);
+        if (
+          !/^\d+(?:\.\d{1,2})?$/.test(rawPercent)
+          || !Number.isFinite(percent)
+          || percent < 0
+          || percent > 1000
+        ) {
+          elements.economicProfitStatus.textContent = "请输入 0-1000，最多两位小数";
+          return;
+        }
+        state.economicProfitSubmitting = true;
+        elements.economicProfitSave.disabled = true;
+        elements.economicProfitStatus.textContent = "保存中";
+        const controller = new AbortController();
+        const timeout = window.setTimeout(() => controller.abort(), 10000);
+        try {
+          const model = state.economicModel;
+          const setting = await mutateJson(
+            `api/economic-priority1/${encodeURIComponent(model)}/profit`,
+            "PUT",
+            { profit_percent: rawPercent },
+            controller.signal
+          );
+          state.economicPriority1 = {
+            ...(state.economicPriority1 || { model }),
+            profit_setting: setting
+          };
+          elements.economicProfitPercent.value = setting.profit_percent;
+          elements.economicProfitStatus.textContent = `已保存 ${setting.profit_percent}%`;
+          renderEconomicPriority1();
+          await refreshEconomicPriority1();
+        } catch (error) {
+          if (error?.name === "AbortError") {
+            elements.economicProfitStatus.textContent = "保存超时";
+          } else {
+            elements.economicProfitStatus.textContent = operationErrorLabel(
+              error?.code || error?.message || "request_failed"
+            );
+          }
+        } finally {
+          window.clearTimeout(timeout);
+          state.economicProfitSubmitting = false;
+          elements.economicProfitSave.disabled = false;
+          updateEconomicProfitPreview();
+        }
+      }
+
+      async function saveInlineEdit(form) {
+        const path = form.dataset.editPath;
+        if (!path || state.mutations.get(path)?.status === "saving") return;
+        const payload = {};
+        for (const [name, value] of new FormData(form).entries()) payload[name] = String(value);
+        const controller = new AbortController();
+        state.mutations.set(path, { status: "saving", controller });
+        renderMerchants();
+        try {
+          await mutateJson(path, "PATCH", payload, controller.signal);
+          state.mutations.set(path, { status: "saved" });
+          const merchantKey = path.match(/merchants\/([^/]+)/)?.[1] || "";
+          if (merchantKey) await loadInventory(decodeURIComponent(merchantKey), true);
+          await refresh();
+        } catch (error) {
+          if (error?.name === "AbortError") return;
+          state.mutations.set(path, {
+            status: "error",
+            error: error?.code || error?.message || "request_failed"
+          });
+          renderMerchants();
+        }
+      }
+
+      async function requestRetirement(merchantKey) {
+        const mutationKey = `retirement:${merchantKey}`;
+        if (state.mutations.get(mutationKey)?.status === "saving") return;
+        if (!window.confirm("将该账号加入安全删除（退居幕后）：先保留价值，随后退出 Seller，余额耗尽后仅保留 Observer。")) return;
+        const controller = new AbortController();
+        state.mutations.set(mutationKey, { status: "saving", controller });
+        renderMerchants();
+        try {
+          await mutateJson(
+            `api/merchants/${encodeURIComponent(merchantKey)}/retirement`,
+            "POST",
+            {},
+            controller.signal
+          );
+          state.mutations.set(mutationKey, { status: "saved" });
+          await refresh();
+        } catch (error) {
+          if (error?.name === "AbortError") return;
+          state.mutations.set(mutationKey, {
+            status: "error",
+            error: error?.code || error?.message || "request_failed"
+          });
+          renderMerchants();
+        }
+      }
+
+      function openAccountDialog() {
+        elements.accountStatus.textContent = "";
+        if (typeof elements.accountDialog.showModal === "function") {
+          elements.accountDialog.showModal();
+        } else {
+          elements.accountDialog.setAttribute("open", "");
+        }
+        elements.accountUsername.focus();
+      }
+
+      function closeAccountDialog() {
+        if (typeof elements.accountDialog.close === "function") {
+          elements.accountDialog.close();
+        } else {
+          elements.accountDialog.removeAttribute("open");
+        }
+      }
+
+      async function addAccount(event) {
+        event.preventDefault();
+        if (state.accountSubmitting) return;
+        state.accountSubmitting = true;
+        elements.accountSubmit.disabled = true;
+        elements.accountStatus.textContent = "正在校验账号并分配代理";
+        const payload = {
+          username: elements.accountUsername.value,
+          password: elements.accountPassword.value
+        };
+        try {
+          const result = await mutateJson("api/accounts", "POST", payload);
+          elements.accountStatus.textContent = result.status === "existing" ? "账号已存在，凭据已更新" : "账号已加入，等待 Collector 首次采集";
+          elements.accountPassword.value = "";
+          await refresh();
+          window.setTimeout(closeAccountDialog, 600);
+        } catch (error) {
+          elements.accountStatus.textContent = operationErrorLabel(
+            error?.code || error?.message || "request_failed"
+          );
+        } finally {
+          state.accountSubmitting = false;
+          elements.accountSubmit.disabled = false;
+        }
+      }
+
+      function merchantCell(merchant) {
+        const cell = document.createElement("td");
+        const inventory = state.inventories.get(String(merchant.merchant_id || ""));
+        const supplierName = inventory?.status === "loaded" ? inventory.data?.supplier?.name : "";
+        const name = div("primary", supplierName || merchant.display_name || merchant.merchant_id || "未命名");
+        const id = div(
+          "secondary",
+          supplierName
+            ? `${merchant.display_name || merchant.merchant_id || "--"} · ${merchant.seller_channel_count || 0} 渠道`
+            : merchant.merchant_id || "--"
+        );
+        cell.append(name, id);
+        return cell;
+      }
+
+      function roleStatusCell(merchant) {
+        const cell = document.createElement("td");
+        const badges = document.createElement("div");
+        badges.className = "badges";
+        const roles = new Set(merchant.roles || []);
+        if (roles.has("seller")) badges.append(badge("Seller", "base-role"));
+        const duties = ["provider", "observer"].filter((duty) => roles.has(duty));
+        if (duties.length) {
+          for (const duty of duties) badges.append(badge(`${dutyLabels[duty]} duty`, "duty"));
+        } else {
+          badges.append(badge("无额外 duty", "duty"));
+        }
+        badges.append(badge(statusLabels[merchant.status] || merchant.status, merchant.status));
+        cell.append(badges);
+        return cell;
+      }
+
+      function roleHealthCell(merchant) {
+        const cell = roleStatusCell(merchant);
+        const component = componentCell(merchant);
+        cell.append(...component.childNodes);
+        const freshness = merchant.freshness || "unknown";
+        cell.querySelector(".badges").append(
+          badge(statusLabels[freshness] || freshness, freshness)
+        );
+        return cell;
+      }
+
+      function merchantAlertCell(merchant) {
+        const cell = document.createElement("td");
+        if (merchant.last_error_class) {
+          cell.append(
+            div("primary", merchant.last_error_class),
+            div("secondary", formatTime(merchant.last_error_at || merchant.last_observed_at))
+          );
+          return cell;
+        }
+        cell.append(
+          div("primary", statusLabels[merchant.freshness] || merchant.freshness || "未知"),
+          div("secondary", `${ageText(merchant.age_seconds)} · ${formatTime(merchant.last_observed_at)}`)
+        );
+        return cell;
+      }
+
+      function componentCell(merchant) {
+        const cell = document.createElement("td");
+        const badges = document.createElement("div");
+        badges.className = "badges";
+        badges.append(
+          badge(`会话 ${statusLabels[merchant.session_status] || merchant.session_status}`, merchant.session_status),
+          badge(`代理 ${statusLabels[merchant.proxy_status] || merchant.proxy_status}`, merchant.proxy_status)
+        );
+        cell.append(badges);
+        return cell;
+      }
+
+      function listingCell(merchant) {
+        const cell = document.createElement("td");
+        const managed = Number(merchant.managed_listing_count || 0);
+        const managedActive = Number(merchant.managed_active_listing_count || 0);
+        const unmanaged = Number(merchant.existing_unmanaged_listing_count || 0);
+        const unmanagedActive = Number(merchant.existing_unmanaged_active_listing_count || 0);
+        const down = Number(merchant.down_listing_count || 0);
+        const pending = Number(merchant.pending_listing_count || 0);
+        const managedChannels = Number(merchant.managed_channel_count || 0);
+        const unmanagedChannels = Number(merchant.existing_unmanaged_channel_count || 0);
+        const channelIds = [...new Set(
+          (merchant.listing_rates || []).map((rate) => rate.channel_id).filter(Boolean)
+        )];
+        const channelLabel = channelIds.length ? `channel ${channelIds.join(", ")}` : "channel --";
+        const details = [
+          `受管渠道 ${integerFormat.format(managedChannels)}`,
+          `已有未受管 ${integerFormat.format(unmanagedActive)} / ${integerFormat.format(unmanaged)}`,
+          `未受管渠道 ${integerFormat.format(unmanagedChannels)}`,
+          `下架 ${integerFormat.format(down)}`
+        ];
+        if (pending) details.push(`待审核 ${integerFormat.format(pending)}`);
+        cell.append(
+          div("primary", `${channelLabel} · 面板 ${integerFormat.format(managedActive)} / ${integerFormat.format(managed)} 活跃`),
+          div("secondary", details.join(" · "))
+        );
+        return cell;
+      }
+
+      function listingRatesCell(merchant) {
+        const cell = document.createElement("td");
+        const rates = Array.isArray(merchant.listing_rates) ? merchant.listing_rates : [];
+        if (!rates.length) {
+          cell.append(div("primary", "--"), div("secondary", "暂无 Listing 定价"));
+          return cell;
+        }
+        for (const rate of rates) {
+          const delta = rate.observed_delta == null ? rate.desired_delta : rate.observed_delta;
+          const management = rate.managed_state === "managed" ? "受管" : "已有未受管";
+          const entry = document.createElement("div");
+          entry.className = "rate-entry";
+          const healthBadges = document.createElement("div");
+          healthBadges.className = "badges";
+          healthBadges.append(
+            badge(statusLabels[rate.health_state] || rate.health_state || "未知", rate.health_state),
+            badge(rate.market_available ? "市场可用" : "市场不可用", rate.market_available ? "healthy" : "error"),
+            badge(rate.growth_enabled ? "恢复已启用" : "恢复未启用", rate.growth_enabled ? "active" : "disabled"),
+            badge(`Observer 同态 ${integerFormat.format(Number(rate.health_confirmation_count || 0))} / ${integerFormat.format(Number(rate.health_observer_count || 0))}`, Number(rate.health_confirmation_count || 0) >= 2 ? "healthy" : "pending")
+          );
+          const routingLabels = Array.isArray(rate.smart_routing_labels) && rate.smart_routing_labels.length
+            ? rate.smart_routing_labels.join(", ")
+            : "无标";
+          const circuit = rate.circuit_state || "--";
+          const probe = rate.circuit_probe_status || "--";
+          const cooldown = rate.cooldown_state || "--";
+          const probeStreak = rate.circuit_probe_success_streak == null
+            ? "--"
+            : integerFormat.format(Number(rate.circuit_probe_success_streak));
+          const probeRequired = rate.circuit_probe_success_required == null
+            ? "--"
+            : integerFormat.format(Number(rate.circuit_probe_success_required));
+          const recoveryAt = rate.circuit_cooling_until || rate.cooldown_expected_recovery_at;
+          const nextProbeAt = rate.circuit_next_probe_at || rate.cooldown_next_probe_at;
+          const cooldownSources = Array.isArray(rate.cooldown_sources) && rate.cooldown_sources.length
+            ? rate.cooldown_sources.join(", ")
+            : "--";
+          const remaining = rate.cooldown_remaining_seconds == null
+            ? ""
+            : ` · 剩余 ${integerFormat.format(Number(rate.cooldown_remaining_seconds))}s`;
+          const sampleHealth = `样本 ${integerFormat.format(Number(rate.sample_count || 0))} · 成功率 ${formatBasisPoints(rate.recent_success_rate)} · P50 ${formatLatency(rate.recent_p50_ms)} · TTFT ${formatLatency(rate.p50_ttft_ms)}`;
+          const recentResult = `最近成功 ${formatTime(rate.last_success_at)} · 最近失败 ${formatTime(rate.last_failure_at)}${rate.last_failure_code ? ` / ${rate.last_failure_code}` : ""}`;
+          entry.append(
+            div("primary", `${rate.model || "--"} · K_CNY ${formatMultiplier(rate.price_multiplier_cny)}`),
+            healthBadges,
+            div("secondary", `circuit ${circuit} · scope ${rate.circuit_scope || "--"} · 恢复 ${rate.circuit_recovery_mode || "--"}`),
+            div("secondary", `probe ${probe} · 进度 ${probeStreak} / ${probeRequired} · 下次探活 ${formatTime(nextProbeAt)} · 最近探活 ${formatTime(rate.circuit_last_probe_at)}`),
+            div("secondary", `cooldown ${cooldown}${remaining} · 恢复窗口 ${formatTime(recoveryAt)} · 来源 ${cooldownSources}`),
+            div("secondary", `最近冷却 ${formatTime(rate.circuit_last_cooling_at)} · 熔断错误 ${rate.circuit_last_error_kind || "--"}`),
+            div("secondary", `智能路由 ${rate.smart_routing_status || "--"} · 标 ${routingLabels}`),
+            div("secondary", sampleHealth),
+            div("secondary", recentResult),
+            div("secondary", `channel ${rate.channel_id || "--"} · listing ${rate.listing_id || "--"}`),
+            div("secondary", `δ ${formatDecimal(delta)}`),
+            div("secondary", `入 ${formatRateMicros(rate.input_price_micros)} / 出 ${formatRateMicros(rate.output_price_micros)}`),
+            div("secondary", `缓存读 ${formatRateMicros(rate.cache_read_price_micros)} / 写 ${formatRateMicros(rate.cache_write_price_micros)} · ${management}`),
+            div("secondary", `健康采样 ${formatTime(rate.health_observed_at)} · Listing 采样 ${formatTime(rate.observed_at)}`)
+          );
+          if (rate.growth_action_type) {
+            const action = growthActionLabels[rate.growth_action_type] || rate.growth_action_type;
+            const actionResult = rate.growth_action_state === "completed"
+              ? `${integerFormat.format(Number(rate.growth_success_count || 0))} / ${integerFormat.format(Number(rate.growth_request_count || 0))} 成功`
+              : (rate.growth_error_class || rate.growth_action_state || "--");
+            entry.append(
+              div("secondary", `最近动作 ${action} · ${actionResult} · 成本 ${formatMicros(rate.growth_actual_cost_micros)} / 预估 ${formatMicros(rate.growth_estimated_cost_micros)}`),
+              div("secondary", `开始 ${formatTime(rate.growth_started_at)} · 下次允许 ${formatTime(rate.growth_next_allowed_at)}`)
+            );
+          }
+          cell.append(entry);
+        }
+        return cell;
+      }
+
+      function amountCell(value) {
+        const cell = document.createElement("td");
+        cell.className = "num";
+        cell.textContent = formatMicros(value);
+        return cell;
+      }
+
+      function pairedAmountCell(first, second) {
+        const cell = document.createElement("td");
+        cell.append(div("num", formatMicros(first)), div("secondary", formatMicros(second)));
+        return cell;
+      }
+
+      function transferCell(merchant) {
+        const cell = document.createElement("td");
+        cell.append(
+          div("num", formatMicros(merchant.transfer_in_micros)),
+          div("secondary", `${integerFormat.format(Number(merchant.transfer_in_count || 0))} 次`)
+        );
+        return cell;
+      }
+
+      function salesCell(merchant) {
+        const cell = document.createElement("td");
+        const pendingSales = Number(merchant.unattributed_external_enodot_request_count || 0);
+        const pendingText = pendingSales
+          ? ` · ${integerFormat.format(pendingSales)} 笔待成本归因`
+          : "";
+        cell.append(
+          div("num", formatMicros(merchant.external_enodot_revenue_micros)),
+          div("secondary", `${ledgerStatusText(merchant.sales_status)} · ${integerFormat.format(Number(merchant.external_enodot_request_count || 0))} 次${pendingText}`)
+        );
+        return cell;
+      }
+
+      function providerCostCell(merchant) {
+        const cell = document.createElement("td");
+        cell.append(
+          div("num", formatMicros(merchant.provider_cost_micros)),
+          div("secondary", `外部 ${formatMicros(merchant.external_provider_cost_micros)} · Managed ${formatMicros(merchant.managed_internal_provider_cost_micros)} · Owner/Internal ${formatMicros(merchant.owner_internal_provider_cost_micros)} · 待归属 ${formatMicros(merchant.unattributed_provider_cost_micros)}`)
+        );
+        return cell;
+      }
+
+      function sellerIncomeCell(merchant) {
+        const cell = document.createElement("td");
+        cell.append(
+          div("num", formatMicros(merchant.seller_income_micros)),
+          div("secondary", `Managed 扣账 ${formatMicros(merchant.managed_internal_debit_micros)} / ${integerFormat.format(Number(merchant.managed_internal_request_count || 0))} 次 · Owner/Internal ${formatMicros(merchant.owner_internal_debit_micros)} / ${integerFormat.format(Number(merchant.owner_internal_request_count || 0))} 次，均不计收入`)
+        );
+        return cell;
+      }
+
+      function probeCell(merchant) {
+        const cell = document.createElement("td");
+        cell.append(
+          div("num", formatMicros(merchant.probe_loss_micros)),
+          div("secondary", `毛 ${formatMicros(merchant.probe_gross_cost_micros)} · Pin 探活 ${formatMicros(merchant.pin_probe_cost_micros)} / ${integerFormat.format(Number(merchant.pin_probe_event_count || 0))} 次 · 回流 ${formatMicros(merchant.probe_recovery_micros)}`)
+        );
+        return cell;
+      }
+
+      function profitCell(merchant) {
+        const value = merchant.actual_profit_micros;
+        const status = merchant.profit_status || "pending";
+        const confirmed = ["confirmed", "not_applicable"].includes(status);
+        const cell = document.createElement("td");
+        cell.className = "num";
+        cell.append(div("num", confirmed && value != null ? formatMicros(value) : "--"));
+        const number = Number(value || 0);
+        cell.classList.toggle("positive", confirmed && number > 0);
+        cell.classList.toggle("negative", confirmed && number < 0);
+        const margin = merchant.profit_margin == null
+          ? "--"
+          : percentFormat.format(Number(merchant.profit_margin));
+        const pendingSales = Number(merchant.unattributed_external_enodot_request_count || 0);
+        const pendingProvider = Number(merchant.unattributed_provider_event_count || 0);
+        let detail = `利润率 ${margin}`;
+        if (pendingSales) {
+          detail = `${integerFormat.format(pendingSales)} 笔 / ${formatMicros(merchant.unattributed_external_enodot_revenue_micros)} 外部收入缺少 Provider 成本`;
+        } else if (pendingProvider) {
+          detail = `${integerFormat.format(pendingProvider)} 笔 / ${formatMicros(merchant.unattributed_provider_cost_micros)} A6 Provider 成本待归属`;
+        }
+        if (!confirmed) detail += ` · 已确认 ${formatMicros(merchant.confirmed_profit_micros)}`;
+        cell.append(div("secondary", `${ledgerStatusText(status)} · ${detail}`));
+        return cell;
+      }
+
+      function summaryProfitCell(merchant) {
+        const value = merchant.actual_profit_micros;
+        const status = merchant.profit_status || "pending";
+        const confirmed = ["confirmed", "not_applicable"].includes(status);
+        const cell = document.createElement("td");
+        cell.className = "num";
+        cell.append(
+          div("num", confirmed && value != null ? formatMicros(value) : "--"),
+          div("secondary", ledgerStatusText(status))
+        );
+        const number = Number(value || 0);
+        cell.classList.toggle("positive", confirmed && number > 0);
+        cell.classList.toggle("negative", confirmed && number < 0);
+        return cell;
+      }
+
+      function withdrawAccountCell(merchant) {
+        const cell = document.createElement("td");
+        const state = merchant.withdraw_account_state || "missing";
+        cell.append(
+          div("primary", merchant.withdraw_account_network || "--"),
+          div("secondary", merchant.withdraw_account_masked || state)
+        );
+        return cell;
+      }
+
+      function enodotBindingCell(merchant) {
+        const cell = document.createElement("td");
+        const pending = merchant.pending_binding ? "待绑定" : "已对账";
+        cell.append(
+          div("primary", `${integerFormat.format(Number(merchant.enodot_account_count || 0))} 个账号`),
+          div("secondary", `${integerFormat.format(Number(merchant.provider_token_count || 0))} 个 Provider Key · ${pending}`)
+        );
+        return cell;
+      }
+
+      function pinCell(merchant) {
+        const cell = document.createElement("td");
+        const rates = Array.isArray(merchant.pin_rates) ? merchant.pin_rates : [];
+        if (rates.length) {
+          for (const rate of rates) {
+            const channel = rate.channel_id ? `channel ${rate.channel_id}` : "channel --";
+            const decision = rate.decision_status || "已观测";
+            const entry = document.createElement("div");
+            entry.className = "rate-entry";
+            entry.append(
+              div("primary", `${rate.model || "--"} · K_CNY ${formatMultiplier(rate.realtime_ratio_cny)}`),
+              div("secondary", channel),
+              div("secondary", decision),
+              div("secondary", formatTime(rate.quote_observed_at || rate.confirmed_at))
+            );
+            cell.append(entry);
+          }
+          return cell;
+        }
+        cell.append(
+          div("primary", merchant.current_pin_model || "--"),
+          div("secondary", merchant.current_pin_channel_id ? `channel ${merchant.current_pin_channel_id}` : "未 Pin")
+        );
+        return cell;
+      }
+
+      function freshnessCell(merchant) {
+        const cell = document.createElement("td");
+        const badges = document.createElement("div");
+        badges.className = "badges";
+        badges.append(badge(statusLabels[merchant.freshness] || merchant.freshness, merchant.freshness));
+        cell.append(badges);
+        const detail = merchant.last_error_class
+          ? `${merchant.last_error_class} · ${formatTime(merchant.last_error_at)}`
+          : `${ageText(merchant.age_seconds)} · ${formatTime(merchant.last_observed_at)}`;
+        cell.append(div("secondary", detail));
+        return cell;
+      }
+
+      function badge(label, tone) {
+        const element = document.createElement("span");
+        element.className = `badge ${tone || ""}`.trim();
+        element.textContent = label || "未知";
+        return element;
+      }
+
+      function ledgerStatusText(status) {
+        return ledgerStatusLabels[status] || "待归属";
+      }
+
+      function div(className, text) {
+        const element = document.createElement("div");
+        element.className = className;
+        element.textContent = text;
+        return element;
+      }
+
+      function formatMultiplier(value) {
+        return value == null ? "--" : `x${formatDecimal(value)}`;
+      }
+
+      function formatDecimal(value) {
+        if (value == null || value === "") return "--";
+        const number = Number(value);
+        return Number.isFinite(number) ? multiplierFormat.format(number) : "--";
+      }
+
+      function formatBasisPoints(value) {
+        if (value == null || value === "") return "--";
+        return `${(Number(value) / 100).toFixed(2)}%`;
+      }
+
+      function formatLatency(value) {
+        if (value == null || value === "") return "--";
+        return `${formatDecimal(value)}ms`;
+      }
+
+      function formatRateMicros(value) {
+        const number = Number(value);
+        return Number.isFinite(number) ? integerFormat.format(number) : "--";
+      }
+
+      function setCollectorState(status, text) {
+        elements.collectorDot.className = `state-dot ${status || "unknown"}`;
+        elements.collectorText.textContent = text;
+      }
+
+      function freshnessText(freshness) {
+        const status = statusLabels[freshness.status] || "未知";
+        return `${status} · ${ageText(freshness.age_seconds)}`;
+      }
+
+      function showAlert(text) {
+        elements.alertText.textContent = text;
+        elements.alert.hidden = false;
+      }
+
+      function hideAlert() {
+        elements.alert.hidden = true;
+        elements.alertText.textContent = "";
+      }
+
+      function formatMicros(value) {
+        const amount = Number(value || 0) / 1000000;
+        return `$${amountFormat.format(amount)}`;
+      }
+
+      function signedMicros(value) {
+        const prefix = value > 0 ? "+" : "";
+        return `${prefix}${formatMicros(value)}`;
+      }
+
+      function formatTime(value) {
+        if (!value) return "--";
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return "--";
+        return new Intl.DateTimeFormat("zh-CN", {
+          timeZone: "Asia/Shanghai",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: false
+        }).format(date);
+      }
+
+      function ageText(value) {
+        const seconds = Math.max(0, Number(value || 0));
+        if (seconds < 60) return `${Math.round(seconds)} 秒`;
+        if (seconds < 3600) return `${Math.round(seconds / 60)} 分钟`;
+        if (seconds < 86400) return `${Math.round(seconds / 3600)} 小时`;
+        return `${Math.round(seconds / 86400)} 天`;
+      }
+
+      function relativeTime(value) {
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return "--";
+        return `${ageText((Date.now() - date.getTime()) / 1000)}前`;
+      }
+
+      elements.windows.addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-window]");
+        if (!button || button.dataset.window === state.window) return;
+        state.window = button.dataset.window;
+        for (const item of elements.windows.querySelectorAll("button")) {
+          item.setAttribute("aria-pressed", String(item === button));
+        }
+        refresh();
+      });
+      elements.trafficWindows.addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-traffic-window]");
+        if (!button || button.dataset.trafficWindow === state.trafficWindow) return;
+        state.trafficWindow = button.dataset.trafficWindow;
+        for (const item of elements.trafficWindows.querySelectorAll("button")) {
+          item.setAttribute("aria-pressed", String(item === button));
+        }
+        refreshTraffic();
+      });
+      elements.trafficModel.addEventListener("change", () => {
+        state.trafficModel = elements.trafficModel.value;
+        refreshTraffic();
+        refreshProviderPool();
+      });
+      elements.economicModel.addEventListener("change", () => {
+        if (elements.economicModel.value === state.economicModel) return;
+        state.economicModel = elements.economicModel.value;
+        state.economicPriority1 = null;
+        elements.economicProfitStatus.textContent = "";
+        renderEconomicPriority1();
+        refreshEconomicPriority1();
+      });
+      elements.trafficPositionFilter.addEventListener("change", () => {
+        const traffic = state.traffic || {};
+        renderTrafficPositions(
+          Array.isArray(traffic.managed_positions) ? traffic.managed_positions : []
+        );
+      });
+      elements.refresh.addEventListener("click", refreshAll);
+      elements.addAccount.addEventListener("click", openAccountDialog);
+      elements.accountCancel.addEventListener("click", closeAccountDialog);
+      elements.accountForm.addEventListener("submit", addAccount);
+      elements.economicProfitForm.addEventListener("submit", saveEconomicProfit);
+      elements.economicProfitPercent.addEventListener("input", updateEconomicProfitPreview);
+      elements.duty.addEventListener("change", renderMerchants);
+      elements.status.addEventListener("change", renderMerchants);
+      elements.freshness.addEventListener("change", renderMerchants);
+      elements.search.addEventListener("input", renderMerchants);
+      elements.rows.addEventListener("submit", (event) => {
+        const form = event.target.closest("form[data-edit-path]");
+        if (!form) return;
+        event.preventDefault();
+        saveInlineEdit(form);
+      });
+      elements.rows.addEventListener("click", (event) => {
+        const inventoryReload = event.target.closest("button[data-inventory-reload]");
+        if (inventoryReload) {
+          loadInventory(inventoryReload.dataset.inventoryReload, true);
+          return;
+        }
+        const retirement = event.target.closest("button[data-retirement]");
+        if (retirement) {
+          requestRetirement(retirement.dataset.retirement);
+          return;
+        }
+        const credentialToggle = event.target.closest("button[data-credential-toggle]");
+        if (credentialToggle) {
+          toggleCredentials(credentialToggle.dataset.credentialToggle);
+          return;
+        }
+        const toggle = event.target.closest("button[data-merchant-toggle]");
+        if (!toggle) return;
+        const merchantKey = toggle.dataset.merchantToggle;
+        const detail = document.getElementById(toggle.getAttribute("aria-controls"));
+        const expanded = toggle.getAttribute("aria-expanded") !== "true";
+        toggle.setAttribute("aria-expanded", String(expanded));
+        toggle.setAttribute("aria-label", `${expanded ? "收起" : "展开"}商户详情`);
+        toggle.title = expanded ? "收起商户详情" : "展开商户详情";
+        if (detail) detail.hidden = !expanded;
+        if (expanded) {
+          state.expandedMerchants.add(merchantKey);
+          loadInventory(merchantKey);
+        } else {
+          state.expandedMerchants.delete(merchantKey);
+          forgetCredentials(merchantKey);
+        }
+      });
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "visible") refreshAll();
+      });
+
+      window.setInterval(() => {
+        if (document.visibilityState === "visible") refresh();
+      }, 60000);
+      window.setInterval(() => {
+        if (document.visibilityState === "visible") refreshTraffic();
+      }, 10000);
+      window.setInterval(() => {
+        if (document.visibilityState === "visible") refreshProviderPool();
+      }, 5000);
+      window.setInterval(() => {
+        if (document.visibilityState === "visible") refreshEconomicPriority1();
+      }, 15000);
+      refreshAll();
+    })();
+  </script>
+</body>
+</html>

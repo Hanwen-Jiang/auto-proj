@@ -1,0 +1,24 @@
+[Unit]
+Description=Repair one durable A6 Provider failure and refill its active slot
+After=network-online.target postgresql.service redis-server.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=a6trader
+Group=a6trader
+EnvironmentFile=/etc/a6-trader.env
+Environment=PROVIDER_REQUEST_PLANE_URL=http://127.0.0.1:48769
+# Default-off: PROVIDER_FAILURE_REPAIR_ENABLED=true, --apply, and the exact
+# PROVIDER_POOL_APPLY_STAGE, PROVIDER_POOL_MAX_MEMBERSHIP_CHANGES, and
+# PROVIDER_POOL_APPLY_CONFIRMATION must all agree
+# before the worker claims a request or reads any Provider secret.
+ExecStart=/usr/bin/flock --exclusive --nonblock --conflict-exit-code 75 /var/lib/a6-trader/provider-control.lock /opt/a6-trader/current/venv/bin/python /opt/a6-trader/current/scripts/repair_a6_provider_failures.py --model gpt-5.6-sol --apply --sessions-dir /var/lib/a6-trader/secrets/sessions --proxy-map-file /var/lib/a6-trader/secrets/proxy-map.json --enodot-admin-key-file /var/lib/a6-trader/secrets/enodot-admin-key.secret --billing-group-id 26 --billing-user-id 1 --billing-api-key-ids 53,54 --billing-group-name ToA6API --billing-platform openai --observer-freshness-seconds 120 --inventory-freshness-seconds 900 --minimum-health-observers 2 --initial-max-active-slots 12 --standby-count 0 --realized-cost-window-hours 24 --realized-cost-match-tolerance-seconds 5 --minimum-cost-samples 100 --margin-bps 2000 --headroom-bps 0 --pin-probe-mode disabled --config-version a6-provider-topn-failover-v4-all-funded-dynamic-ready
+SuccessExitStatus=75
+TimeoutStartSec=5min
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/a6-trader
+UMask=0077

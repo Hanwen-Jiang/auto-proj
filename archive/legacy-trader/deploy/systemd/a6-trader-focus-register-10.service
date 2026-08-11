@@ -1,0 +1,26 @@
+[Unit]
+Description=A6 Trader ten-hour focus-group merchant registration batch
+After=network-online.target sub2api-singbox-proxy-pool.service a6-trader-focus-register.service
+Wants=network-online.target
+Requires=sub2api-singbox-proxy-pool.service
+StartLimitIntervalSec=10min
+StartLimitBurst=3
+
+[Service]
+Type=simple
+User=a6trader
+Group=a6trader
+ExecCondition=/opt/a6-trader/current/venv/bin/python /opt/a6-trader/current/scripts/check_a6_batch_incomplete.py --state-file /var/lib/a6-trader/secrets/batches/slow-register-focus-10-v1.json
+ExecStart=/opt/a6-trader/current/venv/bin/a6api-auto batch --live --qq-file /var/lib/a6-trader/secrets/slow-register-qq.txt --state-dir /var/lib/a6-trader/secrets --batch-state /var/lib/a6-trader/secrets/batches/slow-register-focus-10-v1.json --proxy-file /var/lib/a6-trader/secrets/merchant-recovery-proxies.json --proxy-binding-map-file /var/lib/a6-trader/secrets/proxy-map.json --proxy-reservation-file /var/lib/a6-trader/secrets/focus-registration-proxy-reservations.json --upstream-reservation-file /var/lib/a6-trader/secrets/focus-registration-upstream-reservations.json --count 10 --min-interval-minutes 30 --max-interval-minutes 120 --distribution-window-hours 10 --per-account-retries 3 --template-catalog workbook --operating-group 重点组 --unique-upstream-base-urls --enodot-admin-url https://ai.enodot.shop --enodot-admin-key-file /var/lib/a6-trader/secrets/enodot-admin-key.secret --enodot-group TPA6API
+Restart=on-failure
+RestartSec=60
+TimeoutStopSec=30
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/a6-trader/secrets
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

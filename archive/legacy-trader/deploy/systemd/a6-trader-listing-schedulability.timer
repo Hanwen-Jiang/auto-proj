@@ -1,0 +1,13 @@
+[Unit]
+Description=Reconcile listing schedulability every 30 seconds
+
+[Timer]
+OnBootSec=30s
+OnUnitActiveSec=30s
+Persistent=true
+AccuracySec=1s
+RandomizedDelaySec=1s
+Unit=a6-trader-listing-schedulability.service
+
+[Install]
+WantedBy=timers.target

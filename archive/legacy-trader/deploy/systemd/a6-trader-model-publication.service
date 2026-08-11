@@ -1,0 +1,19 @@
+[Unit]
+Description=Reconcile one A6 model across all managed seller listings
+After=network-online.target postgresql.service a6-trader-provider-pool-shadow.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=a6trader
+Group=a6trader
+EnvironmentFile=/etc/a6-trader.env
+# Default-off: MODEL_PUBLICATION_RECONCILE_ENABLED must be explicitly true.
+ExecStart=/usr/bin/flock --exclusive /var/lib/a6-trader/seller-control.lock /opt/a6-trader/current/venv/bin/python /opt/a6-trader/current/scripts/reconcile_a6_model_publication.py --model gpt-5.6-sol --apply --minimum-healthy-slots 1 --redundancy-target 1 --control-max-age-seconds 120 --minimum-health-observers 2 --seller-collector-freshness-seconds 900 --seller-success-lookback-seconds 86400 --sessions-dir /var/lib/a6-trader/secrets/sessions --proxy-map-file /var/lib/a6-trader/secrets/proxy-map.json --probe-api-key-file /var/lib/a6-trader/secrets/provider-publication-probe-key.secret --config-version a6-provider-publication-v6-per-listing-cost
+TimeoutStartSec=10min
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/a6-trader
+UMask=0077

@@ -1,0 +1,20 @@
+[Unit]
+Description=Repair failed A6 merchant proxies and finish terminal Seller archives
+After=network-online.target postgresql.service sub2api-singbox-proxy-pool.service
+Wants=network-online.target
+Requires=sub2api-singbox-proxy-pool.service
+
+[Service]
+Type=oneshot
+User=a6trader
+Group=a6trader
+EnvironmentFile=/etc/a6-trader.env
+Environment=A6_MERCHANT_RECOVERY_ENABLED=true
+ExecStart=/usr/bin/flock --exclusive /var/lib/a6-trader/network-scan.lock /opt/a6-trader/current/venv/bin/python /opt/a6-trader/current/scripts/reconcile_a6_merchant_recovery.py --sessions-dir /var/lib/a6-trader/secrets/sessions --proxy-map-file /var/lib/a6-trader/secrets/proxy-map.json --proxy-pool-file /var/lib/a6-trader/secrets/merchant-recovery-proxies.json --proxy-reservation-file /var/lib/a6-trader/secrets/focus-registration-proxy-reservations.json --collector-failure-threshold 3 --stale-seconds 1800 --repair-cooldown-seconds 3600 --candidate-limit 16 --candidate-successes 2 --candidate-timeout-seconds 6 --max-proxy-repairs 1 --archive-minimum-age-seconds 1800 --archive-minimum-errors 3 --max-archives 10 --apply
+TimeoutStartSec=4min
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/a6-trader
+UMask=0077

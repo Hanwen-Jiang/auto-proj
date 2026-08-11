@@ -1,0 +1,20 @@
+[Unit]
+Description=sub2api blue-green candidate on 48767
+After=network-online.target postgresql.service redis-server.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=sub2api
+Group=sub2api
+WorkingDirectory=/opt/sub2api
+EnvironmentFile=/etc/sub2api/sub2api-bluegreen-48767.env
+ExecStart=/opt/sub2api/releases/sub2api-0.1.159-a6trader-unlimited-sellers-v2-20260728
+Restart=always
+RestartSec=3
+NoNewPrivileges=false
+PrivateTmp=true
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target

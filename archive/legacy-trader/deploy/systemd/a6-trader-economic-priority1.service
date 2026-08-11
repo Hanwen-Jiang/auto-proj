@@ -1,0 +1,23 @@
+[Unit]
+Description=Reconcile Priority 1 economic source eligibility
+After=network-online.target postgresql.service redis-server.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=a6trader
+Group=a6trader
+EnvironmentFile=/etc/a6-trader.env
+Environment=PROVIDER_DISPATCH_REDIS_URL=redis://127.0.0.1:6379/0
+ExecStart=/usr/bin/flock --exclusive --nonblock --conflict-exit-code 75 /var/lib/a6-trader/economic-priority1.lock /opt/a6-trader/current/venv/bin/python /opt/a6-trader/current/scripts/reconcile_a6_economic_sources.py --model gpt-5.6-sol
+SuccessExitStatus=75
+TimeoutStartSec=12s
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/a6-trader
+UMask=0077
+
+[Install]
+WantedBy=a6-trader-control.target

@@ -1,0 +1,13 @@
+[Unit]
+Description=Bind PostgreSQL 16 data from the /www volume
+RequiresMountsFor=/www/postgresql/16/main
+Before=postgresql.service postgresql@16-main.service
+
+[Mount]
+What=/www/postgresql/16/main
+Where=/var/lib/postgresql/16/main
+Type=none
+Options=bind
+
+[Install]
+WantedBy=local-fs.target

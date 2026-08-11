@@ -1,0 +1,14 @@
+[Unit]
+Description=A6 Provider replay loopback synthetic fixture
+After=network.target
+
+[Service]
+Type=simple
+User=a6relay
+Group=a6relay
+WorkingDirectory=/opt/a6-provider-relay-hk/synthetic
+ExecStart=/opt/a6-provider-relay-hk/current/venv/bin/python /opt/a6-provider-relay-hk/synthetic/a6_provider_replay_synthetic_upstream.py --host 127.0.0.1 --port 18881 --log-file /opt/a6-provider-relay-hk/synthetic/requests.jsonl
+Restart=on-failure
+RestartSec=1s
+NoNewPrivileges=true
+PrivateTmp=true

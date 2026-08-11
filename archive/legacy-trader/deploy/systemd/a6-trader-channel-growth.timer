@@ -1,0 +1,13 @@
+[Unit]
+Description=Evaluate one managed Listing growth action after fresh Observer scans
+
+[Timer]
+OnBootSec=20s
+OnUnitInactiveSec=10s
+AccuracySec=250ms
+RandomizedDelaySec=0
+Unit=a6-trader-channel-growth.service
+
+[Install]
+WantedBy=timers.target
+

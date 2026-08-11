@@ -1,0 +1,21 @@
+[Unit]
+Description=A6 Trader event-driven full Observer market snapshot
+After=network-online.target postgresql.service sub2api-singbox-proxy-pool.service
+Wants=network-online.target
+Requires=sub2api-singbox-proxy-pool.service
+OnSuccess=a6-trader-provider-auto-pool.service
+PartOf=a6-trader-control.target
+
+[Service]
+Type=oneshot
+User=a6trader
+Group=a6trader
+EnvironmentFile=/etc/a6-trader.env
+ExecStart=/opt/a6-trader/current/venv/bin/python -m a6api_auto.cli trade-pin-providers-once --sessions-dir /var/lib/a6-trader/secrets/sessions --proxy-map-file /var/lib/a6-trader/secrets/proxy-map.json --enodot-admin-key-file /var/lib/a6-trader/secrets/enodot-admin-key.secret --model gpt-5.6-sol --min-observers 2 --top-k 12 --page-size 1000 --observer-window-seconds 15 --all-observers --client-timeout-seconds 10 --round-time-budget-seconds 90 --observe-only --config-version phase1-observer-v9-wide-window-90s --compact-output
+TimeoutStartSec=120s
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/a6-trader
+UMask=0077

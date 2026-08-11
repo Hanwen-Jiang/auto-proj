@@ -1,0 +1,40 @@
+.venv/
+.local/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+build/
+dist/
+*.pyc
+*.egg-info/
+state/
+sessions/
+results/
+.env
+*.secret
+*withdraw-account-pool*.json
+!archive/legacy-trader/deploy/withdraw-account-pool.example.json
+*.runtime.json
+
+# Timestamped release copies; the deployed ones live in /opt/a6-trader/releases
+dist-*/
+staging-*/
+sub2api-merge-*/
+sub2api-sg-*/
+openai-token-analysis/
+
+# HTTP archives from browser capture: these carry live Cookie headers
+*.har
+
+.DS_Store
+*.secret.json
+**/merchant-recovery-proxies.json
+**/usdt_wallet_inventory.json
+
+# Local tooling and one-off release scratch artifacts
+.codex-tmp/
+.codex-v*-release/
+.wrangler/
+build_*/
+dist_*/
+.tmp_*

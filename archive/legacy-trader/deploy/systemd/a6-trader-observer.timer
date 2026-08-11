@@ -1,0 +1,12 @@
+[Unit]
+Description=Persist one full A6 Observer snapshot round every minute
+
+[Timer]
+OnCalendar=*-*-* *:*:00
+Persistent=true
+AccuracySec=100ms
+RandomizedDelaySec=0
+Unit=a6-trader-observer.service
+
+[Install]
+WantedBy=timers.target

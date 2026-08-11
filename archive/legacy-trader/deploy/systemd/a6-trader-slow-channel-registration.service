@@ -1,0 +1,25 @@
+[Unit]
+Description=A6 Trader randomized workbook channel registration batch
+After=network-online.target postgresql.service sub2api-singbox-proxy-pool.service
+Wants=network-online.target
+Requires=sub2api-singbox-proxy-pool.service
+
+[Service]
+Type=simple
+User=a6trader
+Group=a6trader
+EnvironmentFile=/etc/a6-trader.env
+ExecStart=/opt/a6-trader/current/venv/bin/python -m a6api_auto.slow_channel_registration --live --sessions-dir /var/lib/a6-trader/secrets/sessions --proxy-map-file /var/lib/a6-trader/secrets/proxy-map.json --state-file /var/lib/a6-trader/secrets/batches/slow-channel-registration-v2.json --min-interval-minutes 20 --max-interval-minutes 40 --per-merchant-retries 2 --enodot-admin-url https://ai.enodot.shop --enodot-admin-key-file /var/lib/a6-trader/secrets/enodot-admin-key.secret --enodot-group TPA6API
+Restart=on-failure
+RestartSec=60
+SuccessExitStatus=2
+TimeoutStopSec=30
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/a6-trader
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target
