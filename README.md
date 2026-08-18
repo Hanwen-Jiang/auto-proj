@@ -5,15 +5,20 @@
 
 ## 从这里开始
 
-1. 阅读 [实现 Prompt](docs/sub2api-a6-channel-implementation-prompt.md)，确认数据模型、状态机、经济门和迁移范围。
-2. 以 [A6 API Reference](docs/a6-api-reference.md) 实现 Typed Client，不从旧 Trader 代码反推协议。
-3. 以 [错误分类合同](errorlist.md) 实现 attempt、账号、路由、Listing 和平台 incident 的分层处置。
-4. 需要迁移旧行为时先查 [旧 Trader 逻辑说明](docs/legacy-trader-logic.md)，再进入冻结源码定位实现。
+1. 先核对 [冻结清单](docs/a6-channel-blueprint/FROZEN-MANIFEST.md) 与 [Canonical 终稿](docs/A6API_Canonical_Design_FrozenCandidate_SSEIntegrated.md) 的哈希，确认实现基线没有漂移。
+2. 从 [分系统实施总纲](docs/a6-channel-blueprint/README.md) 选择一个有明确依赖和验收边界的纵向工作包；按版本交付时从 [R0-R4 横向总纲](docs/a6-channel-blueprint/delivery-slices/README.md) 选择目标切片。
+3. 阅读 [实现 Prompt](docs/sub2api-a6-channel-implementation-prompt.md)，确认该工作包对应的数据模型、状态机、经济门和迁移范围。
+4. 以 [A6 API Reference](docs/a6-api-reference.md) 实现 Typed Client，不从旧 Trader 代码反推协议。
+5. 以 [错误分类合同](errorlist.md) 实现 attempt、账号、路由、Listing 和平台 incident 的分层处置。
+6. 需要迁移旧行为时先查 [旧 Trader 逻辑说明](docs/legacy-trader-logic.md)，再进入冻结源码定位实现。
 
 ## 活跃目录
 
 | 路径 | 作用 |
 | --- | --- |
+| `docs/A6API_Canonical_Design_FrozenCandidate_SSEIntegrated.md` | 已冻结、可散列校验的完整设计终稿 |
+| `docs/a6-channel-blueprint/` | 面向人和实现 Agent 的分系统三联稿、图谱及需求追踪 |
+| `docs/a6-channel-blueprint/delivery-slices/` | R0-R4 横向渐进交付切片，不改变冻结语义 |
 | `docs/sub2api-a6-channel-implementation-prompt.md` | 新模块实现合同与验收口径 |
 | `docs/a6-api-reference.md` | A6 控制面和请求面协议 |
 | `api-docs/` | 已脱敏的协议抓包与响应样本 |
@@ -21,6 +26,14 @@
 | `resources/corpora/` | Supplier、Channel、Listing 和 Token 公共文本语料 |
 | `docs/legacy-trader-logic.md` | 旧系统领域、控制器、状态和迁移说明 |
 | `archive/legacy-trader/` | 冻结的旧 Python Trader 源码、测试、迁移和部署定义 |
+
+## 本机实现工作区
+
+- `E:\jhw\a6-auto` 是设计与协议 Git 仓库；它不直接承载 Sub2API 源码。
+- `E:\jhw\a6-auto\.local\sub2api-base\backend` 是当前 Sub2API 实现主工作区，也是独立 Git 仓库，集成分支为 `integration`。
+- `E:\jhw\a6-auto\.local\worktrees\` 和 `E:\jhw\a6-auto\.local\sub2api-base\worktrees\` 仅承载子任务 worktree。
+- 外层仓库按规则忽略整个 `.local/`；因此外层提交不会包含实现仓库的 commit，二者必须分别核对和交付。
+- `ssh us_cloud` 是验收后的部署目标，不是日常编码工作区；未完成 release 不得被误报为已上传或已发布。
 
 ## 工作边界
 

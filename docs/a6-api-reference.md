@@ -464,6 +464,7 @@ HTTP 200 本身不代表删除完成，必须检查 JSON `success` 并完成上�
 | GET | `/api/supplier/me/channels` | 查询当前渠道 |
 | PATCH | `/api/supplier/me/channels/{channel_binding_id}` | 更新渠道 |
 | POST | `/api/supplier/channels/{channel_binding_id}/takedown` | 下架渠道 |
+| POST | `/api/supplier/channels/{channel_binding_id}/restore` | 恢复渠道 |
 | GET | `/api/supplier/channels/markup-preview` | 批量查询渠道加价来源和百分比 |
 
 `PATCH /api/supplier/me/profile` 的实测请求体为：
@@ -540,7 +541,7 @@ Channel使用同一申请端点，成功只表示申请已提交；控制器继�
 - `id`：A6 Channel ID。
 - `binding_id`：供应商渠道绑定 ID，渠道更新与下架路径通常使用它。
 
-### 6.4 更新与下架渠道
+### 6.4 更新、下架与恢复渠道
 
 当前项目写入过的更新字段：
 
@@ -552,7 +553,20 @@ Channel使用同一申请端点，成功只表示申请已提交；控制器继�
 }
 ```
 
-字段可按需提交。下架请求发送空对象：
+2026-08-12 的 Channel 更新/恢复 probe（脱敏证据见 `api-docs/2026-08-12-channel-update-restore-probe.md`）进一步确认 `base_url`、`test_model`、`api_key` 可写。字段可按需提交：
+
+```json
+{
+  "nickname": "CHANNEL_NICKNAME",
+  "description": "CHANNEL_DESCRIPTION",
+  "models": "MODEL_A,MODEL_B",
+  "base_url": "UPSTREAM_BASE_URL",
+  "test_model": "TEST_MODEL",
+  "api_key": "UPSTREAM_API_KEY"
+}
+```
+
+下架请求发送空对象：
 
 ```http
 POST /api/supplier/channels/CHANNEL_BINDING_ID/takedown
@@ -561,9 +575,16 @@ Content-Type: application/json
 {}
 ```
 
-现有抓包只确认 Channel 级 takedown，尚未观测同一 `channel_binding_id` 的 `resubmit`、`restore` 或 `enable` 请求。
-`POST /api/supplier/listings/{listing_id}/resubmit` 只恢复单个 Listing，不恢复整个 Channel。需要替换已下架 Channel 时，
-当前合同是通过 `POST /api/supplier/apply` 申请新 Channel，获批读回新 ID 后切换稳定本地 binding。
+恢复请求同样发送空对象，是 2026-08-12 probe 新确认的 Channel 级恢复接口：
+
+```http
+POST /api/supplier/channels/CHANNEL_BINDING_ID/restore
+Content-Type: application/json
+
+{}
+```
+
+`POST /api/supplier/listings/{listing_id}/resubmit` 只恢复单个 Listing，不恢复整个 Channel。即使 restore 已确认，每次 `success:true` 之后仍建议 `GET /api/supplier/me/channels` 与 marketplace readback 复核，避免以单次 HTTP 200 当作完整恢复。旧 HAR（7-24-15-54.md）当时未抓到 `restore` 与 `api_key` 写入，只代表当时未观测，不代表接口不存在；需要替换已下架 Channel 时仍通过 `POST /api/supplier/apply` 申请新 Channel。
 
 ### 6.5 渠道加价预览
 
@@ -1001,7 +1022,7 @@ Listing恢复不再增加数据面Probe、Pin或earnings前置确认。
 POST /api/marketplace/channels/CHANNEL_ID/disable?model=MODEL
 ```
 
-该写操作没有 JSON Body。Provider Token 在启用 Auto-Pool 或进入可调度状态前，必须先禁用所有 A6 自有 Channel，并逐项读回确认。
+该写操作没有 JSON Body。Provider Token onboarding、owned Channel create/adopt、父 Channel restore、Provider 进入/恢复可调度，以及每次 Auto-Pool `max_ratio` 更新前，必须执行 S05 owned-Channel exclusion gate：使用 §10.3 的固定完整分页参数，将完整 Supplier inventory 与本地仍受控且无远端删除证明的 owned 集合取并集，对每个 Token × (Channel, Model) 读取并在必要时执行 disable，最终精确确认 `user_channel_disabled=true && route_status=user_disabled`。该 gate 复用现有 BanRelation、`ban_membership_generation` 和 operation audit，不要求第二套 attestation 表或状态机。普通 Seller Listing 改价、请求、cooling 和 Listing-scope 的 create/adopt/takedown/resubmit 不触发完整 gate。
 
 ### 10.6 创建 Auto-Pool
 
@@ -1034,7 +1055,7 @@ POST /api/marketplace/channels/CHANNEL_ID/disable?model=MODEL
 }
 ```
 
-客户端语法约束是 `min_ratio >= 0`、`max_ratio > 0`、`max_ratio >= min_ratio`。本项目生产控制合同另要求 `max_ratio <= 0.3`，且任何更新前都要重新执行完整 owned-Channel Ban 审计。
+客户端语法约束是 `min_ratio >= 0`、`max_ratio > 0`、`max_ratio >= min_ratio`。本项目生产控制合同另要求 `max_ratio <= 0.3`。每次更新前暂停受影响 Provider，并执行一次 S05 owned-Channel exclusion gate；已精确禁用的关系只记录本次 fresh readback，不重复发送 disable，发现漂移才重新 disable。PUT 后精确读取 effective subscription，确认 `auto_channels` 非空且不含任何 owned Channel，并确认 gate 使用的 `ban_membership_generation` 未变化，之后才恢复 Provider。
 
 创建或更新后读取 `GET /api/subscriptions/{subscription_id}`。有效 Auto-Pool 订阅还必须满足：
 
@@ -1073,7 +1094,7 @@ GET /api/marketplace/platform-models/MODEL/price-range
 
 `hot-models` 用于模型/品牌聚合展示；`brand` 可省略。`price-range` 的模型名是路径参数，调用方必须做 URL
 编码。两者是市场观测接口，不能替代 `/api/platform-models` 的官方价格向量，也不能替代完整分页
-`channels/search` 的路由或 owned-Channel Ban 审计。
+`channels/search` 的路由或 BAN_INIT/SelfRoute 自路由隔离审计。
 
 ## 11. 调用示例
 
@@ -1145,7 +1166,9 @@ curl --fail-with-body \
 ## 12. Typed Client 覆盖索引
 
 以下归档 Python 方法用于标记已经存在的迁移来源。Sub2API Typed Client 应覆盖对应 HTTP 合同，不沿用 Python
-进程边界或 session 文件存储方式。
+进程边界或 session 文件存储方式。`update_supplier_channel` 的 Typed 合同必须按 §6.4 同时支持
+`nickname/description/models/base_url/test_model/api_key`，其中 `api_key` 与 `restore` 由
+2026-08-12 probe 确认。
 
 | Python 方法 | HTTP 接口 |
 | --- | --- |
@@ -1202,6 +1225,7 @@ curl --fail-with-body \
 | `generate_system_access_token` | `GET /api/user/token` |
 | `delete_token` | `DELETE /api/token/{token_id}` |
 | `update_supplier_profile` | `PATCH /api/supplier/me/profile` |
+| `restore_supplier_channel` | `POST /api/supplier/channels/{channel_binding_id}/restore` |
 | `platform_models` | `GET /api/platform-models` |
 | `marketplace_circuit_states` | `GET /api/marketplace/circuit-states` |
 | `marketplace_hot_models` | `GET /api/marketplace/hot-models` |
