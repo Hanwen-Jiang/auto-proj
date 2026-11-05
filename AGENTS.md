@@ -36,3 +36,17 @@
 - A liquidity/callback Token is distinct from the Provider Token. Its name must be selected from `resources/corpora/token_name_corpus.json`; duty is stored in control-plane state and is never encoded in the Token name. It may be pinned only to a currently listed and callable A6-owned small-merchant Channel. If no such Channel exists, skip the liquidity transfer.
 - The production liquidity/callback Responses request uses the exact `PING 5db98307ce2d442ee568baacf8b0e7076fa657cbe2806ccff9da6386997915e2` input. Do not run separate `PONG`, `OK-only`, minimal-prompt, or similarly obvious diagnostic traffic through a production Token. A response with probe-shaped usage such as `prompt_tokens=1`, `completion_tokens=0`, and `total_tokens=1` is invalid for production scheduling and must not be counted as a transfer. Production verification must require the expected realistic sampled usage, including the high-cache invariant.
 - For any non-quota Provider runtime failure, keep the Provider identity paused, run one fresh Observer round, and strictly expand `max_ratio` to the next observed CNY price band without exceeding `0.3`. Commit the matching USD cost with the Provider generation, restore the Provider after its own remote readbacks pass, and trigger Seller repricing/publication immediately afterward. Seller may precompute or apply concurrently, but Seller completion is not a Provider activation prerequisite.
+
+# Shell Timeout Cap
+
+- Any shell command whose outcome depends on the network runs with `timeoutMs` at or below **10000**. This covers anything that dials a hostname, IP, or port: `curl`, `Test-NetConnection`, `Invoke-WebRequest`, `Invoke-RestMethod`, `ssh`/`scp`, DNS lookups, proxy and relay health probes, and `Invoke-Command -VMId` against a guest.
+- Set the per-request timeouts *inside* the command lower still (`curl -m` at most 8 seconds), so a single call cannot consume the whole budget. Never chain several network probes whose worst case adds up past 10 seconds — split them across separate calls instead.
+- Hitting the cap is a failure result, not a reason to raise it. Report which probe timed out and change the approach: check the process/port state locally, read the service log, or restart the transport.
+- Purely local commands are not capped: process and port inspection, registry and file reads, service restarts, and anything already covered by a wider timeout may keep a larger value.
+
+# Tool Call Budget
+
+- Every tool call runs with `timeoutMs` at or below **5000**. The 10-second network cap above is the maximum a probe needs in the worst case; the call itself still returns within 5 seconds, because a call that has to wait longer is a call that should be polling instead.
+- Never block on a wait to discover a failure. Poll in short calls: the first probe already shows whether a process is writing, a service is answering, or a job has started, so react to that result instead of sleeping through the expected duration.
+- Anything that genuinely runs for minutes (a build, a disk copy, a Windows installation) goes to a background job. Start it, then read it with short `job_output` calls — never a long `wait`.
+- A long `timeout_ms` on a wait is not a substitute for checking the state: if the state can change in 5 seconds, look at it in 5 seconds.
